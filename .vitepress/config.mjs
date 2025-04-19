@@ -37,11 +37,12 @@ export default defineConfig({
       ] },
       { text: '算法', link: '/algorithm' },
       { text: '面经', link: '/frontend_interview' },
-      { text: '我有健忘症', link: '/toremember' },
-      { text: '不是东西', items:[
-        {text:'胡言乱语', link:'/others/diary/'},
-        {text:'人生是旷野', link:'/others/todo/'}
-      ] }
+      { text: '胡言乱语', link: '/diary/' },
+      { text: '人生是旷野', link: '/todo/' },
+      // { text: '不是东西', items:[
+      //   {text:'胡言乱语', link:'/others/diary/'},
+      //   {text:'人生是旷野', link:'/others/todo/'}
+      // ] }
     ],
     // sidebar: [
     //   {
@@ -59,8 +60,8 @@ export default defineConfig({
       "/damn/javascript/": set_sidebar("/damn/javascript"),
       "/damn/vue3/": set_sidebar("/damn/vue3"),
       "/damn/react/": set_sidebar("/damn/react"),
-      "/others/diary/": set_sidebar("/others/diary"),
-      "/others/todo/": set_sidebar("/others/todo"),
+      "/diary/": set_sidebar("/diary"),
+      "/todo/": set_sidebar("/todo"),
     },
 
 

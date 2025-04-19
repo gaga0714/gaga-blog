@@ -14,10 +14,10 @@ hero:
   actions:
     - theme: brand
       text: 点我看卡比兽睡觉
-      link: /markdown-examples
+      link: /todo/
     - theme: alt
-      text: 不是东西
-      link: /api-examples
+      text: 胡言乱语
+      link: /diary/
 
 features:
   - title: 🦆 嘎嘎是谁？
@@ -32,11 +32,11 @@ features:
         - GMail: huangjiangye08@gmail.com
         - <a href="https://github.com/gaga0714" target="_blank">Github: https://github.com/gaga0714</a>
         - <a href="https://blog.csdn.net/gaga0714" target="_blank">CSDN: https://blog.csdn.net/gaga0714</a>
-  - title: 🎵 搞点文艺的
+  - title: 🎵 对吗
     details: |
-        - 心动不长存
-        - 我跋涉在我酒杯的昏黄里
-        - 我给你一个从未有过信仰的人的忠诚
-        - 百二秦关终属楚
+        - “心动不长存”
+        - “我跋涉在我酒杯的昏黄里”
+        - “我给你一个从未有过信仰的人的忠诚”
+        - “百二秦关终属楚”
 ---
 
