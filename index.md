@@ -22,27 +22,21 @@ hero:
 features:
   - title: 🦆 嘎嘎是谁？
     details: | 
-      <ul>
-        <li>- Junior student at HDU</li>
-        <li>- Computer Science and Technology</li>
-        <li>- Frontend & Backend & Algorithms</li>
-        <li>- Badminton & Music & Travel</li>
-      </ul>
+        - Junior student at HDU
+        - Computer Science and Technology
+        - Frontend & Backend & Algorithms
+        - Badminton & Music & Travel
   - title: 🤯 别问，我什么都不会
     details: |
-      <ul>
-        <li>qq: 1419210357</li>
-        <li>GMail: huangjiangye08@gmail.com</li>
-        <li><a href="https://github.com/gaga0714" target="_blank">Github: https://github.com/gaga0714</a> </li>
-        <li><a href="https://blog.csdn.net/gaga0714" target="_blank">CSDN: https://blog.csdn.net/gaga0714</a></li>
-      </ul>
+        - qq: 1419210357
+        - GMail: huangjiangye08@gmail.com
+        - <a href="https://github.com/gaga0714" target="_blank">Github: https://github.com/gaga0714</a>
+        - <a href="https://blog.csdn.net/gaga0714" target="_blank">CSDN: https://blog.csdn.net/gaga0714</a>
   - title: 🎵 搞点文艺的
     details: |
-      <ul>
-        <li>心动不长存</li>
-        <li>我跋涉在我酒杯的昏黄里</li>
-        <li>我给你一个从未有过信仰的人的忠诚</li>
-        <li>百二秦关终属楚</li>
-      </ul>
+        - 心动不长存
+        - 我跋涉在我酒杯的昏黄里
+        - 我给你一个从未有过信仰的人的忠诚
+        - 百二秦关终属楚
 ---
 
