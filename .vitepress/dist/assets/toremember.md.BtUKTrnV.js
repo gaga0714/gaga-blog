@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as r}from"./chunks/framework.DPDPlp3K.js";const i=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"toremember.md","filePath":"toremember.md"}'),o={name:"toremember.md"};function a(m,s,c,n,p,_){return r(),t("div")}const f=e(o,[["render",a]]);export{i as __pageData,f as default};

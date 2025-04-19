@@ -1,0 +1,33 @@
+import{_ as a,c as s,o as p,ag as e}from"./chunks/framework.DPDPlp3K.js";const q=JSON.parse('{"title":"vscode配置C/C++环境","description":"","frontmatter":{},"headers":[],"relativePath":"others/diary/vscode配置c环境.md","filePath":"others/diary/vscode配置c环境.md"}'),l={name:"others/diary/vscode配置c环境.md"};function o(t,n,c,i,u,r){return p(),s("div",null,n[0]||(n[0]=[e(`<h1 id="vscode配置c-c-环境" tabindex="-1">vscode配置C/C++环境 <a class="header-anchor" href="#vscode配置c-c-环境" aria-label="Permalink to &quot;vscode配置C/C++环境&quot;">​</a></h1><h2 id="安装插件" tabindex="-1">安装插件 <a class="header-anchor" href="#安装插件" aria-label="Permalink to &quot;安装插件&quot;">​</a></h2><ul><li>C/C++</li><li>Code Runner</li><li>CodeLLDB</li></ul><h2 id="设置搜索runinterminal" tabindex="-1">设置搜索RunInTerminal <a class="header-anchor" href="#设置搜索runinterminal" aria-label="Permalink to &quot;设置搜索RunInTerminal&quot;">​</a></h2><p>勾选，会自动生成launch.json，task.json</p><h2 id="修改launch-json内容" tabindex="-1">修改launch.json内容 <a class="header-anchor" href="#修改launch-json内容" aria-label="Permalink to &quot;修改launch.json内容&quot;">​</a></h2><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>{</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>    &quot;version&quot;: &quot;0.2.0&quot;,</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>    &quot;configurations&quot;: [</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>        {</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>            &quot;type&quot;: &quot;lldb&quot;,</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>            &quot;request&quot;: &quot;launch&quot;,</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>            &quot;name&quot;: &quot;Debug&quot;,</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>            //&quot;program&quot;: &quot;\${workspaceFolder}/test.out&quot;,</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>            //上一行是官方写法，但是不同的cpp调试都要改配置，非常麻烦</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>            &quot;program&quot;: &quot;\${workspaceFolder}/\${fileBasenameNoExtension}&quot;,</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>            &quot;args&quot;: [],</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>            &quot;cwd&quot;: &quot;\${workspaceFolder}&quot;,</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>            &quot;preLaunchTask&quot;: &quot;C/C++: gcc 生成活动文件&quot;,</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>            &quot;console&quot;: &quot;externalTerminal&quot;,</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>    ]</span></span>
+<span class="line"><span> </span></span>
+<span class="line"><span>}</span></span></code></pre></div><p><code>&quot;console&quot;: &quot;externalTerminal&quot;</code>:转为在终端里，可以交互了</p>`,8)]))}const h=a(l,[["render",o]]);export{q as __pageData,h as default};

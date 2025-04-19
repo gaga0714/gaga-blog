@@ -1,0 +1,1 @@
+import{_ as e,c as a,o as t}from"./chunks/framework.DPDPlp3K.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"damn/javascript/index.md","filePath":"damn/javascript/index.md"}'),n={name:"damn/javascript/index.md"};function r(s,c,d,i,o,p){return t(),a("div")}const f=e(n,[["render",r]]);export{_ as __pageData,f as default};

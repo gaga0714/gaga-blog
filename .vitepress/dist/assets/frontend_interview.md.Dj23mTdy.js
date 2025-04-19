@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as n}from"./chunks/framework.DPDPlp3K.js";const p=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"frontend_interview.md","filePath":"frontend_interview.md"}'),r={name:"frontend_interview.md"};function o(a,i,s,c,_,d){return n(),t("div")}const m=e(r,[["render",o]]);export{p as __pageData,m as default};

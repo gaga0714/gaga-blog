@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as a}from"./chunks/framework.DPDPlp3K.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"damn/vue3/index.md","filePath":"damn/vue3/index.md"}'),n={name:"damn/vue3/index.md"};function r(d,o,s,c,i,m){return a(),t("div")}const f=e(n,[["render",r]]);export{_ as __pageData,f as default};
