@@ -39,20 +39,7 @@ export default defineConfig({
       { text: '面经', link: '/frontend_interview' },
       { text: '胡言乱语', link: '/diary/' },
       { text: '人生是旷野', link: '/todo/' },
-      // { text: '不是东西', items:[
-      //   {text:'胡言乱语', link:'/others/diary/'},
-      //   {text:'人生是旷野', link:'/others/todo/'}
-      // ] }
     ],
-    // sidebar: [
-    //   {
-    //     text: 'Examples',
-    //     items: [
-    //       { text: 'Markdown Examples', link: '/markdown-examples' },
-    //       { text: 'Runtime API Examples', link: '/api-examples' }
-    //     ]
-    //   }
-    // ],
 
     sidebar: {
       "/damn/html/": set_sidebar("/damn/html"),
