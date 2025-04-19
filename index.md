@@ -23,20 +23,29 @@ features:
   - title: 🦆 嘎嘎是谁？
     details: | 
         - Junior student at HDU
+  
         - Computer Science and Technology
+
         - Frontend & Backend & Algorithms
+
         - Badminton & Music & Travel
   - title: 🤯 别问，我什么都不会
     details: |
         - qq: 1419210357
+
         - GMail: huangjiangye08@gmail.com
+
         - <a href="https://github.com/gaga0714" target="_blank">Github: https://github.com/gaga0714</a>
+
         - <a href="https://blog.csdn.net/gaga0714" target="_blank">CSDN: https://blog.csdn.net/gaga0714</a>
   - title: 🎵 对吗
     details: |
         - “心动不长存”
+
         - “我跋涉在我酒杯的昏黄里”
+
         - “我给你一个从未有过信仰的人的忠诚”
+
         - “百二秦关终属楚”
 ---
 
