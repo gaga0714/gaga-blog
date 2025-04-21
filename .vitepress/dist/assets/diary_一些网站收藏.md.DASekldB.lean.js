@@ -1,0 +1,1 @@
+import{_ as t,c as r,o,ag as l}from"./chunks/framework.DPDPlp3K.js";const h=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"diary/一些网站收藏.md","filePath":"diary/一些网站收藏.md"}'),a={name:"diary/一些网站收藏.md"};function i(s,e,n,p,_,c){return o(),r("div",null,e[0]||(e[0]=[l("",1)]))}const m=t(a,[["render",i]]);export{h as __pageData,m as default};
