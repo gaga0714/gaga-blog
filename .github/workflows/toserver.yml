@@ -35,4 +35,4 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          sudo nginx -s reload
+          sudo systemctl restart nginx
