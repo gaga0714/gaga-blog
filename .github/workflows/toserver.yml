@@ -37,8 +37,9 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
-        source: "deploy/*"
+        source: "./deploy/**"                 # 使用双星号递归上传
         target: "/home/html/gaga-blog/"
+        strip_components: 1                   # ✅ 关键：去掉 deploy 目录结构
 
     - name: ♻️ 重启 Nginx
       uses: appleboy/ssh-action@v0.1.7
