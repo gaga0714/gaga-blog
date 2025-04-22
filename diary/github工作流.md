@@ -32,42 +32,65 @@ SSH_KEY:私钥
 ```
 ### 配置文件
 ```
-name: Deploy VitePress to My Server
+name: gaga-blog
 
 on:
   push:
-    branches:
-      - main  # 每次推送 main 分支就触发部署
+    branches: [main]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 拉取代码
+    - name: 📥 拉取代码
       uses: actions/checkout@v3
 
-    - name: 安装依赖
+    - name: 📦 安装依赖
       run: npm ci
 
-    - name: 构建 VitePress 项目
+    - name: 🔧 构建 VitePress
       run: npm run docs:build
 
-    - name: 上传 dist 到你的服务器
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_KEY }}
-        source: ".vitepress/dist/*"
-        target: "/home/html/gaga-blog/"
+    - name: 🗂️ 拷贝构建内容到 deploy 文件夹
+      run: |
+        mkdir deploy
+        cp -r .vitepress/dist/* deploy/
 
-    - name: 可选：重启 Nginx（如果你启用了缓存）
-      uses: appleboy/ssh-action@master
+    - name: 🔥 清空服务器旧内容
+      uses: appleboy/ssh-action@v0.1.7
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
-        script: |
-          sudo systemctl restart nginx
+        script: rm -rf /home/html/gaga-blog/*
+
+    - name: 📤 上传构建文件到服务器
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        source: "./deploy/**"                 # 使用双星号递归上传
+        target: "/home/html/gaga-blog/"
+        strip_components: 1                   # ✅ 关键：去掉 deploy 目录结构
+
+    - name: ♻️ 重启 Nginx
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script: sudo systemctl restart nginx
+
+```
+
+ok，结束！
+
+主要是目录的问题，
+
+```
+  source: "./deploy/**"                 # 使用双星号递归上传
+  target: "/home/html/gaga-blog/"
+  strip_components: 1                   # ✅ 关键：去掉 deploy 目录结构
 ```
