@@ -19,6 +19,15 @@ jobs:
     - name: 构建 VitePress 项目
       run: npm run docs:build
 
+    - name: 🔥 清空服务器旧文件（可选）
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          rm -rf /home/html/gaga-blog/*
+
     - name: 上传 dist 到你的服务器
       uses: appleboy/scp-action@master
       with:
