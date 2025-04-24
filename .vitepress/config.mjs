@@ -35,7 +35,7 @@ export default defineConfig({
         {text:'Vue3', link:'/damn/vue3/'},
         {text:'React', link:'/damn/react/'}
       ] },
-      { text: '算法', link: '/algorithm' },
+      { text: '算法', link: '/algorithm/' },
       { text: '面经', link: '/frontend_interview' },
       { text: '胡言乱语', link: '/diary/' },
       { text: '人生是旷野', link: '/todo/' },
@@ -49,6 +49,7 @@ export default defineConfig({
       "/damn/react/": set_sidebar("/damn/react"),
       "/diary/": set_sidebar("/diary"),
       "/todo/": set_sidebar("/todo"),
+      "/algorithm/":set_sidebar("/algorithm"),
     },
 
 

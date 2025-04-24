@@ -1,0 +1,42 @@
+# 创建 Hello World 函数
+
+## 题目
+
+请你编写一个名为 createHelloWorld 的函数。它应该返回一个新的函数，该函数总是返回 "Hello World" 。
+
+示例 1：
+
+输入：`args = []`
+
+输出：`"Hello World"`
+
+解释：
+
+```
+const f = createHelloWorld();
+f(); // "Hello World"
+createHelloWorld 返回的函数应始终返回 "Hello World"。
+```
+
+## 答案:
+
+```
+var createHelloWorld = function(){
+    return function(...args){
+        return "Hello World";
+    }
+};
+```
+
+## 扩展
+
+`...args`是 ES6 的新特性**剩余参数语法**(_Rest Parameters_),将函数中的多个实参自动**打包成一个数组**,写法固定:
+
+```
+function(...args){
+    console.log(args);//打印出来是个数组
+}
+```
+
+和另一个[展开语法糖(_Spread_)](../damn/css/展开语法糖.md)不同:
+那个是拆开数组,而这个是收起
