@@ -41,11 +41,51 @@
 // };
 // console.log(map(arr,fn));
 
-const arr = ['a', 'b', 'c'];
+// const arr = ['a', 'b', 'c'];
 
-const result = arr.map((element, index, array) => {
-  console.log(`element: ${element}, index: ${index}, array: [${array}]`);
-  return `${index}-${element}`;
-});
+// const result = arr.map((element, index, array) => {
+//   console.log(`element: ${element}, index: ${index}, array: [${array}]`);
+//   return `${index}-${element}`;
+// });
 
-console.log(result); // ["0-a", "1-b", "2-c"]
+// console.log(result); // ["0-a", "1-b", "2-c"]
+
+// functions =
+// [x => x + 1, x => x * x, x => 2 * x];
+
+// let x=4;
+
+// var compose = function(functions) {
+// 	return function(x) {
+//         if(functions.length==0){
+//             return x;
+//         }
+//         else{
+//             let res=x;
+//             for(let i=0;i<functions.length;i++){
+//                 res=functions[i](res);
+//             }
+//             return res;
+//         }
+//     }
+// };
+
+// const fn = compose(functions);
+// console.log(fn(x));
+
+
+
+var once = function(fn) {
+  let cnt=1;
+  return function(...args){
+      if(cnt){
+        cnt--;
+        return fn(...args);
+      }else{
+          return undefined;
+      } 
+  }
+};
+let fn = (a,b,c) => (a + b + c)
+let onceFn = once(fn)
+console.log(onceFn(1,2,3));
