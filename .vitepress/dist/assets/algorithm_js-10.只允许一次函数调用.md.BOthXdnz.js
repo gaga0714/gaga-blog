@@ -1,0 +1,16 @@
+import{_ as n,c as s,o as p,ag as e}from"./chunks/framework.DPDPlp3K.js";const u=JSON.parse('{"title":"只允许一次函数调用","description":"","frontmatter":{},"headers":[],"relativePath":"algorithm/js-10.只允许一次函数调用.md","filePath":"algorithm/js-10.只允许一次函数调用.md"}'),t={name:"algorithm/js-10.只允许一次函数调用.md"};function l(i,a,c,o,r,d){return p(),s("div",null,a[0]||(a[0]=[e(`<h1 id="只允许一次函数调用" tabindex="-1">只允许一次函数调用 <a class="header-anchor" href="#只允许一次函数调用" aria-label="Permalink to &quot;只允许一次函数调用&quot;">​</a></h1><h2 id="问题" tabindex="-1">问题 <a class="header-anchor" href="#问题" aria-label="Permalink to &quot;问题&quot;">​</a></h2><p>给定一个函数 fn ，它返回一个新的函数，返回的函数与原始函数完全相同，只不过它确保 fn 最多被调用一次。</p><p>第一次调用返回的函数时，它应该返回与 fn 相同的结果。</p><p>第一次后的每次调用，它应该返回 undefined 。</p><p>示例 1：</p><p>输入：fn = (a,b,c) =&gt; (a + b + c), calls = [[1,2,3],[2,3,6]]</p><p>输出：[{&quot;calls&quot;:1,&quot;value&quot;:6}]</p><p>解释：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const onceFn = once(fn);</span></span>
+<span class="line"><span>onceFn(1, 2, 3); // 6</span></span>
+<span class="line"><span>onceFn(2, 3, 6); // undefined, fn 没有被调用</span></span></code></pre></div><p>示例 2：</p><p>输入：fn = (a,b,c) =&gt; (a _ b _ c), calls = [[5,7,4],[2,3,6],[4,6,8]]</p><p>输出：[{&quot;calls&quot;:1,&quot;value&quot;:140}]</p><p>解释：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const onceFn = once(fn);</span></span>
+<span class="line"><span>onceFn(5, 7, 4); // 140</span></span>
+<span class="line"><span>onceFn(2, 3, 6); // undefined, fn 没有被调用</span></span>
+<span class="line"><span>onceFn(4, 6, 8); // undefined, fn 没有被调用</span></span></code></pre></div><p>提示：</p><p>calls 是一个有效的 JSON 数组</p><p>1 &lt;= calls.length &lt;= 10</p><p>1 &lt;= calls[i].length &lt;= 100</p><p>2 &lt;= JSON.stringify(calls).length &lt;= 1000</p><h2 id="答案" tabindex="-1">答案 <a class="header-anchor" href="#答案" aria-label="Permalink to &quot;答案&quot;">​</a></h2><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var once = function(fn) {</span></span>
+<span class="line"><span>  let cnt=1;</span></span>
+<span class="line"><span>  return function(...args){</span></span>
+<span class="line"><span>      if(cnt){</span></span>
+<span class="line"><span>        cnt--;</span></span>
+<span class="line"><span>        return fn(...args);</span></span>
+<span class="line"><span>      }else{</span></span>
+<span class="line"><span>          return undefined;</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>};</span></span></code></pre></div><h2 id="扩展" tabindex="-1">扩展 <a class="header-anchor" href="#扩展" aria-label="Permalink to &quot;扩展&quot;">​</a></h2><p><a href="./../damn/javascript/各标识符类型比较总结.html">做一个 js 各种标识符类型的总结</a></p>`,24)]))}const f=n(t,[["render",l]]);export{u as __pageData,f as default};

@@ -1,0 +1,54 @@
+import{_ as a,c as n,o as p,ag as e}from"./chunks/framework.DPDPlp3K.js";const u=JSON.parse('{"title":"github 工作流","description":"","frontmatter":{},"headers":[],"relativePath":"diary/github工作流.md","filePath":"diary/github工作流.md"}'),l={name:"diary/github工作流.md"};function i(t,s,c,o,r,h){return p(),n("div",null,s[0]||(s[0]=[e(`<h1 id="github-工作流" tabindex="-1">github 工作流 <a class="header-anchor" href="#github-工作流" aria-label="Permalink to &quot;github 工作流&quot;">​</a></h1><p>GitHub Actions 是一种持续集成和持续交付 (CI/CD) 平台，可用于自动执行生成、测试和部署管道。 你可以创建工作流，以便在推送更改到存储库时运行测试，或将合并的拉取请求部署到生产环境。</p><h2 id="ci-cd" tabindex="-1">CI/CD <a class="header-anchor" href="#ci-cd" aria-label="Permalink to &quot;CI/CD&quot;">​</a></h2><p>缩写 | 全称 | 中文含义 | 功能 CI | Continuous Integration | 持续集成 | 开发者提交代码后，自动进行编译、测试、构建等流程，确保代码质量 CD | Continuous Delivery | 持续交付 | 代码在通过 CI 后，自动准备部署流程，但需人工确认发布 CD | Continuous Deployment | 持续部署 | 代码在通过 CI 后，自动部署到服务器或生产环境，全自动</p><h2 id="部署流程" tabindex="-1">部署流程 <a class="header-anchor" href="#部署流程" aria-label="Permalink to &quot;部署流程&quot;">​</a></h2><h3 id="生成密钥对" tabindex="-1">生成密钥对 <a class="header-anchor" href="#生成密钥对" aria-label="Permalink to &quot;生成密钥对&quot;">​</a></h3><p>ssh-keygen -t rsa -b 4096 -C &quot;github@actions&quot;</p><h3 id="密钥对" tabindex="-1">密钥对 <a class="header-anchor" href="#密钥对" aria-label="Permalink to &quot;密钥对&quot;">​</a></h3><p>公钥存服务器里：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>~/.ssh/github-deploy</span></span></code></pre></div><p>私钥加到github项目里的</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>Settings -&gt; Secrets and variables -&gt; Actions -&gt; New repository secret</span></span></code></pre></div><p>然后添加三个 Secrets：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>SSH_HOST:服务器ip</span></span>
+<span class="line"><span>SSH_USER:root</span></span>
+<span class="line"><span>SSH_KEY:私钥</span></span></code></pre></div><h3 id="配置文件" tabindex="-1">配置文件 <a class="header-anchor" href="#配置文件" aria-label="Permalink to &quot;配置文件&quot;">​</a></h3><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>name: gaga-blog</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>on:</span></span>
+<span class="line"><span>  push:</span></span>
+<span class="line"><span>    branches: [main]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>jobs:</span></span>
+<span class="line"><span>  build-and-deploy:</span></span>
+<span class="line"><span>    runs-on: ubuntu-latest</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    steps:</span></span>
+<span class="line"><span>    - name: 📥 拉取代码</span></span>
+<span class="line"><span>      uses: actions/checkout@v3</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    - name: 📦 安装依赖</span></span>
+<span class="line"><span>      run: npm ci</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    - name: 🔧 构建 VitePress</span></span>
+<span class="line"><span>      run: npm run docs:build</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    - name: 🗂️ 拷贝构建内容到 deploy 文件夹</span></span>
+<span class="line"><span>      run: |</span></span>
+<span class="line"><span>        mkdir deploy</span></span>
+<span class="line"><span>        cp -r .vitepress/dist/* deploy/</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    - name: 🔥 清空服务器旧内容</span></span>
+<span class="line"><span>      uses: appleboy/ssh-action@v0.1.7</span></span>
+<span class="line"><span>      with:</span></span>
+<span class="line"><span>        host: \${{ secrets.SSH_HOST }}</span></span>
+<span class="line"><span>        username: \${{ secrets.SSH_USER }}</span></span>
+<span class="line"><span>        key: \${{ secrets.SSH_KEY }}</span></span>
+<span class="line"><span>        script: rm -rf /home/html/gaga-blog/*</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    - name: 📤 上传构建文件到服务器</span></span>
+<span class="line"><span>      uses: appleboy/scp-action@v0.1.7</span></span>
+<span class="line"><span>      with:</span></span>
+<span class="line"><span>        host: \${{ secrets.SSH_HOST }}</span></span>
+<span class="line"><span>        username: \${{ secrets.SSH_USER }}</span></span>
+<span class="line"><span>        key: \${{ secrets.SSH_KEY }}</span></span>
+<span class="line"><span>        source: &quot;./deploy/**&quot;                 # 使用双星号递归上传</span></span>
+<span class="line"><span>        target: &quot;/home/html/gaga-blog/&quot;</span></span>
+<span class="line"><span>        strip_components: 1                   # ✅ 关键：去掉 deploy 目录结构</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    - name: ♻️ 重启 Nginx</span></span>
+<span class="line"><span>      uses: appleboy/ssh-action@v0.1.7</span></span>
+<span class="line"><span>      with:</span></span>
+<span class="line"><span>        host: \${{ secrets.SSH_HOST }}</span></span>
+<span class="line"><span>        username: \${{ secrets.SSH_USER }}</span></span>
+<span class="line"><span>        key: \${{ secrets.SSH_KEY }}</span></span>
+<span class="line"><span>        script: sudo systemctl restart nginx</span></span></code></pre></div><p>ok，结束！</p><p>主要是目录的问题，</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>  source: &quot;./deploy/**&quot;                 # 使用双星号递归上传</span></span>
+<span class="line"><span>  target: &quot;/home/html/gaga-blog/&quot;</span></span>
+<span class="line"><span>  strip_components: 1                   # ✅ 关键：去掉 deploy 目录结构</span></span></code></pre></div>`,19)]))}const g=a(l,[["render",i]]);export{u as __pageData,g as default};

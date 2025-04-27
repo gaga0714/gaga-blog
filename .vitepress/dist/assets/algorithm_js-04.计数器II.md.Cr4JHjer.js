@@ -1,0 +1,15 @@
+import{_ as e,c as a,o as t,ag as s}from"./chunks/framework.DPDPlp3K.js";const m=JSON.parse('{"title":"计数器 II","description":"","frontmatter":{},"headers":[],"relativePath":"algorithm/js-04.计数器II.md","filePath":"algorithm/js-04.计数器II.md"}'),p={name:"algorithm/js-04.计数器II.md"};function r(i,n,c,o,l,u){return t(),a("div",null,n[0]||(n[0]=[s(`<h1 id="计数器-ii" tabindex="-1">计数器 II <a class="header-anchor" href="#计数器-ii" aria-label="Permalink to &quot;计数器 II&quot;">​</a></h1><h2 id="题目" tabindex="-1">题目 <a class="header-anchor" href="#题目" aria-label="Permalink to &quot;题目&quot;">​</a></h2><p>请你写一个函数 createCounter。这个函数接收一个初始的整数值 init。并返回一个包含三个函数的对象。</p><p>这三个函数是：</p><p>increment() 将当前值加 1 并返回。</p><p>decrement() 将当前值减 1 并返回。</p><p>reset() 将当前值设置为 init 并返回。</p><p>示例 1：</p><p>输入：init = 5, calls = [&quot;increment&quot;,&quot;reset&quot;,&quot;decrement&quot;]</p><p>输出：[6,5,4]</p><p>解释：</p><p>const counter = createCounter(5);</p><p>counter.increment(); // 6</p><p>counter.reset(); // 5</p><p>counter.decrement(); // 4</p><p>示例 2：</p><p>输入：init = 0, calls = [&quot;increment&quot;,&quot;increment&quot;,&quot;decrement&quot;,&quot;reset&quot;,&quot;reset&quot;]</p><p>输出：[1,2,1,0,0]</p><p>解释：</p><p>const counter = createCounter(0);</p><p>counter.increment(); // 1</p><p>counter.increment(); // 2</p><p>counter.decrement(); // 1</p><p>counter.reset(); // 0</p><p>counter.reset(); // 0</p><p>提示：</p><p>-1000 &lt;= init &lt;= 1000</p><p>0 &lt;= calls.length &lt;= 1000</p><p>calls[i] 是 “increment”、“decrement” 和 “reset” 中的一个</p><h2 id="答案" tabindex="-1">答案 <a class="header-anchor" href="#答案" aria-label="Permalink to &quot;答案&quot;">​</a></h2><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var createCounter = function(init){</span></span>
+<span class="line"><span>    let tmp=init;</span></span>
+<span class="line"><span>    return {</span></span>
+<span class="line"><span>        increment: function(){</span></span>
+<span class="line"><span>            return ++tmp;</span></span>
+<span class="line"><span>        },</span></span>
+<span class="line"><span>        decrement: function(){</span></span>
+<span class="line"><span>            return --tmp;</span></span>
+<span class="line"><span>        },</span></span>
+<span class="line"><span>        reset: function(){</span></span>
+<span class="line"><span>            tmp=init;</span></span>
+<span class="line"><span>            return tmp;</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre></div><h2 id="扩展" tabindex="-1">扩展 <a class="header-anchor" href="#扩展" aria-label="Permalink to &quot;扩展&quot;">​</a></h2><p><strong>闭包（closure）</strong>：函数“记住了”定义它时所处的作用域中的变量，即使函数在外部执行也能访问它。</p><p>只初始化一次，保存在闭包里，fn() 每次调用都在访问那同一个 count 变量。</p>`,34)]))}const h=e(p,[["render",r]]);export{m as __pageData,h as default};
