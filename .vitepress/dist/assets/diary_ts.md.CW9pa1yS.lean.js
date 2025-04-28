@@ -1,1 +1,0 @@
-import{_ as e,c as a,o as r,ag as p}from"./chunks/framework.DPDPlp3K.js";const h=JSON.parse('{"title":"教程","description":"","frontmatter":{},"headers":[],"relativePath":"diary/ts.md","filePath":"diary/ts.md"}'),s={name:"diary/ts.md"};function c(o,t,i,d,n,l){return r(),a("div",null,t[0]||(t[0]=[p("",10)]))}const m=e(s,[["render",c]]);export{h as __pageData,m as default};
