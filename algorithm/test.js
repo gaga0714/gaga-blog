@@ -75,17 +75,59 @@
 
 
 
-var once = function(fn) {
-  let cnt=1;
-  return function(...args){
-      if(cnt){
-        cnt--;
-        return fn(...args);
-      }else{
-          return undefined;
-      } 
-  }
+// var once = function(fn) {
+//   let cnt=1;
+//   return function(...args){
+//       if(cnt){
+//         cnt--;
+//         return fn(...args);
+//       }else{
+//           return undefined;
+//       } 
+//   }
+// };
+// let fn = (a,b,c) => (a + b + c)
+// let onceFn = once(fn)
+// console.log(onceFn(1,2,3));
+
+
+// let arr=[1,9,6,3,2]
+// let size=3;
+// var chunk = function(arr, size) {
+//   if(arr.length==0){
+//       return arr;
+//   }
+//   else{
+//       let i=0;
+//       let new_arr=[];
+//       for(i=0;i<arr.length;i+=size){
+//           let n=Math.min(i+size,arr.length);
+//           let item=[];
+//           for(j=i;j<n;j++){
+//               item.push(arr[j]);
+//           }
+//           new_arr.push(item);
+//       }
+//       return new_arr;
+//   }
+// };
+
+
+// console.log(chunk(arr,size));
+
+
+
+Array.prototype.groupBy = function(fn) {
+    let map=new Map();
+    for(let item of this){
+        if(map.has(fn(item))){
+            map.get(fn(item)).push(item);
+        }
+        else{
+            map.set(fn(item),[item]);
+        }
+    }
+    return map;
 };
-let fn = (a,b,c) => (a + b + c)
-let onceFn = once(fn)
-console.log(onceFn(1,2,3));
+
+console.log([1,2,3].groupBy(String))
