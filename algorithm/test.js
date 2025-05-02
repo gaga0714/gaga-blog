@@ -117,17 +117,50 @@
 
 
 
-Array.prototype.groupBy = function(fn) {
-    let map=new Map();
-    for(let item of this){
-        if(map.has(fn(item))){
-            map.get(fn(item)).push(item);
-        }
-        else{
-            map.set(fn(item),[item]);
-        }
-    }
-    return map;
-};
+// Array.prototype.groupBy = function(fn) {
+//     let map=new Map();
+//     for(let item of this){
+//         if(map.has(fn(item))){
+//             map.get(fn(item)).push(item);
+//         }
+//         else{
+//             map.set(fn(item),[item]);
+//         }
+//     }
+//     return map;
+// };
 
-console.log([1,2,3].groupBy(String))
+// console.log([1,2,3].groupBy(String))
+
+// let arr1 = [
+//     {"id": 1, "b": {"b": 94},"v": [4, 3], "y": 48}
+// ]
+// let arr2 = [
+//     {"id": 1, "c": [3,4]}
+// ]
+// var join = function(arr1, arr2) {
+//     const map = new Map();
+//     for (const obj of arr1) map.set(obj.id, obj);
+//     for (const obj of arr2) {
+//         if (!map.has(obj.id)) map.set(obj.id, obj);
+//         else {
+//             const prevObj = map.get(obj.id);
+//             for (const key of Object.keys(obj)) prevObj[key] = obj[key];
+//         }
+//     }
+//     const res = new Array();
+//     for (let key of map.keys()) res.push(map.get(key));
+//     return res.sort((a,b)=>a.id-b.id); 
+// };
+
+// console.log(join(arr1,arr2));
+
+let obj1={
+    sex:'girl',
+};
+let obj={
+    name:'huang',
+    age:13,
+};
+obj.sex=obj1.sex;
+console.log(obj);
