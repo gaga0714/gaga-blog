@@ -11,3 +11,6 @@ Promise 是 JavaScript 用来处理异步操作的一种对象。它表示一个
 - fulfilled（已成功）
 
 - rejected（已失败）
+
+## 视频
+【尚硅谷Web前端Promise教程从入门到精通】 https://www.bilibili.com/video/BV1GA411x7z1/?p=2&share_source=copy_web&vd_source=c7a8c2728d5ed02cdd74fed0dbaa1168
