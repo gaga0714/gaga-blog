@@ -155,12 +155,12 @@
 
 // console.log(join(arr1,arr2));
 
-let obj1={
-    sex:'girl',
-};
-let obj={
-    name:'huang',
-    age:13,
-};
-obj.sex=obj1.sex;
-console.log(obj);
+// let obj1={
+//     sex:'girl',
+// };
+// let obj={
+//     name:'huang',
+//     age:13,
+// };
+// obj.sex=obj1.sex;
+// console.log(obj);
