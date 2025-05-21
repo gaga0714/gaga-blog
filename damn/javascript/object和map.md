@@ -44,6 +44,15 @@
 | **内置迭代** | 原生支持 `forEach`、`keys()`、`values()`。 | 需转换为数组：`Object.keys()`/`entries()`。 |
 | **序列化**   | 不能直接 `JSON.stringify`。               | 可直接转为 JSON。              |
 
+keys():返回键组成的数组
+
+entries():
+```js
+const obj = { a: 1, b: 2, c: 3 };
+const entries = Object.entries(obj);
+console.log(entries); // [['a', 1], ['b', 2], ['c', 3]]
+```
+
 ---
 
 ### **二、使用场景对比**
@@ -84,6 +93,36 @@
    ```javascript
    if (user.hasOwnProperty('email')) validateEmail(user.email);
    ```
+   
+obj.hasOwnProperty() 是 JavaScript 中 对象 的一个方法，用于判断对象是否具有某个 自身的属性（即该属性是否存在于对象本身，而不是从原型链继承来的）。
+```js
+const obj = {
+  name: 'Alice',
+  age: 25
+};
+
+console.log(obj.hasOwnProperty('name')); // true
+console.log(obj.hasOwnProperty('age'));  // true
+console.log(obj.hasOwnProperty('gender')); // false
+```
+**obj.hasOwnProperty() 只会检查对象自身的属性，不会检查原型链。**
+
+in 运算符会检查对象自身的属性以及原型链上的属性。
+
+```js
+const obj = { name: 'Alice' };
+
+console.log('name' in obj);          // true
+console.log(obj.hasOwnProperty('name')); // true
+
+console.log('toString' in obj);     // true，toString 在原型链上
+console.log(obj.hasOwnProperty('toString')); // false，toString 是继承自原型链的
+```
+
+| 方法                          | 说明                      |
+| --------------------------- | ----------------------- |
+| `obj.hasOwnProperty('key')` | 检查对象是否有自己的 `key` 属性     |
+| `in` 运算符                    | 检查对象是否有 `key` 属性（包括原型链） |
 
 ---
 

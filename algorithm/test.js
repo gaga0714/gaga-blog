@@ -165,18 +165,27 @@
 // obj.sex=obj1.sex;
 // console.log(obj);
 
-let s="abca";
-var lengthOfLongestSubstring = function(s) {
-    let map=new Map();
-    let left=0;
-    let res=0;
-    for(let right=0;right<s.length;right++){
-        if(map.has(s[right])&&map.get(s[right])>=left){
-            left=map.get(s[right])+1;
-        }
-        map.set(s[right],right);
-        res=Math.max(res,right-left+1);
-    }
-    return res;
-};
-lengthOfLongestSubstring(s);
+// let s="abca";
+// var lengthOfLongestSubstring = function(s) {
+//     let map=new Map();
+//     let left=0;
+//     let res=0;
+//     for(let right=0;right<s.length;right++){
+//         if(map.has(s[right])&&map.get(s[right])>=left){
+//             left=map.get(s[right])+1;
+//         }
+//         map.set(s[right],right);
+//         res=Math.max(res,right-left+1);
+//     }
+//     return res;
+// };
+// lengthOfLongestSubstring(s);
+
+// let arr = [3, 5, 2, 2, 5, 5];
+// let x=new Set(arr)
+// let unique = [...new Set(arr)];
+// console.log(x);
+// console.log(...new Set(arr));
+let str = "352255";
+let unique = [...new Set(str)].join("");
+console.log(new Set(str));
