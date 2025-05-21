@@ -186,6 +186,11 @@
 // let unique = [...new Set(arr)];
 // console.log(x);
 // console.log(...new Set(arr));
-let str = "352255";
-let unique = [...new Set(str)].join("");
-console.log(new Set(str));
+// let str = "352255";
+// let unique = [...new Set(str)].join("");
+// console.log(new Set(str));
+const arr = Array(3).fill({}); // [{}, {}, {}]
+
+
+arr[0].hi = "hi"; // [{ hi: "hi" }, { hi: "hi" }, { hi: "hi" }]
+console.log(arr);
