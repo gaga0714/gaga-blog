@@ -33,7 +33,8 @@ export default defineConfig({
         {text:'CSS', link:'/damn/css/'},
         {text:'JavaScript', link:'/damn/javascript/'},
         {text:'Vue3', link:'/damn/vue3/'},
-        {text:'React', link:'/damn/react/'}
+        {text:'React', link:'/damn/react/'},
+        {text:'Network', link:'/damn/network/'}
       ] },
       { text: '算法', link: '/algorithm/' },
       { text: '面经', link: '/frontend_interview' },
@@ -47,6 +48,7 @@ export default defineConfig({
       "/damn/javascript/": set_sidebar("/damn/javascript"),
       "/damn/vue3/": set_sidebar("/damn/vue3"),
       "/damn/react/": set_sidebar("/damn/react"),
+      "/damn/network/": set_sidebar("/damn/network"),
       "/diary/": set_sidebar("/diary"),
       "/todo/": set_sidebar("/todo"),
       "/algorithm/":set_sidebar("/algorithm"),
