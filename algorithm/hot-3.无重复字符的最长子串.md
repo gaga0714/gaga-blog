@@ -26,7 +26,7 @@
 s 由英文字母、数字、符号和空格组成
 ```
 ## 答案
-```
+```js
 var lengthOfLongestSubstring = function(s){
     let map=new Map();
     let left=0;

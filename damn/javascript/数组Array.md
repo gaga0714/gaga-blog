@@ -263,7 +263,7 @@ console.log(beasts.indexOf('giraffe'));
 ```
 
 ### `includes()`
-返回要查找的元素在数组中的位置，找到返回`true`，否则`false`
+返回数组中是否有要查找的元素，找到返回`true`，否则`false`
 
 ```js
 const array1 = [1, 2, 3];

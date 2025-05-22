@@ -189,8 +189,33 @@
 // let str = "352255";
 // let unique = [...new Set(str)].join("");
 // console.log(new Set(str));
-const arr = Array(3).fill({}); // [{}, {}, {}]
+// const arr = Array(3).fill({}); // [{}, {}, {}]
 
 
-arr[0].hi = "hi"; // [{ hi: "hi" }, { hi: "hi" }, { hi: "hi" }]
-console.log(arr);
+// arr[0].hi = "hi"; // [{ hi: "hi" }, { hi: "hi" }, { hi: "hi" }]
+// console.log(arr);
+
+// let str="I think Ruth's dog is cuter than your dog!";
+// console.log(str.length);
+
+var findAnagrams = function(s,p){
+    let arr=new Array(26).fill(0);
+    let left=0;
+    let res=[];
+    for(let item of p){
+        arr[item.codePointAt(0)-"a".codePointAt(0)]++;
+    }
+    for(let i=0;i<s.length;i++){
+        arr[s[i].codePointAt(0)-"a".codePointAt(0)]--;
+        while(arr[s[i].codePointAt(0)-"a".codePointAt(0)]<0){
+            arr[s[left].codePointAt(0)-"a".codePointAt(0)]++;
+            left++;
+        }
+        if(p.length==i-left+1){
+            res.push(left);
+        }
+    }
+    return res;
+}
+
+findAnagrams("aaaaaaab","ab")
