@@ -198,24 +198,40 @@
 // let str="I think Ruth's dog is cuter than your dog!";
 // console.log(str.length);
 
-var findAnagrams = function(s,p){
-    let arr=new Array(26).fill(0);
-    let left=0;
-    let res=[];
-    for(let item of p){
-        arr[item.codePointAt(0)-"a".codePointAt(0)]++;
-    }
-    for(let i=0;i<s.length;i++){
-        arr[s[i].codePointAt(0)-"a".codePointAt(0)]--;
-        while(arr[s[i].codePointAt(0)-"a".codePointAt(0)]<0){
-            arr[s[left].codePointAt(0)-"a".codePointAt(0)]++;
-            left++;
-        }
-        if(p.length==i-left+1){
-            res.push(left);
+// var findAnagrams = function(s,p){
+//     let arr=new Array(26).fill(0);
+//     let left=0;
+//     let res=[];
+//     for(let item of p){
+//         arr[item.codePointAt(0)-"a".codePointAt(0)]++;
+//     }
+//     for(let i=0;i<s.length;i++){
+//         arr[s[i].codePointAt(0)-"a".codePointAt(0)]--;
+//         while(arr[s[i].codePointAt(0)-"a".codePointAt(0)]<0){
+//             arr[s[left].codePointAt(0)-"a".codePointAt(0)]++;
+//             left++;
+//         }
+//         if(p.length==i-left+1){
+//             res.push(left);
+//         }
+//     }
+//     return res;
+// }
+
+// findAnagrams("aaaaaaab","ab")
+
+var maxSlidingWindow = function(nums, k) {
+    let q = [];
+    let res = [];
+    for(let i=0;i<nums.length;i++){
+        while(q.length>0&&nums[i]>=nums[q.at(-1)]) q.pop();
+        q.push(i);
+        if(i-q[0]>=k) q.shift();
+        if(i>=k-1){
+            res.push(nums[q[0]]);
         }
     }
     return res;
-}
+};
 
-findAnagrams("aaaaaaab","ab")
+maxSlidingWindow([1,3,-1,-3,5,3,6,7], 3)
