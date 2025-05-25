@@ -220,18 +220,24 @@
 
 // findAnagrams("aaaaaaab","ab")
 
-var maxSlidingWindow = function(nums, k) {
-    let q = [];
-    let res = [];
-    for(let i=0;i<nums.length;i++){
-        while(q.length>0&&nums[i]>=nums[q.at(-1)]) q.pop();
-        q.push(i);
-        if(i-q[0]>=k) q.shift();
-        if(i>=k-1){
-            res.push(nums[q[0]]);
-        }
-    }
-    return res;
-};
+// var maxSlidingWindow = function(nums, k) {
+//     let q = [];
+//     let res = [];
+//     for(let i=0;i<nums.length;i++){
+//         while(q.length>0&&nums[i]>=nums[q.at(-1)]) q.pop();
+//         q.push(i);
+//         if(i-q[0]>=k) q.shift();
+//         if(i>=k-1){
+//             res.push(nums[q[0]]);
+//         }
+//     }
+//     return res;
+// };
 
-maxSlidingWindow([1,3,-1,-3,5,3,6,7], 3)
+// maxSlidingWindow([1,3,-1,-3,5,3,6,7], 3)
+
+let matrix=[[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]];
+for(let item of matrix){
+    console.log(item);
+    
+}

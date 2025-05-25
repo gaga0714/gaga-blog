@@ -13,7 +13,7 @@
 输出：1
 ```
 ## 答案
-```
+```js
 var maxArea = function(height) {
     let left=0;
     let right=height.length-1;

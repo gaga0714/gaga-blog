@@ -4,7 +4,7 @@
 
 ## 答案
 递归：
-```
+```js
 var inorderTraversal = function(root) {
     let res = [];
     let inorder=(root)=>{
@@ -20,7 +20,7 @@ var inorderTraversal = function(root) {
 };
 ```
 栈：
-```
+```js
 var inorderTraversal = function(root){
     let ans=[];//结果
     let q=[];//栈
@@ -39,6 +39,18 @@ var inorderTraversal = function(root){
     }
     return ans;
 }
+```
+
+```js
+var inorderTraversal = function(root, res = []) {
+  if (root == null) {
+    return res;
+  }
+  inorderTraversal(root.left, res);
+  res.push(root.val);
+  inorderTraversal(root.right, res);
+  return res;
+};
 ```
 
 ## 扩展
