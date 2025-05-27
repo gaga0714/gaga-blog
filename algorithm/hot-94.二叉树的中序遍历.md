@@ -55,3 +55,36 @@ var inorderTraversal = function(root, res = []) {
 
 ## 扩展
 
+#### 前序遍历
+```js
+var preorderTraversal = function(root) {
+    let res = [];
+    let preorder = (root)=>{
+        if(!root){
+            return;
+        }
+        res.push(root.val);
+        preorder(root.left);
+        preorder(root.right);
+    }
+    preorder(root);
+    return res;
+};
+```
+
+#### 后序遍历
+```js
+var postorderTraversal = function(root) {
+    let res = [];
+    let postorder = (root)=>{
+        if(!root){
+            return;
+        }
+        postorder(root.left);
+        postorder(root.right);
+        res.push(root.val);
+    }
+    postorder(root);
+    return res;
+};
+```
