@@ -25,7 +25,7 @@
 
 ```
 ## 答案
-```
+```js
 var twoSum = function(nums, target) {
     let map = new Map();
     for(let i=0;i<nums.length;i++){
@@ -39,4 +39,4 @@ var twoSum = function(nums, target) {
 };
 ```
 ## 扩展
-哈希表
+哈希表，[数组值，下标]
