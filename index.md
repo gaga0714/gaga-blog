@@ -4,9 +4,9 @@ layout: home
 title: home
 
 hero:
-  name: "Welcome to GaGa!"
+  name: "Welcome to 鸭棚子!"
   text: "朝乾夕惕，功不唐捐"
-  tagline: 什么？为什么我叫gaga？我也不知道嘎嘎嘎嘎嘎...🤗
+  tagline: 你说为什么我叫gaga？我也不知道嘎嘎嘎嘎嘎...🤗
   image:
     src: /avatar.png
     style:
@@ -32,10 +32,10 @@ features:
       - GMail: huangjiangye08@gmail.com<br>
       - <a href="https://github.com/gaga0714" target="_blank">Github: https://github.com/gaga0714</a><br>
       - <a href="https://blog.csdn.net/gaga0714" target="_blank">CSDN: https://blog.csdn.net/gaga0714</a>
-  - title: 🎵 对吗
+  - title: 这里有什么？
     details: |
-      - “心动不长存”<br>
-      - “如果你不去回调地狱，就不会陷入那里。”<br>
-      - “我给你一个从未有过信仰的人的忠诚”<br>
-      - “百二秦关终属楚”
+      - 每天的废话<br>
+      - 算法<br>
+      - 面经<br>
+      - 还有一些根本记不住的操作啊！
 ---
