@@ -45,6 +45,6 @@ var groupAnagrams = function(strs) {
 
 `let tmp=[...str].sort().join("");` :字符串转数组排序后再转字符串
 
-[`map.values()`]([https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map/values)返回值的迭代器，`map.values().next()`是第一个的迭代器，`map.values().next().value()`是值
+[`map.values()`]返回值的迭代器，`map.values().next()`是第一个的迭代器，`map.values().next().value()`是值
 
 `...`转成数组
