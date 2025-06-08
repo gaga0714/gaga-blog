@@ -36,7 +36,7 @@
 
 ```
 ## 答案
-```
+```js
 var isValid = function(s){
     if(s.length%2==1){
         return false;
@@ -61,6 +61,36 @@ var isValid = function(s){
     return !res.length;
 }
 
+```
+
+20250609版：
+```js
+var isValid = function(s) {
+    let map=new Map([
+        [")","("],
+        ["}","{"],
+        ["]","["]
+    ]);
+    let tmp=[];
+    for(let item of s){
+        if(map.has(item)){
+            if(tmp.length>0&&tmp.at(-1)==map.get(item)){
+                tmp.pop();
+            }else{
+                return false;
+            }
+            
+        }else{
+            tmp.push(item);
+        }
+        
+    }
+    if(tmp.length==0){
+        return true;
+    }else{
+        return false;
+    }
+};
 ```
 ## 扩展
 

@@ -236,8 +236,52 @@
 
 // maxSlidingWindow([1,3,-1,-3,5,3,6,7], 3)
 
-let matrix=[[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]];
-for(let item of matrix){
-    console.log(item);
+// let matrix=[[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]];
+// for(let item of matrix){
+//     console.log(item);
     
-}
+// }
+
+// var canMakeEqual = function(nums, k) {
+//     let flag=0;
+//     let k2=k;
+//     let nums2=nums;
+//     for(let i=0;i<nums.length;i++){
+//         if(nums[i]==-1){
+//             if(k==0||i==nums.length-1){
+//                 flag=-1;
+//                 break;
+//                 // return false;
+//             }
+//             nums[i+1]*=(-1);
+//             k--;
+//         }
+//     }
+//     if(flag==-1){
+//         flag=0;
+//         for(let i=0;i<nums2.length;i++){
+        
+//             if(nums2[i]==1){
+//                 if(k2==0||i==nums2.length-1){
+//                     flag=-1;
+//                     break;
+//                     // return false;
+//                 }
+//                 nums2[i+1]*=(-1);
+//                 k2--;
+//             }
+//         }
+//     }
+
+//     if(flag==-1){
+//         return false;
+//     }
+//     return true;
+// };
+
+// canMakeEqual([1,-1,1],2);
+
+let numbers = [1, 2, 3, 4, 5, 4, 3, 2, 1];
+let mapResult = numbers.map((item, index, array) => item * 2);
+console.log(mapResult) // [2, 4, 6, 8, 10, 8, 6, 4, 2]
+console.log(numbers);
