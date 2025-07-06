@@ -281,7 +281,19 @@
 
 // canMakeEqual([1,-1,1],2);
 
-let numbers = [1, 2, 3, 4, 5, 4, 3, 2, 1];
-let mapResult = numbers.map((item, index, array) => item * 2);
-console.log(mapResult) // [2, 4, 6, 8, 10, 8, 6, 4, 2]
-console.log(numbers);
+// let numbers = [1, 2, 3, 4, 5, 4, 3, 2, 1];
+// let mapResult = numbers.map((item, index, array) => item * 2);
+// console.log(mapResult) // [2, 4, 6, 8, 10, 8, 6, 4, 2]
+// console.log(numbers);
+
+let num=0;
+outermost:
+for(let i=0;i<10;i++){
+    for(let j=0;j<10;j++){
+        if(i===5&&j===5){
+            continue outermost;
+        }
+        num++;
+    }
+}
+console.log(num); // 55
