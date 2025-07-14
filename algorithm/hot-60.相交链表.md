@@ -26,13 +26,15 @@ skipB - 在 listB 中（从头节点开始）跳到交叉节点的节点数
 ## 答案
 ```js
 var getIntersectionNode = function(headA, headB) {
-    let pa = headA;
-    let pb = headB;
+    let pa=headA;
+    let pb=headB;
     while(pa!=pb){
-        pa = pa==null?headB:pa.next;
-        pb = pb==null?headA:pb.next;
+        pa=pa==null?headB:pa.next;
+        pb=pb==null?headA:pb.next;
     }
-    return pb;
+    return pa;
 };
 ```
 ## 扩展
+
+因为a+c+b==b+c+a
