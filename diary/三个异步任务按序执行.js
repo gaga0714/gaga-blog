@@ -1,0 +1,13 @@
+task1()
+.then(()=>{
+    task2();
+})
+.then(()=>{
+    task3();
+})
+.then(()=>{
+    console.log("seccess")
+})
+.catch((err)=>{
+    console.log(err);
+})
