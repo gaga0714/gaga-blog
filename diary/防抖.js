@@ -7,7 +7,6 @@ function debounced(fn,delay){
         },delay)
     }
 }
-
 function debounced(fn,delay,immediate=false){
     let timer=null;
     return function(...args){
@@ -22,5 +21,17 @@ function debounced(fn,delay,immediate=false){
                 fn.apply(context,args);
             }
         },delay)
+    }
+}
+
+
+
+function debounced(fn,delay){
+    let timer=null;
+    return function(...args){
+        clearTimeout(timer);
+        timer=setTimeout(()=>{
+            fn.apply(this,args);
+        },delay);
     }
 }
