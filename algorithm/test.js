@@ -302,52 +302,74 @@
 //     console.log(n);
 // }
 
-function deepClone(obj, hash = new WeakMap()) {
-    if (obj === null) return obj; // 如果是null或者undefined我就不进行拷贝操作
-    if (obj instanceof Date) return new Date(obj);
-    if (obj instanceof RegExp) return new RegExp(obj);
-    // 可能是对象或者普通的值  如果是函数的话是不需要深拷贝
-    if (typeof obj !== "object") return obj;
-    // 是对象的话就要进行深拷贝
-    if (hash.get(obj)) return hash.get(obj);
-    let cloneObj = new obj.constructor();
-    // 找到的是所属类原型上的constructor,而原型上的 constructor指向的是当前类本身
-    hash.set(obj, cloneObj);
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        // 实现一个递归拷贝
-        cloneObj[key] = deepClone(obj[key], hash);
-      }
-    }
-    return cloneObj;
-}
+// function deepClone(obj, hash = new WeakMap()) {
+//     if (obj === null) return obj; // 如果是null或者undefined我就不进行拷贝操作
+//     if (obj instanceof Date) return new Date(obj);
+//     if (obj instanceof RegExp) return new RegExp(obj);
+//     // 可能是对象或者普通的值  如果是函数的话是不需要深拷贝
+//     if (typeof obj !== "object") return obj;
+//     // 是对象的话就要进行深拷贝
+//     if (hash.get(obj)) return hash.get(obj);
+//     let cloneObj = new obj.constructor();
+//     // 找到的是所属类原型上的constructor,而原型上的 constructor指向的是当前类本身
+//     hash.set(obj, cloneObj);
+//     for (let key in obj) {
+//       if (obj.hasOwnProperty(key)) {
+//         // 实现一个递归拷贝
+//         cloneObj[key] = deepClone(obj[key], hash);
+//       }
+//     }
+//     return cloneObj;
+// }
 
 
-  function promiseAll(promises) {
-    return new Promise((resolve, reject) => {
-      const results = [];
-      let completed = 0;
-      const total = promises.length;
+//   function promiseAll(promises) {
+//     return new Promise((resolve, reject) => {
+//       const results = [];
+//       let completed = 0;
+//       const total = promises.length;
   
-      // 处理空数组直接 resolve
-      if (total === 0) {
-        resolve(results);
-        return;
+//       // 处理空数组直接 resolve
+//       if (total === 0) {
+//         resolve(results);
+//         return;
+//       }
+  
+//       promises.forEach((promise, index) => {
+//         // 统一处理非 Promise 值
+//         Promise.resolve(promise)
+//           .then((value) => {
+//             results[index] = value; // 按顺序存储结果
+//             completed++;
+//             if (completed === total) {
+//               resolve(results);
+//             }
+//           })
+//           .catch((err) => {
+//             reject(err); // 任一失败立即终止
+//           });
+//       });
+//     });
+//   }
+
+nums = [1,2,3];
+var permute = function(nums) {
+  let ans = [];
+  let dfs = (arr)=>{
+      if(arr.length==nums.length){
+          ans.push([...arr]);
+          return;
       }
-  
-      promises.forEach((promise, index) => {
-        // 统一处理非 Promise 值
-        Promise.resolve(promise)
-          .then((value) => {
-            results[index] = value; // 按顺序存储结果
-            completed++;
-            if (completed === total) {
-              resolve(results);
-            }
-          })
-          .catch((err) => {
-            reject(err); // 任一失败立即终止
-          });
-      });
-    });
+      for(let num of nums){
+          if(!arr.includes(num)){
+              arr.push(num);
+              dfs(arr);
+              arr.pop();
+          }
+      }
   }
+  dfs([]);
+  return ans;
+};
+
+permute(nums);
