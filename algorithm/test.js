@@ -352,24 +352,28 @@
 //     });
 //   }
 
-nums = [1,2,3];
-var permute = function(nums) {
-  let ans = [];
-  let dfs = (arr)=>{
-      if(arr.length==nums.length){
-          ans.push([...arr]);
-          return;
-      }
-      for(let num of nums){
-          if(!arr.includes(num)){
-              arr.push(num);
-              dfs(arr);
-              arr.pop();
-          }
-      }
-  }
-  dfs([]);
-  return ans;
-};
+// nums = [1,2,3];
+// var permute = function(nums) {
+//   let ans = [];
+//   let dfs = (arr)=>{
+//       if(arr.length==nums.length){
+//           ans.push([...arr]);
+//           return;
+//       }
+//       for(let num of nums){
+//           if(!arr.includes(num)){
+//               arr.push(num);
+//               dfs(arr);
+//               arr.pop();
+//           }
+//       }
+//   }
+//   dfs([]);
+//   return ans;
+// };
 
-permute(nums);
+// permute(nums);
+
+
+var str1=new RegExp("e");
+console.log(str1.exec("hello").toString());

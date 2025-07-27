@@ -34,7 +34,7 @@ features:
       - <a href="https://blog.csdn.net/gaga0714" target="_blank">CSDN: https://blog.csdn.net/gaga0714</a>
   - title: 这里有什么？
     details: |
-      - 每天的废话<br>
+      - 在Vue.js 3中使用函数式组件，主要是因为它的简单性，而不是因为它的性能好。<br>
       - 算法<br>
       - 面经<br>
       - 还有一些根本记不住的操作啊！
