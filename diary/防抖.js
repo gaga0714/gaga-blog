@@ -27,11 +27,11 @@ function debounced(fn,delay,immediate=false){
 
 
 function debounced(fn,delay){
-    let timer=null;
+    let timer;
     return function(...args){
         clearTimeout(timer);
         timer=setTimeout(()=>{
             fn.apply(this,args);
-        },delay);
+        },delay)
     }
 }

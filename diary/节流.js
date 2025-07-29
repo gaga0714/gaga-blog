@@ -14,12 +14,12 @@ function throttle(fn,delay){
 
 
 function throttle(fn,delay){
-    let lasttime=0;
+    let time=0;
     return function(...args){
-        let now = new Date.getTime();
-        if(now-lasttime>=delay){
+        let now=new Date.getTime();
+        if(now-time>=delay){
             fn.apply(this,args);
-            lasttime=now;
         }
+        time=now;
     }
 }
