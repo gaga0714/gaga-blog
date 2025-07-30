@@ -1,6 +1,6 @@
 # 验证二叉搜索树
 ## 问题
-```
+```js
 给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。
 有效 二叉搜索树定义如下：
 节点的左子树只包含 小于 当前节点的数。
@@ -18,7 +18,7 @@
 -231 <= Node.val <= 231 - 1
 ```
 ## 答案
-```
+```js
 var isValidBST = function(root) {
     let dfs=(left,right,root)=>{
         if(!root) return true;
