@@ -18,14 +18,14 @@ function DeepClone(obj,hash=new WeakMap()){
 
 
 function DeepClone(obj,hash=new WeakMap()){
-    if(obj==null) return obj;
+    if(obj===null) return obj;
     if(obj instanceof RegExp) return new RegExp(obj);
     if(obj instanceof Date) return new Date(obj);
-    if(typeof obj !=="object") return obj;
-    if(hash.has(obj)) return hash.get(obj);
+    if(typeof obj !="object") return obj;
     let cloneObj=new obj.constructor();
+    if(hash.has(obj)) return hash.get(obj);
     hash.set(obj,cloneObj);
-    for(const key in obj){
+    for(let key in obj){
         if(obj.hasOwnProperty(key)){
             cloneObj[key]=DeepClone(obj[key],hash);
         }
