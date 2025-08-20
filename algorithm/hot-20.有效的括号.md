@@ -37,64 +37,34 @@
 ```
 ## 答案
 ```js
-var isValid = function(s){
-    if(s.length%2==1){
-        return false;
-    }
-    const pairs = new Map([
-        [')','('],
-        ['}','{'],
-        [']','[']
-    ]);
-    let res = [];
-    for(const ch of s){
-        if(pairs.has(ch)){
-            if(!res.length||res[res.length-1]!=pairs.get(ch)){
-                return false;
-            }
-            res.pop();
-        }
-        else{
-            res.push(ch);
-        }
-    }
-    return !res.length;
-}
-
-```
-
-20250609版：
-```js
 var isValid = function(s) {
-    let map=new Map([
-        [")","("],
-        ["}","{"],
-        ["]","["]
-    ]);
-    let tmp=[];
-    for(let item of s){
-        if(map.has(item)){
-            if(tmp.length>0&&tmp.at(-1)==map.get(item)){
-                tmp.pop();
-            }else{
-                return false;
-            }
-            
+    let stack=[];
+    for(let i of s){
+        if(i=='('){
+            stack.push(')');
+        }else if(i=='{'){
+            stack.push('}');
+        }else if(i=='['){
+            stack.push(']');
+        }else if(stack.length==0||i!=stack.at(-1)){
+            return false;
         }else{
-            tmp.push(item);
+            stack.pop();
         }
-        
     }
-    if(tmp.length==0){
-        return true;
-    }else{
+    if(stack.length!=0){
         return false;
     }
+    return true;
 };
+
 ```
 ## 扩展
 
-`map.has(k)` :map中是否存在键k
+变异了😇
 
-`map.get(k)` :拿到键为k的值
+遇到左括号时，把右括号推入栈
 
+遇到右括号时，如果栈空了false，如果栈顶和当前字符不一样false，其余的把栈顶弹出
+
+遍历完后栈还不为空false
