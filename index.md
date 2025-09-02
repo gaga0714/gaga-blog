@@ -22,18 +22,18 @@ hero:
       link: /diary/
 
 features:
-  - title: gaga is <br>———————————————————
+  - title: Gaga is <br>———————————————————
     details: |
       - Junior student at HDU<br>
       - Computer Science and Technology<br>
       - Frontend & Backend & Algorithms<br>
       - Badminton & Music & Travel
-  - title: how to contact gaga <br>———————————————————
+  - title: How to contact gaga <br>———————————————————
     details: |
       - GMail: huangjiangye08@gmail.com<br>
       - <a href="https://github.com/gaga0714" target="_blank">Github: https://github.com/gaga0714</a><br>
       - <a href="https://blog.csdn.net/gaga0714" target="_blank">CSDN: https://blog.csdn.net/gaga0714</a>
-  - title: about this website <br>———————————————————
+  - title: What about this website <br>———————————————————
     details: |
       - html，css，js <br>
       - vue3 <br>
