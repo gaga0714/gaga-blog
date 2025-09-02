@@ -51,4 +51,9 @@ features:
   max-width: 501px;
   gap: 30px;
 }
+.VPHero .image img{
+  position: absolute;
+  top: 50%;
+  left: 67%;
+}
 </style>
