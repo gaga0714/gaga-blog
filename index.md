@@ -5,8 +5,8 @@ title: home
 
 hero:
   name: "Welcome to 鸭棚子!"
-  text: "朝乾夕惕，功不唐捐"
-  tagline: 你说为什么我叫gaga？我也不知道嘎嘎嘎嘎嘎...🤗
+  # text: "朝乾夕惕，功不唐捐"
+  tagline: 框架的设计，本身就是一种权衡的艺术
   image:
     src: /avatar.png
     style:
@@ -20,22 +20,24 @@ hero:
       link: /diary/
 
 features:
-  - title: 🦆 嘎嘎是谁？
+  - title: gaga is —————
     details: |
       - Junior student at HDU<br>
       - Computer Science and Technology<br>
       - Frontend & Backend & Algorithms<br>
       - Badminton & Music & Travel
-  - title: 🤯 别问，我什么都不会
+  - title: how to contact gaga ————
     details: |
-      - qq: 1419210357<br>
       - GMail: huangjiangye08@gmail.com<br>
       - <a href="https://github.com/gaga0714" target="_blank">Github: https://github.com/gaga0714</a><br>
       - <a href="https://blog.csdn.net/gaga0714" target="_blank">CSDN: https://blog.csdn.net/gaga0714</a>
-  - title: 这里有什么？
+  - title: about this website ————
     details: |
       - 在Vue.js 3中使用函数式组件，主要是因为它的简单性，而不是因为它的性能好。<br>
       - 框架的设计，本身就是一种权衡的艺术<br>
-      - 面经<br>
-      - 还有一些根本记不住的操作啊！
+      - html，css，js <br>
+      - vue3 <br>
+      - http <br>
+      - 浏览器 <br>
+      - 实用小工具
 ---
