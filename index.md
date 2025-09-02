@@ -4,9 +4,12 @@ layout: home
 title: home
 
 hero:
-  name: "Welcome to 鸭棚子!"
+  # name: "Welcome to 鸭棚子!"
   # text: "朝乾夕惕，功不唐捐"
-  tagline: 框架的设计，本身就是一种权衡的艺术
+  tagline: |
+    - 框架的设计，本身就是一种权衡的艺术<br>
+    - 在Vue.js 3中使用函数式组件，主要是因为它的简单性，而不是因为它的性能好。
+
   image:
     src: /avatar.png
     style:
@@ -34,7 +37,6 @@ features:
   - title: about this website ————
     details: |
       - 在Vue.js 3中使用函数式组件，主要是因为它的简单性，而不是因为它的性能好。<br>
-      - 框架的设计，本身就是一种权衡的艺术<br>
       - html，css，js <br>
       - vue3 <br>
       - http <br>
