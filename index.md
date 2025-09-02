@@ -49,5 +49,6 @@ features:
 .VPHero .actions{
   justify-content: center !important;
   max-width: 501px;
+  gap: 30px;
 }
 </style>
