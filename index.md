@@ -5,14 +5,15 @@ title: home
 
 hero:
   name: "Welcome to 鸭棚子!"
-  # text: "朝乾夕惕，功不唐捐"
+  text: "朝乾夕惕，功不唐捐"
   tagline: |
-    框架的设计，本身就是一种权衡的艺术
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;框架的设计，本身就是一种权衡的艺术
 
   image:
     src: /avatar.png
     style:
       border-radius: 50%
+
   actions:
     - theme: brand
       text: 点我看卡比兽睡觉
@@ -41,3 +42,12 @@ features:
       - 浏览器 <br>
       - 实用小工具
 ---
+
+
+<style>
+/* 兼容不同版本的类名，并提升优先级 */
+.VPHero .actions{
+  justify-content: center !important;
+  max-width: 501px;
+}
+</style>
