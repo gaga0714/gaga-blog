@@ -4,11 +4,11 @@ layout: home
 title: home
 
 hero:
-  # name: "Welcome to 鸭棚子!"
+  name: "Welcome to 鸭棚子!"
   # text: "朝乾夕惕，功不唐捐"
   tagline: |
-    - 框架的设计，本身就是一种权衡的艺术<br>
-    - 在Vue.js 3中使用函数式组件，主要是因为它的简单性，而不是因为它的性能好。
+    框架的设计，本身就是一种权衡的艺术<br>
+    在Vue.js 3中使用函数式组件，主要是因为它的简单性，而不是因为它的性能好。
 
   image:
     src: /avatar.png
@@ -29,14 +29,13 @@ features:
       - Computer Science and Technology<br>
       - Frontend & Backend & Algorithms<br>
       - Badminton & Music & Travel
-  - title: how to contact gaga ————
+  - title: how to contact gaga <br>————————————————
     details: |
       - GMail: huangjiangye08@gmail.com<br>
       - <a href="https://github.com/gaga0714" target="_blank">Github: https://github.com/gaga0714</a><br>
       - <a href="https://blog.csdn.net/gaga0714" target="_blank">CSDN: https://blog.csdn.net/gaga0714</a>
   - title: about this website ————
     details: |
-      - 在Vue.js 3中使用函数式组件，主要是因为它的简单性，而不是因为它的性能好。<br>
       - html，css，js <br>
       - vue3 <br>
       - http <br>
