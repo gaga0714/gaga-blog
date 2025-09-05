@@ -6,7 +6,7 @@ BFC（ `Block Formatting Context`， 名为 "块级格式化上下文"）个人�
 触发 BFC 的方式常见的有：
 
 - float设置为 left、right
-- overflow 设置为非 visiable
+- overflow 设置为非 visible（默认是visible），还有`hidden,scroll,auto,clip`
 - positon 设置为 absolute、fixed
 - display: inline-block
 - display: table-cell
