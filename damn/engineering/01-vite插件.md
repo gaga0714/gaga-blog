@@ -87,3 +87,22 @@ console.log("Hello from Vite Plugin!")
 
 
 https://juejin.cn/post/7276260308515389480
+
+十三个钩子：
+**rolledup原来就有**：
+- options
+- buildStart
+- resolveId
+- load
+- transform
+- buildEnd
+- closeBundle
+**新增的特性:**
+- config
+- configResolved
+- configServer
+- configPreviewServer
+- transformIndexHtml
+- handleHotUpdate
+
+![alt text](image.png)
