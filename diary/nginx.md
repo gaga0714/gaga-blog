@@ -36,3 +36,65 @@ server {
         }
     }
 ```
+
+
+```
+🚀 Node + Nginx 部署常见面试问答速记
+一、基础概念
+
+Q: 为什么要用 Nginx？
+A: 静态资源性能好、支持反向代理、能做缓存/负载均衡、安全控制。
+
+Q: 正向代理 vs 反向代理？
+A: 正向代理是“客户端找代理上网”（VPN 代理）；反向代理是“客户端访问代理，代理再找后端”（Nginx 常用）。
+
+Q: .env 为什么要 .gitignore？
+A: 避免泄露 API Key 等敏感信息。用 .env.example 只保留变量名，大家各自填值。
+
+二、前端部署相关
+
+Q: 为什么要 try_files $uri $uri/ /index.html;？
+A: 解决前端单页应用（SPA）刷新 404，没文件时回退到 index.html 让前端路由接管。
+
+Q: proxy_pass 带不带斜杠的区别？
+A: 不带 /：后端保留 /api/... 前缀。
+带 /：会去掉 /api/，只转发后面的路径。
+
+三、API / SSE
+
+Q: SSE/流式为什么要 proxy_buffering off;？
+A: 避免 Nginx 缓冲，确保客户端能实时接收推送。
+
+Q: 如何在代理时保留客户端真实 IP？
+A:
+
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+四、进阶问题
+
+Q: Nginx 如何支持 WebSocket？
+A: 需要：
+
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection "upgrade";
+
+
+Q: Node 服务挂了 Nginx 会怎样？
+A: 返回 502。可以配 upstream 多后端做负载均衡或加健康检查。
+
+Q: Nginx 性能优化方法？
+A: worker_processes auto;、缓存静态资源、开启 gzip/brotli 压缩。
+
+📌 记忆技巧：
+
+前端 404 → try_files。
+
+API 路径剥离 → proxy_pass 斜杠。
+
+实时流 → 关缓冲。
+
+真 IP → X-Real-IP。
+
+WebSocket → Upgrade + Connection。
+```
