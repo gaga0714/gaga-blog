@@ -91,3 +91,5 @@ const myDirective = {
   oldValue: /* 上一次更新时 `baz` 的值 */
 }
 ```
+
+https://juejin.cn/post/6906028995133833230?searchId=202509081441580ABCDB42AECDF4280728
