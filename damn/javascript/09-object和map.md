@@ -130,3 +130,10 @@ console.log(obj.hasOwnProperty('toString')); // false，toString 是继承自原
 - **优先使用 Map**：当需要动态键、键类型复杂或有序访问时。  
 - **沿用 Object**：当结构静态、需 JSON 序列化或简单键值对时。  
 - **避免滥用**：清晰区分数据和对象方法（如不应将业务数据存储在 `Object.prototype` 上）。
+
+
+map转object：
+```js
+const mapObject = Object.fromEntries(map);
+console.log(JSON.stringify(mapObject)); 
+```

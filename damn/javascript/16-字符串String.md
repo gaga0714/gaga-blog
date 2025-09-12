@@ -32,6 +32,8 @@ console.log(stringValue.substr(3, 7)); // "lo worl"截取n之后m个
 
 `substring` 会自动调整顺序，不支持负数
 
+**substr和另外两个不一样，是长度不是下标**
+
 
 ### `trim()、trimLeft()、trimRight()、trimStart()、trimEnd()`
 删除前、后或前后所有空格符，再返回新的字符串 中间的不删
