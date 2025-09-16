@@ -19,5 +19,3 @@ function treeflat(nodes,parentId=null,level=0,result=[]){
     })
     return result;
 }
-
-treeflat
