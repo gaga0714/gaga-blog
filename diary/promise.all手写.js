@@ -7,7 +7,6 @@ function PromiseAll(promises){
             resolve(results);
             return;
         }
-
         promises.forEach((promise,index)=>{
             Promise.resolve(promise)
             .then((value)=>{
