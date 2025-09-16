@@ -21,6 +21,7 @@ function deepClone(obj,hash=new WeakMap()){
 }
 ```
 
+
 # call
 ```js
 function mycall(context,...args){
