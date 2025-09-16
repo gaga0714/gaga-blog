@@ -541,3 +541,167 @@ class Heap {
   }
 }
 ```
+
+# 手写属性访问函数
+```js
+/**
+ * 安全访问嵌套对象属性，支持数组索引
+ * @param {Object} obj - 目标对象
+ * @param {string} path - 属性路径，例如 'a.b[0].c'
+ * @param {any} [defaultValue=undefined] - 默认值
+ * @returns {any} 属性值或默认值
+ */
+function getProperty(obj, path, defaultValue) {
+  // 1. 路径解析：拆分成属性名和数组索引
+  const segments = [];
+  const regex = /([^\.\[\]]+)|\[(\d+)\]/g;
+  let match;
+  
+  while ((match = regex.exec(path)) !== null) {
+    if (match[1]) { // 捕获属性名
+      segments.push(match[1]);
+    } else if (match[2]) { // 捕获数组索引
+      segments.push(parseInt(match[2], 10));
+    }
+  }
+
+  // 2. 逐级访问属性
+  let current = obj;
+  for (const segment of segments) {
+    if (current === null || current === undefined) break;
+    current = current[segment];
+  }
+
+  // 3. 返回最终值或默认值
+  return current !== undefined ? current : defaultValue;
+}
+
+// 示例测试
+const obj = {
+  user: {
+    name: 'John',
+    hobbies: [
+      { title: 'Coding', tags: ['js', 'node'] },
+      { title: 'Gaming' }
+    ],
+    'special.property': 'Secret' // 包含特殊字符的属性
+  }
+};
+
+// 测试用例
+console.log(getProperty(obj, 'user.name')); // 'John'
+console.log(getProperty(obj, 'user.hobbies[0].tags[1]')); // 'node'
+console.log(getProperty(obj, 'user.hobbies[1].title')); // 'Gaming'
+console.log(getProperty(obj, 'user.hobbies[3]', 'Not Found')); // 'Not Found'
+console.log(getProperty(obj, 'user["special.property"]')); // undefined（需特殊处理）
+```
+
+# 三栏布局移动优先设计
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+      }
+      .sidebar {
+        background-color: lightgray;
+        padding: 10px;
+      }
+      .main-content {
+        background-color: lightblue;
+      }
+
+      @media screen and (min-width: 768px) {
+        .container {
+          flex-direction: row;
+        }
+        .sidebar {
+          flex-basis: 200px;
+        }
+        .main-content {
+          flex-grow: 1;
+          margin: 0 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="sidebar">Sidebar</div>
+      <div class="main-content">Main Content</div>
+      <div class="sidebar">Sidebar</div>
+    </div>
+  </body>
+</html>
+```
+
+# 两栏布局
+```js
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        display: flex;
+      }
+      .column {
+        flex: 1;
+        padding: 20px;
+      }
+      .column1 {
+        background-color: #f1f1f1;
+      }
+      .column2 {
+        background-color: #e1e1e1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="column column1">Column 1</div>
+      <div class="column column2">Column 2</div>
+    </div>
+  </body>
+</html>
+```
+
+# 圣杯布局
+```html
+<style>
+  .container {
+    width: 100vw;
+    display: flex;
+  }
+  .main {
+    background: red;
+    flex-grow: 1;
+    order: 2;
+  }
+  .left {
+    background: #000;
+    width: 200px;
+    order: 1;
+  }
+  .right {
+    background: blue;
+    width: 200px;
+    order: 3;
+  }
+</style>
+<div class="container">
+  <div class="main"></div>
+  <div class="left"></div>
+  <div class="right"></div>
+</div>
+```
