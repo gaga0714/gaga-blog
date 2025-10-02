@@ -1,3 +1,11 @@
+应用层：HTTP、FTP、SMTP、DNS
+
+传输层：TCP、UDP、QUIC
+
+网络层：IP
+
+链路层：以太网、WiFi
+
 # HTTP 性能 1.0、2.0、3.0
 
 HTTP/1.0

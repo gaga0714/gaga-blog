@@ -62,6 +62,40 @@ function throttle(fn,delay){
 }
 ```
 
+# 自动柯里化
+```js
+function curry(fn) {
+  return function curried(...args) {
+    if (args.length >= fn.length) {
+      return fn.apply(this, args);
+    } else {
+      return function(...nextArgs) {
+        return curried.apply(this, args.concat(nextArgs));
+      };
+    }
+  };
+}
+
+const curriedSum = curry((a, b, c) => a + b + c);
+console.log(curriedSum(1)(2)(3)); // 6
+```
+
+# 通用逆柯里化
+```js
+Function.prototype.uncurry = function() {
+  const fn = this;
+  return function(context, ...args) {
+    return fn.apply(context, args);
+  };
+};
+
+// 逆柯里化Array的push方法
+const push = Array.prototype.push.uncurry();
+const array = [];
+push(array, 1, 2);
+console.log(array); // [1, 2]
+```
+
 # PromiseAll
 ```js
 function my_promiseAll(promises){
