@@ -1,3 +1,4 @@
+# 最长回文子串
 ## 问题
 给你一个字符串 s，找到 s 中最长的 回文 子串。
 
@@ -48,3 +49,7 @@ var longestPalindrome = function(s) {
 };
 ```
 ## 扩展
+```js
+for(let j=1;j<len;j++)//右边界
+for(let i=0;i<j;i++)//左边界
+```
