@@ -53,13 +53,54 @@ return (
 # 响应事件
 
 # 更新界面
-多次渲染同一个组件
+多次渲染同一个组件，每个组件都会有自己的state，不会共用
 ```jsx
 import {useState} from 'react';
 function MyButton(){
     const [cnt,setCnt]=usrState(0);
 }
 ```
+
+hook比普通函数更严格，只能在组件顶层调用
+
+在条件或循环中使用 useState，要提取一个新的组件并在组件内部使用它
+
+# 组件间共享数据
+
+# hooks
+## useState
+`const [state.setState]=useState(init);`
+## useEffect
+副作用函数+依赖项（数组）
+
+1. 忽略数组
+2. 空数组
+3. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -289,4 +330,16 @@ export default function MarkVisualization() {
     );
 }
 
+```
+
+
+```
+            apiProxyConfig: {
+                // 将 /api/maas-data 开头的请求代理到远程后端
+                '/api/maas-data': {
+                    target: 'http://your-backend-server.com', // 替换为你的后端服务器地址
+                    changeOrigin: true,
+                    secure: false, // 如果后端是 https，设置为 true
+                },
+            },
 ```
