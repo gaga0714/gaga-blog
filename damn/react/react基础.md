@@ -80,266 +80,384 @@ hook比普通函数更严格，只能在组件顶层调用
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-快速切换 Tab 时，useEffect 滞后于用户的操作，导致 that.sqlQuery (快速更新) 和 sqlQuery (慢速更新，依赖 useEffect) 之间的数据不一致，从而造成混乱。
-
-
 ```
-import { LayoutContainer } from '@/pages/index/components/MaasLayout';
-import { AddIcon, CloseIcon } from '@qunhe/muya-theme-light';
-import { Button, Input, Space, Table, Tabs, toast } from '@qunhe/muya-ui';
-import React, { useMemo, useState } from 'react';
-import Dashboard from './dashboard';
-import { TabBarContainer, TabBarContent, TabBarTitle, TabCloseButton } from './styled';
+import { CurrentNamespace } from '@/common/namespace';
+import {
+    AddmoreIcon,
+    BookIcon,
+    CadIcon,
+    CodeIcon,
+    FindIcon,
+    InformIcon,
+    InformationIcon,
+    LaughIcon,
+    ListIcon,
+    MagnifyIcon,
+    PictureIcon,
+    RankIcon,
+    RoleIcon,
+    SandboxIcon,
+    SetIcon,
+    ShareIcon,
+    TagIcon,
+} from '@qunhe/muya-theme-light';
+import { HudongLiulanIcon, MeitiJiankongIcon, ModelIcon, StoreyIcon, ZhutiIcon } from '@qunhe/muya-theme-up';
+import React from 'react';
 
-type SearchMode = 'dashbord' | 'condition';
-
-interface TabState {
-    id: number;
-    name: string;
-    mode: SearchMode;
-    searchInput1?: string; // 搜索条件1
-    searchInput2?: string; // 搜索条件2
-    resultData?: any[]; // 搜索结果数据
-    pageNo?: number; // 当前页码
-    closeAble: boolean;
+export interface IMenuItem {
+    icon: React.ReactNode;
+    title: string;
+    path: string;
+    children?: Array<IMenuItem>;
+    admin?: boolean; //超管
 }
+export const MENUS_CONST = [
+    { icon: <MagnifyIcon />, title: '效果走查', path: 'groups' },
+    {
+        icon: <TagIcon />,
+        title: '出图配置',
+        path: 'strategy',
+        children: [
+            { icon: <BookIcon />, title: '出图参数', path: 'property' },
+            { icon: <PictureIcon />, title: '出图策略', path: 'strategy?type=2' },
+        ],
+    },
+    {
+        icon: <MeitiJiankongIcon />,
+        title: 'KV管理',
+        path: 'pics',
+        children: [
+            { icon: <ZhutiIcon />, title: 'KV管理', path: 'pics' },
+            { icon: <HudongLiulanIcon />, title: '测试管理', path: 'testManager' },
+            { icon: <HudongLiulanIcon />, title: '甘特图', path: 'ganttChart' },
+        ],
+    },
+    {
+        icon: <SetIcon />,
+        title: '系统管理',
+        path: 'permission',
+        children: [
+            { icon: <InformationIcon />, title: '权限树', path: 'permission' },
+            { icon: <RoleIcon />, title: '权限配置', path: 'permissionSetting' },
+            { icon: <CodeIcon />, title: '策略因素', path: 'factor' },
+            { icon: <BookIcon />, title: '注册算法', path: 'algorithm', admin: true },
+            { icon: <BookIcon />, title: 'MAAS看板', path: 'tetris', admin: true },
+            { icon: <InformationIcon />, title: '标签管理', path: 'tag' },
+            { icon: <InformationIcon />, title: 'workflow配置', path: 'workflowConfig' },
+        ],
+    },
+    {
+        icon: <SetIcon />,
+        title: '其他',
+        path: 'other',
+        children: [
+            { icon: <SandboxIcon />, title: '参数列表', path: 'params' },
+            { icon: <ListIcon />, title: '模型训练', path: 'loraTask' },
+            { icon: <ModelIcon />, title: '风格管理', path: 'styleType' },
+            { icon: <TagIcon />, title: '标签管理', path: 'tags' },
+        ],
+    },
+];
 
-function getBlankTab(nextId: number): TabState {
+export const kjlAiMenus = [
+    {
+        icon: <TagIcon />,
+        title: '推荐配置',
+        path: 'recommend',
+        children: [
+            { icon: <AddmoreIcon />, title: '推荐参数', path: 'relate' },
+            { icon: <CodeIcon />, title: '推荐策略', path: 'strategy?type=1' },
+        ],
+    },
+    {
+        icon: <InformIcon />,
+        title: '应用管理',
+        path: 'app',
+        children: [
+            { icon: <InformIcon />, title: '应用管理', path: 'app' },
+            { icon: <ShareIcon />, title: '业务应用关系', path: 'appScene' },
+            { icon: <CadIcon />, title: '自定义参数', path: 'customParam' },
+        ],
+    },
+    {
+        icon: <RankIcon />,
+        title: '训练管理',
+        path: 'lora',
+        children: [
+            { icon: <InformationIcon />, title: '训练走查', path: 'lora' },
+            { icon: <LaughIcon />, title: '方向配置', path: 'loraType' },
+            { icon: <FindIcon />, title: '测试词库', path: 'loraTypeTest' },
+        ],
+    },
+];
+
+export const DATA_MENU_CONST = [
+    { icon: <ListIcon />, title: '数据集', path: 'data/collection' },
+    { icon: <InformationIcon />, title: '数据流转', path: 'data/transformation' },
+    { icon: <ModelIcon />, title: '数仓表', path: 'data/warehouse' },
+    { icon: <BookIcon />, title: '数据标注', path: 'data/temptable' },
+    { icon: <LaughIcon />, title: '标注类型', path: 'data/label/rules' },
+    { icon: <CodeIcon />, title: 'IFC转换', path: 'data/design2ifc' },
+    { icon: <CodeIcon />, title: '智能设计选品', path: 'data/mark-brandgood' },
+    { icon: <TagIcon />, title: '标签可视化', path: 'data/mark-visualization' },
+];
+
+export const CAD_MENU_CONST = [
+    { icon: <ListIcon />, title: '图纸集', path: 'namespace/model/drawingset' },
+    { icon: <ModelIcon />, title: '图纸', path: 'namespace/model/drawing' },
+    { icon: <LaughIcon />, title: '评分标准', path: 'namespace/model/regress/standard' },
+    { icon: <InformationIcon />, title: '评分结果', path: 'namespace/model/regress/score' },
+    { icon: <BookIcon />, title: '模型版本', path: 'namespace/model/cad/version' },
+];
+
+export const LAYOUT_TEST_MENU_CONST = [
+    {
+        icon: <BookIcon />,
+        title: '测试集管理',
+        path: 'namespace/model/layout/test/collection/list',
+    },
+    {
+        icon: <ListIcon />,
+        title: '方案管理',
+        path: 'namespace/model/layout/test/design/list',
+    },
+    {
+        icon: <InformIcon />,
+        title: '约束集管理',
+        path: 'namespace/model/layout/test/constraint/collection',
+    },
+    {
+        icon: <CodeIcon />,
+        title: '约束管理',
+        path: 'namespace/model/layout/test/constraint/list',
+    },
+    {
+        icon: <LaughIcon />,
+        title: '测试记录',
+        path: 'namespace/model/layout/test/record/list',
+    },
+    {
+        icon: <StoreyIcon />,
+        title: '结果对比',
+        path: 'namespace/model/layout/test/result/compare',
+    },
+    {
+        icon: <InformationIcon />,
+        title: '模型版本',
+        path: 'namespace/model/layout/test/model/version',
+    },
+];
+
+export const AI_SEARCH_MENU_CONST = [
+    {
+        icon: <BookIcon />,
+        title: '测试集管理',
+        path: 'namespace/model/ai_search/test/collection/list',
+    },
+    {
+        icon: <ListIcon />,
+        title: 'AI搜模型评测',
+        path: 'namespace/model/ai_search/test/record/list?type=2',
+    },
+    {
+        icon: <LaughIcon />,
+        title: '公库搜索评测',
+        path: 'namespace/model/ai_search/test/record/list?type=4',
+    },
+    {
+        icon: <StoreyIcon />,
+        title: 'API管理',
+        path: 'namespace/model/ai_search/model/version',
+    },
+    {
+        icon: <ListIcon />,
+        title: 'Badcase处理',
+        path: 'namespace/model/ai_search/model/badcase/handle',
+    },
+    {
+        icon: <ListIcon />,
+        title: 'Badcase跟踪',
+        path: 'namespace/model/ai_search/model/badcase/track',
+    },
+    {
+        icon: <StoreyIcon />,
+        title: 'Badcase记录',
+        path: 'namespace/model/ai_search/model/badcase/record',
+    },
+];
+
+export const ALL_SCREEN_MENU_CONST = [
+    '/',
+    '/paramPizza',
+    '/paramPizza/detail',
+    '/testReport',
+    '/diff',
+    '/diff/detail',
+    '/market/edit',
+    '/market/detail',
+    '/data/collection/detail',
+    '/data/floorplan/list',
+    '/data/floorplan/scores',
+    '/data/label/page',
+    '/namespace/model/layout/test/record/detail',
+    '/namespace/model/drawingset/detail',
+    '/namespace/model/layout/test/collection/detail',
+    '/namespace/model/ai_search/test/collection/detail',
+    '/namespace/model/ai_search/test/record/detail',
+];
+
+function getModelEvaluationMenuItem(): IMenuItem {
     return {
-        id: nextId,
-        name: `搜索${nextId}`,
-        mode: 'condition',
-        searchInput1: '',
-        searchInput2: '',
-        resultData: [],
-        pageNo: 1,
-        closeAble: true,
+        icon: <ModelIcon />,
+        title: '模型测评',
+        path: '',
+        children: [],
     };
 }
 
-const DASHBOARD_TAB: TabState = {
-    id: 0,
-    name: '数据看板',
-    mode: 'dashbord',
-    closeAble: false,
-};
-
-export default function MarkVisualization() {
-    const [tabs, setTabs] = useState<TabState[]>([DASHBOARD_TAB]);
-    const [activeIndex, setActiveIndex] = useState<number>(0);
-    const [editingIndex, setEditingIndex] = useState<number | null>(null);
-    const [editingName, setEditingName] = useState<string>('');
-    const activeTab = useMemo(() => tabs[activeIndex], [activeIndex, tabs]);
-
-    // 从当前tab获取搜索条件
-    const searchInput1 = activeTab?.searchInput1 || '';
-    const searchInput2 = activeTab?.searchInput2 || '';
-    const resultData = activeTab?.resultData || [];
-    const pageNo = activeTab?.pageNo || 1;
-
-    const addTab = () => {
-        const nextId = tabs.length ? Math.max(...tabs.map(t => t.id)) + 1 : 1;
-        const newTab = getBlankTab(nextId);
-        setTabs(prev => [...prev, newTab]);
-        setActiveIndex(tabs.length);
-    };
-
-    const closeTab = (idx: number) => {
-        if (tabs.length === 0 || !tabs[idx].closeAble) return;
-        const newTabs = tabs.filter((_, i) => i !== idx);
-        const nextActive =
-            idx === activeIndex ? Math.min(idx, newTabs.length - 1) : idx < activeIndex ? activeIndex - 1 : activeIndex;
-        setTabs(newTabs);
-        setActiveIndex(nextActive);
-    };
-
-    const startRename = (idx: number) => {
-        setEditingIndex(idx);
-        setEditingName(tabs[idx].name);
-    };
-
-    const updateTab = (idx: number, patch: Partial<TabState>) => {
-        setTabs(prev => prev.map((t, i) => (i === idx ? { ...t, ...patch } : t)));
-    };
-
-    const commitRename = () => {
-        if (editingIndex === null) return;
-        const name = editingName.trim() || tabs[editingIndex].name;
-        updateTab(editingIndex, { name });
-        setEditingIndex(null);
-    };
-
-    const updateActiveTab = (patch: Partial<TabState>) => {
-        updateTab(activeIndex, patch);
-    };
-
-    const handleClear = () => {
-        if (!activeTab) return;
-        // 清空搜索输入框
-        updateActiveTab({
-            searchInput1: '',
-            searchInput2: '',
-            resultData: [],
-            pageNo: 1,
-        });
-    };
-
-    const handleSearch = () => {
-        if (!activeTab) return;
-        // 触发搜索，这里可以后续接入实际的搜索接口
-        // 暂时使用模拟数据
-        const mockData = Array.from({ length: 5 }, (_, i) => ({
-            id: i + 1,
-            col1: `数据${i + 1}-1`,
-            col2: `数据${i + 1}-2`,
-            col3: `数据${i + 1}-3`,
-            col4: `数据${i + 1}-4`,
-            col5: `数据${i + 1}-5`,
-            col6: `数据${i + 1}-6`,
-            col7: `数据${i + 1}-7`,
-            col8: `数据${i + 1}-8`,
-        }));
-        updateActiveTab({
-            resultData: mockData,
-            pageNo: 1,
-        });
-        toast.success('搜索完成');
-    };
-
-    return (
-        <LayoutContainer>
-            <TabBarContainer>
-                <TabBarTitle>数据看板</TabBarTitle>
-                <TabBarContent>
-                    <Tabs type="capsule" index={activeIndex} onChange={(v: number) => setActiveIndex(v)}>
-                        {tabs.map((t, idx) => (
-                            <Tabs.Tab width={160} index={idx} key={t.id}>
-                                {editingIndex === idx ? (
-                                    <Input
-                                        size="s"
-                                        style={{ width: 92 }}
-                                        value={editingName}
-                                        autoFocus
-                                        onInput={e => setEditingName((e.target as HTMLInputElement).value)}
-                                        onBlur={commitRename}
-                                        onKeyDown={e => {
-                                            if (e.key === 'Enter') commitRename();
-                                            if (e.key === 'Escape') setEditingIndex(null);
-                                        }}
-                                    />
-                                ) : (
-                                    <span onDoubleClick={() => startRename(idx)}>{t.name}</span>
-                                )}
-                                {t.closeAble && (
-                                    <TabCloseButton
-                                        onClick={e => {
-                                            e.stopPropagation();
-                                            closeTab(idx);
-                                        }}
-                                    >
-                                        <CloseIcon style={{ width: 8 }} />
-                                    </TabCloseButton>
-                                )}
-                            </Tabs.Tab>
-                        ))}
-                    </Tabs>
-                    <Button size="s" onClick={addTab} style={{ marginLeft: 8 }}>
-                        <AddIcon />
-                    </Button>
-                </TabBarContent>
-            </TabBarContainer>
-            {activeTab.mode === 'dashbord' ? (
-                <Dashboard />
-            ) : (
-                <div style={{ padding: 16 }}>
-                    <Space direction="vertical" spacing={16} style={{ width: '100%' }}>
-                        <Space direction="horizontal" style={{ width: '100%' }} spacing={12}>
-                            <Input
-                                placeholder="请输入搜索条件1"
-                                value={searchInput1}
-                                onChange={e => updateActiveTab({ searchInput1: (e.target as HTMLInputElement).value })}
-                            />
-                            <Input
-                                placeholder="请输入搜索条件2"
-                                value={searchInput2}
-                                onChange={e => updateActiveTab({ searchInput2: (e.target as HTMLInputElement).value })}
-                            />
-                            <Button onClick={handleClear}>清空</Button>
-                            <Button type="primary" onClick={handleSearch}>
-                                搜索
-                            </Button>
-                        </Space>
-                        <div style={{ marginTop: 24 }}>
-                            <div style={{ textAlign: 'center', marginBottom: 16, fontSize: 16, fontWeight: 600 }}>
-                                结果列表
-                            </div>
-                            <Table
-                                dataSource={resultData}
-                                columns={[
-                                    { title: '1', key: 'col1', dataIndex: 'col1' },
-                                    { title: '2', key: 'col2', dataIndex: 'col2' },
-                                    { title: '3', key: 'col3', dataIndex: 'col3' },
-                                    { title: '4', key: 'col4', dataIndex: 'col4' },
-                                    { title: '5', key: 'col5', dataIndex: 'col5' },
-                                    { title: '6', key: 'col6', dataIndex: 'col6' },
-                                    { title: '7', key: 'col7', dataIndex: 'col7' },
-                                    { title: '8', key: 'col8', dataIndex: 'col8' },
-                                ]}
-                                rowKey="id"
-                                pagination={{
-                                    totalRecords: resultData.length,
-                                    current: pageNo,
-                                    pageSize: 20,
-                                    onClick: e => {
-                                        const newPageNo = parseInt((e.target as HTMLAnchorElement).text);
-                                        if (newPageNo && !isNaN(newPageNo)) {
-                                            updateActiveTab({ pageNo: newPageNo });
-                                        }
-                                    },
-                                }}
-                            />
-                        </div>
-                    </Space>
-                </div>
-            )}
-        </LayoutContainer>
-    );
-}
-
-```
-
-
-```
-            apiProxyConfig: {
-                // 将 /api/maas-data 开头的请求代理到远程后端
-                '/api/maas-data': {
-                    target: 'http://your-backend-server.com', // 替换为你的后端服务器地址
-                    changeOrigin: true,
-                    secure: false, // 如果后端是 https，设置为 true
-                },
+export const NAMESPACE_MENU_CONST = [
+    {
+        icon: <ModelIcon />,
+        title: '模型训练',
+        path: 'namespace/model/training',
+        children: [
+            {
+                icon: <ListIcon />,
+                title: '数据源',
+                path: 'namespace/datasource',
             },
+            {
+                icon: <ModelIcon />,
+                title: '标注任务',
+                path: 'namespace/label/tasks',
+            },
+            {
+                icon: <CodeIcon />,
+                title: '标注类型',
+                path: 'namespace/label/rules',
+            },
+            {
+                icon: <ModelIcon />,
+                title: '模型训练',
+                path: 'namespace/model/training',
+            },
+        ],
+    },
+    {
+        icon: <SetIcon />,
+        title: 'Namespace设置',
+        path: 'namespace/permission',
+        children: [
+            { icon: <InformationIcon />, title: '权限配置', path: 'namespace/permission/manager' },
+            { icon: <RoleIcon />, title: '角色配置', path: 'namespace/role/manager' },
+        ],
+    },
+];
+
+const AGENT_MENU_CONST = [
+    { icon: <InformationIcon />, title: '基础信息', path: 'agent_platform/agent/detail' },
+    { icon: <ListIcon />, title: 'Function Call 列表', path: 'agent_platform/agent/detail/function_call' },
+    { icon: <ListIcon />, title: 'Dify Agent 关联', path: 'agent_platform/agent/detail/dify_relation' },
+];
+
+const AGENT_APP_MENU_CONST = [
+    { icon: <InformationIcon />, title: '基础信息', path: 'agent_platform/agent_app/detail' },
+    {
+        icon: <ListIcon />,
+        title: '子智能体管理',
+        path: 'agent_platform/agent_app/detail/sub_agent_list',
+    },
+    {
+        icon: <ListIcon />,
+        title: '上线管理',
+        path: 'agent_platform/agent_app/detail/publish',
+    },
+    { icon: <ListIcon />, title: '用户权限', path: 'agent_platform/agent_app/detail/dify_relation' },
+];
+
+export async function getMenuList(pathname: string, sceneId?: string, namespaceId?: number) {
+    const [
+        isDataPlatform,
+        isModelPlatform,
+        isModelEvaluateList,
+        isLayoutTest,
+        isNamespace,
+        isAgentManagement,
+        isAgentAppManagement,
+    ] = [
+        pathname.startsWith('/data'),
+        pathname.startsWith('/model'),
+        pathname.startsWith('/evaluate'),
+        pathname.startsWith('/model/layout/test'),
+        pathname.startsWith('/namespace'),
+        pathname.startsWith('/agent_platform/agent/detail'),
+        pathname.startsWith('/agent_platform/agent_app/detail'),
+    ];
+    if (isNamespace && !CurrentNamespace.getInstance().hasNamespace() && namespaceId) {
+        CurrentNamespace.getInstance().setNamespace(namespaceId);
+    } else if (isModelPlatform && !CurrentNamespace.getInstance().hasNamespace()) {
+        CurrentNamespace.getInstance().setNamespace(isLayoutTest ? '布局模型' : 'CAD 模型');
+    }
+    switch (true) {
+        case isAgentManagement: {
+            return AGENT_MENU_CONST;
+        }
+        case isAgentAppManagement: {
+            return AGENT_APP_MENU_CONST;
+        }
+        case isNamespace: {
+            const namespace = await CurrentNamespace.getInstance().getNamespace();
+            switch (true) {
+                case namespace?.namespaceType === 102:
+                case namespace?.name === 'CAD 模型': {
+                    const item = getModelEvaluationMenuItem();
+                    item.children = CAD_MENU_CONST;
+                    return [NAMESPACE_MENU_CONST[0], item, NAMESPACE_MENU_CONST[1]];
+                }
+                case namespace?.namespaceType === 103:
+                case namespace?.name === '布局模型': {
+                    const item = getModelEvaluationMenuItem();
+                    item.children = LAYOUT_TEST_MENU_CONST;
+                    return [NAMESPACE_MENU_CONST[0], item, NAMESPACE_MENU_CONST[1]];
+                }
+                case namespace?.namespaceType === 104:
+                case namespace?.name === 'AI 搜模型': {
+                    const item = getModelEvaluationMenuItem();
+                    item.children = AI_SEARCH_MENU_CONST;
+                    return [NAMESPACE_MENU_CONST[0], item, NAMESPACE_MENU_CONST[1]];
+                }
+                default: {
+                    return NAMESPACE_MENU_CONST;
+                }
+            }
+        }
+        case ['/main', '/market'].includes(pathname): {
+            return [
+                {
+                    icon: <TagIcon />,
+                    title: '业务管理',
+                    path: 'main',
+                },
+                {
+                    icon: <StoreyIcon />,
+                    title: '应用市场',
+                    path: 'market',
+                },
+            ];
+        }
+        case isDataPlatform: {
+            return DATA_MENU_CONST;
+        }
+        case sceneId === 'kjlAI': {
+            return [...MENUS_CONST.slice(0, -1), ...kjlAiMenus, ...MENUS_CONST.slice(-1)];
+        }
+        case isModelEvaluateList: {
+            return [];
+        }
+        default: {
+            return MENUS_CONST;
+        }
+    }
+}
+
 ```
