@@ -48,3 +48,9 @@
 - 事件绑定方式
     
 - 服务端渲染
+
+```tsx
+<React.Fragment></React.Fragment>
+//简写就是空标签
+<></>
+```
