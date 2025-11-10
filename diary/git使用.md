@@ -14,7 +14,8 @@ rm -rf .git
 
 - git fetch 获取远程更改，但不合并
 - git pull 拉取并合并
-- 
+
+- git push --force
 
 
 工作区：本地正在编辑和可见所有文件
