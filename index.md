@@ -10,7 +10,7 @@ hero:
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;框架的设计，本身就是一种权衡的艺术
 
   image:
-    src: /avatar.png
+    src: /assets/public_avatar.png
     style:
       border-radius: 50%
 

@@ -105,7 +105,7 @@ https://juejin.cn/post/7276260308515389480
 - transformIndexHtml
 - handleHotUpdate
 
-![alt text](image.png)
+![alt text](/assets/algorithm_image.png)
 
 插件神器：https://juejin.cn/post/7012446423367024676
 

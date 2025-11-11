@@ -1,5 +1,5 @@
 # CSS 工程化
-![](../../public/CSS工程化-20240717015149360.jpg)
+![](/assets/public_CSS工程化-20240717015149360.jpg)
 
 预处理器（scss、less）
 

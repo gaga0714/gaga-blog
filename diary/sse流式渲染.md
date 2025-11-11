@@ -53,7 +53,7 @@ async function streamSSE(url, payload) {
 streamSSE('/api/stream-sse', { prompt: '你好' }).catch(console.error);
 </script>
 ```
-![alt text](image-33.png)
+![alt text](/assets/diary_image-33.png)
 
 ### 首屏chunk
-![alt text](image-34.png)
+![alt text](/assets/diary_image-34.png)

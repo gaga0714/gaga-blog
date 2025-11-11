@@ -4,7 +4,7 @@
     
 - 通过自定义hook能够更好的封装我们的功能
 
-![](./React%20Hook-20240729215246115.jpg)
+![](/assets/damn_react_React Hook-20240729215246115.jpg)
 
 最常见的`hooks`有如下：
 

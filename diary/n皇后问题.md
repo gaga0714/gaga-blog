@@ -1,5 +1,5 @@
 # n皇后问题
 
-![alt text](image.png)
+![alt text](/assets/algorithm_image.png)
 
 

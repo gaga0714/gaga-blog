@@ -1,1 +1,1 @@
-![alt text](image-11.png)
+![alt text](/assets/damn_javascript_image-11.png)

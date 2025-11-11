@@ -4,7 +4,7 @@
 
 说明：每次只能向下或者向右移动一步。
 
-![alt text](image-6.png)
+![alt text](/assets/algorithm_image-6.png)
 
 ## 答案
 ```js

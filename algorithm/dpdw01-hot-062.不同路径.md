@@ -5,7 +5,7 @@
 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。
 
 问总共有多少条不同的路径？
-![alt text](image-5.png)
+![alt text](/assets/algorithm_image-5.png)
 ## 答案
 ```js
 var uniquePaths = function(m, n) {

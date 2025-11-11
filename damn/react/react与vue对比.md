@@ -1,1 +1,1 @@
-![alt text](image.png)
+![alt text](/assets/algorithm_image.png)
