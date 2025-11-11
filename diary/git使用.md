@@ -1,11 +1,3 @@
-拉取仓库，
-
-```bash
-rm -rf .git
-```
-清空原来的git提交记录
-
-
 # git常用命令
 - git status 查看工作区和暂存区的状态，
 - git push origin(远端仓库名，默认为origin,git自动起的别名) 本地分支名:远端分支名
@@ -25,4 +17,25 @@ rm -rf .git
 本地仓库：从暂存区永久保存到本地仓库 git commit
 
 远端仓库：将本地提交同步到远端仓库 git push 
+
+
+提交commit格式
+
+- feat 新增功能
+- fix 修复bug
+- docs 只修改了文档
+- style 代码格式修改
+- test 增改删测试文件
+- ci ci配置文件或脚本的修改
+- chore 其他不影响源码和测试的杂项修改，如工具配置
+- refactor 代码重构，既不修复bug也不新增功能
+- perf 提升代码性能
+
+**else？**
+拉取仓库，
+
+```bash
+rm -rf .git
+```
+清空原来的git提交记录
 
