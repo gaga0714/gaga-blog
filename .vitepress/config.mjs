@@ -36,7 +36,8 @@ export default defineConfig({
         {text:'React', link:'/damn/react/'},
         {text:'Network', link:'/damn/network/'},
         {text:'工程化',link:'/damn/engineering/'},
-        {text:'TypeScript',link:'/damn/ts/'}
+        {text:'TypeScript',link:'/damn/ts/'},
+        {text:'后端',link:'/damn/backend/'}
       ] },
       { text: '算法', link: '/algorithm/' },
       { text: '面经', link: '/frontend_interview' },
@@ -50,6 +51,7 @@ export default defineConfig({
       "/damn/javascript/": set_sidebar("/damn/javascript"),
       "/damn/vue3/": set_sidebar("/damn/vue3"),
       "/damn/react/": set_sidebar("/damn/react"),
+      "/damn/backend/": set_sidebar("/damn/backend"),
       "/damn/network/": set_sidebar("/damn/network"),
       "/damn/engineering/": set_sidebar("/damn/engineering"),
       "/damn/ts": set_sidebar("/damn/ts"),
