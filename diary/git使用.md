@@ -39,3 +39,5 @@ rm -rf .git
 ```
 清空原来的git提交记录
 
+软回退到暂存区：git reset --soft HEAD~1
+硬回退：git reset --hard HEAD

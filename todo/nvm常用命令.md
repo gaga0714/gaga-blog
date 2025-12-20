@@ -1,5 +1,3 @@
-<PasswordProtect>
-
 # 20251018
 
 nvm 常用命令
@@ -14,6 +12,3 @@ nvm current 显示当前正在用的版本
 
 nvm uninstall 14 卸载指定版本
 
-
-
-</PasswordProtect>
