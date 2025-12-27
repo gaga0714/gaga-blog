@@ -43,6 +43,8 @@ features:
       - 实用小工具
 ---
 
+<CountdownAndDailyLog />
+
 
 <style>
 /* 兼容不同版本的类名，并提升优先级 */
