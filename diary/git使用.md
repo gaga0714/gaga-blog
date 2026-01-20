@@ -41,3 +41,6 @@ rm -rf .git
 
 软回退到暂存区：git reset --soft HEAD~1
 硬回退：git reset --hard HEAD
+
+
+git push origin gaga/feat/MAAS-6148 --force-with-lease
