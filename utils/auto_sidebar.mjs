@@ -19,29 +19,46 @@ const isDirectory = (path) =>fs.lstatSync(path).isDirectory();
 const intersections = (arr1,arr2) =>
     Array.from(new Set(arr1.filter((item)=>!new Set(arr2).has(item))));
 
+// 按创建时间排序（最新在前），仅对 diary 目录
+function sortByCreationTime(names, dirPath) {
+    return [...names].sort((a, b) => {
+        const pathA = path.join(dirPath, a);
+        const pathB = path.join(dirPath, b);
+        try {
+            const timeA = fs.statSync(pathA).birthtimeMs;
+            const timeB = fs.statSync(pathB).birthtimeMs;
+            return timeB - timeA; // 降序，新的在前
+        } catch {
+            return 0;
+        }
+    });
+}
+
 // 把方法导出直接使用
 function getList(params,path1,pathname){
+    // diary 目录下按文件创建时间排序，最新在前
+    const list = (pathname === "/diary" || pathname === "/diary/") ? sortByCreationTime(params, path1) : params;
     // 存放结果
     const res = [];
-    // 开始遍历params
-    for(let file in params){
+    // 开始遍历 list
+    for(let file in list){
         // 拼接目录
-        const dir = path.join(path1,params[file]);
+        const dir = path.join(path1,list[file]);
         // 判断是否是文件夹
         const isDir = isDirectory(dir);
         if(isDir){
             // 如果是文件夹，读取之后作为下一次递归参数
             const files = fs.readdirSync(dir);
-            res.path({
-                text: params[file],
+            res.push({
+                text: list[file],
                 collapsible: true,
-                items: getList(files,dir,`${pathname}/${params[file]}`),
+                items: getList(files,dir,`${pathname}/${list[file]}`),
             });
         } else{
             // 获取名字
-            const name = path.basename(params[file]);
+            const name = path.basename(list[file]);
             // 排除非md文件
-            const suffix = path.extname(params[file]);
+            const suffix = path.extname(list[file]);
             if(suffix!==".md"){
                 continue;
             }

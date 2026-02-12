@@ -1,10 +1,32 @@
+import path from 'node:path'
+import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitepress'
 import { set_sidebar } from '../utils/auto_sidebar.mjs'
+
+console.log('[VitePress] 正在加载配置…')
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const ROOT = path.join(__dirname, '..')
+
+function formatDateTime(date) {
+  const d = new Date(date)
+  return d.toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
+}
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "gaga's blog",
   description: "A VitePress Site",
+  transformPageData(pageData) {
+    if (!pageData.relativePath || !pageData.relativePath.startsWith('diary/')) return pageData
+    const fullPath = path.join(ROOT, pageData.relativePath)
+    try {
+      const stat = fs.statSync(fullPath)
+      pageData.diaryFileCreated = formatDateTime(stat.birthtime)
+      pageData.diaryFileUpdated = formatDateTime(stat.mtime)
+    } catch (_) {}
+    return pageData
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     search: {

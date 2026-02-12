@@ -1,6 +1,6 @@
 <script setup>
-import { useRoute } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
+import DiaryPageFooter from './components/DiaryPageFooter.vue'
 
 const Layout = DefaultTheme.Layout
 
@@ -33,6 +33,10 @@ if (typeof window !== 'undefined') {
 </script>
 
 <template>
-  <Layout />
+  <Layout>
+    <template #doc-before>
+      <DiaryPageFooter />
+    </template>
+  </Layout>
 </template>
 
