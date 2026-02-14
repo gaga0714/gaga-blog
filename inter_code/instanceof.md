@@ -1,3 +1,4 @@
+p31
 ```js
 function myinstanceof(obj,Func){
     if(typeof obj!='object'||obj===null) return false;
