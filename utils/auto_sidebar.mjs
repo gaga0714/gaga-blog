@@ -19,7 +19,7 @@ const isDirectory = (path) =>fs.lstatSync(path).isDirectory();
 const intersections = (arr1,arr2) =>
     Array.from(new Set(arr1.filter((item)=>!new Set(arr2).has(item))));
 
-// 按创建时间排序（最新在前），仅对 diary 目录
+// 按创建时间排序（最新在前），仅对 diary、inter_code 目录
 function sortByCreationTime(names, dirPath) {
     return [...names].sort((a, b) => {
         const pathA = path.join(dirPath, a);
@@ -36,8 +36,9 @@ function sortByCreationTime(names, dirPath) {
 
 // 把方法导出直接使用
 function getList(params,path1,pathname){
-    // diary 目录下按文件创建时间排序，最新在前
-    const list = (pathname === "/diary" || pathname === "/diary/") ? sortByCreationTime(params, path1) : params;
+    // diary、inter_code 目录下按文件创建时间排序，最新在前
+    const sortPaths = ["/diary", "/diary/", "/inter_code", "/inter_code/"];
+    const list = sortPaths.includes(pathname) ? sortByCreationTime(params, path1) : params;
     // 存放结果
     const res = [];
     // 开始遍历 list

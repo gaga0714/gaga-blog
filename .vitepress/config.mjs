@@ -18,7 +18,8 @@ export default defineConfig({
   title: "gaga's blog",
   description: "A VitePress Site",
   transformPageData(pageData) {
-    if (!pageData.relativePath || !pageData.relativePath.startsWith('diary/')) return pageData
+    const r = pageData.relativePath
+    if (!r || (!r.startsWith('diary/') && !r.startsWith('inter_code/'))) return pageData
     const fullPath = path.join(ROOT, pageData.relativePath)
     try {
       const stat = fs.statSync(fullPath)
@@ -61,6 +62,7 @@ export default defineConfig({
         {text:'TypeScript',link:'/damn/ts/'},
         {text:'后端',link:'/damn/backend/'}
       ] },
+      { text: '手撕', link: '/inter_code/'},
       { text: '算法', link: '/algorithm/' },
       { text: '面经', link: '/frontend_interview' },
       { text: '胡言乱语', link: '/diary/' },
@@ -77,6 +79,7 @@ export default defineConfig({
       "/damn/network/": set_sidebar("/damn/network"),
       "/damn/engineering/": set_sidebar("/damn/engineering"),
       "/damn/ts": set_sidebar("/damn/ts"),
+      "/inter_code/": set_sidebar("/inter_code"),
       "/diary/": set_sidebar("/diary"),
       "/todo/": set_sidebar("/todo"),
       "/algorithm/":set_sidebar("/algorithm"),
