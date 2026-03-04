@@ -1,3 +1,4 @@
+<PasswordProtect>
 # 一、简介
 针对简历上酷家乐ai硬装部分的准备，包括内容对应的八股和可能提问。
 # 二、内容概括
@@ -161,3 +162,4 @@ lineWidth 是 canvas 像素，画布有缩放 scale，所以同一 lineWidth 放
 
 其实是缓存之后存起来，选的时候去那个缓存里面拿
 
+</PasswordProtect>

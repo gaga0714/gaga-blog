@@ -1,3 +1,4 @@
+<PasswordProtect>
 ### SSE怎么实现具体代码
 ```js
 // —— 发送请求
@@ -87,3 +88,4 @@ async function streamDeepseek({ model, messages, onDelta }) {
 
 ### docker cicd
 
+</PasswordProtect>
