@@ -117,7 +117,7 @@ pnpm dev
 ```
 
 访问地址：
-http://localhost:3000
+`http://localhost:3000`
 
 账号root，密码去环境变量里找
 
