@@ -6,33 +6,21 @@
 - Docker
 - Node.js `v20.14.0`
 - pnpm `9.4.0`
-- 建议在 `Linux`、`macOS` 或 `WSL` 环境开发
 
-## fork 与初始化
+## 仓库拉取
 
-先在 GitHub 上 fork 这两个仓库：
+### fork这两个仓库再clone
+- https://github.com/labring/FastGPT
+- https://github.com/labring/fastgpt-pro
 
-- `labring/fastgpt-pro`
-- `labring/FastGPT`
-
-假设本地目录为：
-
-- `fastgpt-pro`：`/Users/sealos/fastgpt-pro`
-- `FastGPT` 子模块：`/Users/sealos/fastgpt-pro/FastGPT`
-
-假设自己的 fork 为：
-
-- `git@github.com:gaga0714/fastgpt-pro.git`
-- `git@github.com:gaga0714/FastGPT.git`
-
-初始化子模块：
+### 初始化子模块：
 
 ```bash
 cd /Users/sealos/fastgpt-pro
 git submodule update --init --recursive
 ```
 
-## remote 配置
+### remote 配置
 
 `fastgpt-pro`：
 
@@ -41,7 +29,7 @@ cd /Users/sealos/fastgpt-pro
 git remote add upstream git@github.com:labring/fastgpt-pro.git
 ```
 
-如果 `upstream` 已存在：
+若 `upstream` 已存在：
 
 ```bash
 git remote set-url upstream git@github.com:labring/fastgpt-pro.git
@@ -55,50 +43,83 @@ git remote set-url origin git@github.com:gaga0714/FastGPT.git
 git remote add upstream git@github.com:labring/FastGPT.git
 ```
 
-如果 `upstream` 已存在：
-
-```bash
-git remote set-url upstream git@github.com:labring/FastGPT.git
-```
-
-检查结果：
-
-```bash
-cd /Users/sealos/fastgpt-pro
-git remote -v
-
-cd /Users/sealos/fastgpt-pro/FastGPT
-git remote -v
-```
-
-预期：
-
-- `fastgpt-pro`：`origin` 指向自己的 fork，`upstream` 指向 `labring/fastgpt-pro`
-- `FastGPT`：`origin` 指向自己的 fork，`upstream` 指向 `labring/FastGPT`
-
 ## 本地启动
 
-`FastGPT`：
+### infra
 
-1. 在 `FastGPT/projects/app` 下创建 `.env.local`
-2. 增加 `PRO_URL=http://localhost:3001`
+本地开发至少要先准备这些基础服务：
 
-`fastgpt-pro`：
+- MongoDB
+- Redis
+- PGVector（PostgreSQL）
+- MinIO
+- Sandbox
+- Plugin
+- AI Proxy
 
-1. 在 `projects/app` 下创建 `.env.local`
+直接使用 `FastGPT` 仓库自带的开发版 compose：
 
-安装并启动：
+- `5432`：PG
+- `27017`：MongoDB
+- `6379`：Redis
+- `9000`：MinIO API
+- `9001`：MinIO Console
+- `3002`：Sandbox
+- `3003`：Plugin
+- `3010`：AI Proxy
+
+文件位置：
+```bash
+fastgpt-pro/FastGPT/deploy/dev/docker-compose.yml
+```
+
+启动 infra：
 
 ```bash
-pwd # 确认在项目根目录
+cd fastgpt-pro/FastGPT/deploy/dev
+docker compose up -d
+```
+
+查看状态：
+
+```bash
+docker compose ps
+```
+
+### 环境变量
+分别把`fastgpt`和`fastgpt-pro`的`projects/app`下`.env.template`复制一份到`.env.local`
+
+`fastgpt-pro/projects/app/.env.local` 至少确认这些值：
+
+```bash
+PLUGIN_BASE_URL=http://localhost:3003
+PLUGIN_TOKEN=token
+
+AIPROXY_API_ENDPOINT=http://localhost:3010
+AIPROXY_API_TOKEN=aiproxy
+
+CODE_SANDBOX_URL=http://localhost:3002
+
+REDIS_URL=redis://default:mypassword@localhost:6379
+MONGODB_URI="mongodb://myusername:mypassword@localhost:27017/fastgpt?authSource=admin&directConnection=true"
+PG_URL=postgresql://username:password@localhost:5432/postgres
+
+```
+
+### 装依赖、启动（两个都要开！）
+- 启动fast-pro
+- 启动fast
+
+```bash
 pnpm i
-cd projects/app
+# 去app下
 pnpm dev
 ```
 
-默认访问地址：
+访问地址：
+http://localhost:3000
 
-- `FastGPT`：`http://localhost:3000`
+账号root，密码去环境变量里找
 
 ## Docker 打包
 
