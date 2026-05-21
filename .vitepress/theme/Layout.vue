@@ -1,6 +1,9 @@
 <script setup>
 import DefaultTheme from 'vitepress/theme'
 import DiaryPageFooter from './components/DiaryPageFooter.vue'
+import BackToTop from './components/BackToTop.vue'
+import MouseEffect from './components/MouseEffect.vue'
+import ScrollFx from './components/ScrollFx.vue'
 
 const Layout = DefaultTheme.Layout
 
@@ -36,6 +39,11 @@ if (typeof window !== 'undefined') {
   <Layout>
     <template #doc-before>
       <DiaryPageFooter />
+    </template>
+    <template #layout-bottom>
+      <BackToTop />
+      <MouseEffect />
+      <ScrollFx />
     </template>
   </Layout>
 </template>

@@ -17,6 +17,9 @@ function formatDateTime(date) {
 export default defineConfig({
   title: "gaga's blog",
   description: "A VitePress Site",
+  markdown: {
+    lineNumbers: true,
+  },
   transformPageData(pageData) {
     const r = pageData.relativePath
     if (!r || (!r.startsWith('diary/') && !r.startsWith('inter_code/'))) return pageData
@@ -87,7 +90,7 @@ export default defineConfig({
 
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/gaga0714' }
     ]
   }
 })

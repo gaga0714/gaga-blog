@@ -5,14 +5,12 @@ title: home
 
 hero:
   name: "Welcome to 鸭棚子!"
-  text: "朝乾夕惕，功不唐捐"
-  tagline: |
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;框架的设计，本身就是一种权衡的艺术
+  text: "朝乾夕惕,功不唐捐"
+  tagline: 框架的设计,本身就是一种权衡的艺术
 
   image:
     src: /public_avatar.png
-    style:
-      border-radius: 50%
+    alt: gaga
 
   actions:
     - theme: brand
@@ -23,36 +21,27 @@ hero:
       link: /diary/
 
 features:
-  - title: Gaga is <br>—————————————————
+  - title: About gaga
     details: |
-      - Junior student at HDU<br>
-      - Computer Science and Technology<br>
-      - Frontend & Backend & Algorithms<br>
-      - Badminton & Music & Travel
-  - title: How to contact gaga <br>—————————————————
+      <ul>
+        <li>Junior student at HDU</li>
+        <li>Computer Science and Technology</li>
+        <li>Frontend & Backend & Algorithms</li>
+        <li>Badminton & Music & Travel</li>
+      </ul>
+  - title: Contact
     details: |
-      - GMail: huangjiangye08@gmail.com<br>
-      - <a href="https://github.com/gaga0714" target="_blank">Github: https://github.com/gaga0714</a><br>
-      - <a href="https://blog.csdn.net/gaga0714" target="_blank">CSDN: https://blog.csdn.net/gaga0714</a>
-  - title: What about this website <br>—————————————————
+      <ul>
+        <li>GMail: huangjiangye08@gmail.com</li>
+        <li><a href="https://github.com/gaga0714" target="_blank" rel="noopener">Github · gaga0714</a></li>
+        <li><a href="https://blog.csdn.net/gaga0714" target="_blank" rel="noopener">CSDN · gaga0714</a></li>
+      </ul>
+  - title: Built with
     details: |
-      - html，css，js <br>
-      - vue3 <br>
-      - http <br>
-      - 浏览器 <br>
-      - 实用小工具
+      <ul>
+        <li>HTML / CSS / JavaScript</li>
+        <li>Vue 3</li>
+        <li>HTTP & 浏览器</li>
+        <li>一些实用小工具</li>
+      </ul>
 ---
-
-<style>
-/* 兼容不同版本的类名，并提升优先级 */
-.VPHero .actions{
-  justify-content: center !important;
-  max-width: 501px;
-  gap: 30px;
-}
-.VPHero .image img{
-  position: absolute;
-  top: 50%;
-  left: 67%;
-}
-</style>
