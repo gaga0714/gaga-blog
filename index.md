@@ -23,25 +23,19 @@ hero:
 features:
   - title: About gaga
     details: |
-      <ul>
-        <li>Junior student at HDU</li>
-        <li>Computer Science and Technology</li>
-        <li>Frontend & Backend & Algorithms</li>
-        <li>Badminton & Music & Travel</li>
-      </ul>
+      <span class="li">Junior student at HDU</span><br>
+      <span class="li">Computer Science and Technology</span><br>
+      <span class="li">Frontend & Backend & Algorithms</span><br>
+      <span class="li">Badminton & Music & Travel</span>
   - title: Contact
     details: |
-      <ul>
-        <li>GMail: huangjiangye08@gmail.com</li>
-        <li><a href="https://github.com/gaga0714" target="_blank" rel="noopener">Github · gaga0714</a></li>
-        <li><a href="https://blog.csdn.net/gaga0714" target="_blank" rel="noopener">CSDN · gaga0714</a></li>
-      </ul>
+      <span class="li">GMail: huangjiangye08@gmail.com</span><br>
+      <span class="li"><a href="https://github.com/gaga0714" target="_blank" rel="noopener">Github · gaga0714</a></span><br>
+      <span class="li"><a href="https://blog.csdn.net/gaga0714" target="_blank" rel="noopener">CSDN · gaga0714</a></span>
   - title: Built with
     details: |
-      <ul>
-        <li>HTML / CSS / JavaScript</li>
-        <li>Vue 3</li>
-        <li>HTTP & 浏览器</li>
-        <li>一些实用小工具</li>
-      </ul>
+      <span class="li">HTML / CSS / JavaScript</span><br>
+      <span class="li">Vue 3</span><br>
+      <span class="li">HTTP & 浏览器</span><br>
+      <span class="li">一些实用小工具</span>
 ---

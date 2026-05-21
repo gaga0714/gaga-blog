@@ -308,13 +308,8 @@
   letter-spacing: 0.2px;
 }
 
-.VPFeature .details ul {
-  padding-left: 1.1em;
+.VPFeature .details {
   margin: 0;
-}
-.VPFeature .details li {
-  margin: 4px 0;
-  line-height: 1.65;
 }
 
 /* ==========================================================
@@ -647,10 +642,12 @@ body {
 }
 
 /* Feature 列表项:衬线 italic 字体(诗意风),控制在小标题之下,紧凑不溢出 */
-.VPFeature .details li {
-  padding: 2px 8px 2px 4px;
+.VPFeature .details .li {
+  display: inline-block;
+  padding: 2px 8px 2px 12px;
   margin: 3px 0;
   border-radius: 6px;
+  position: relative;
   font-family: 'Georgia', 'Iowan Old Style', 'STKaiti', 'KaiTi',
     'AR PL UKai CN', serif;
   font-style: italic;
@@ -663,13 +660,21 @@ body {
     color 0.3s ease, background-color 0.3s ease,
     letter-spacing 0.3s ease;
 }
-.VPFeature .details li:hover {
+.VPFeature .details .li::before {
+  content: '•';
+  position: absolute;
+  left: 2px;
+  top: 0;
+  color: var(--vp-c-brand-1);
+  font-weight: 700;
+}
+.VPFeature .details .li:hover {
   transform: translateX(4px);
   color: var(--vp-c-brand-1);
   background-color: var(--vp-c-brand-soft);
   letter-spacing: 0.4px;
 }
-.VPFeature .details li:hover a {
+.VPFeature .details .li:hover a {
   color: var(--vp-c-brand-1);
 }
 
