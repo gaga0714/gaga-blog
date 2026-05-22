@@ -83,7 +83,7 @@ function absTime(iso) {
 }
 
 function articleUrl(slug) {
-  return withBase(`/diary/${slug}`)
+  return withBase(`/diary/${slug}.html`)
 }
 
 async function loadList() {
@@ -154,7 +154,7 @@ watch(() => totalPages.value, t => {
     <div v-else-if="!loading && total === 0" class="empty">还没有随记,点右上角写一篇吧。</div>
 
     <ul v-else class="list">
-      <li v-for="a in visible" :key="a.slug" class="card" @click="$router.go(articleUrl(a.slug))">
+      <li v-for="a in visible" :key="a.slug" class="card" @click="router.go(articleUrl(a.slug))">
         <div class="cover">
           <img v-if="a.cover" :src="withBase(a.cover)" :alt="a.title" loading="lazy" />
           <div v-else class="cover-placeholder">📝</div>
