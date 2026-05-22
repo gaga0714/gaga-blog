@@ -4,6 +4,7 @@ import DiaryPageFooter from './components/DiaryPageFooter.vue'
 import BackToTop from './components/BackToTop.vue'
 import MouseEffect from './components/MouseEffect.vue'
 import ScrollFx from './components/ScrollFx.vue'
+import ResizableSidebar from './components/ResizableSidebar.vue'
 
 const Layout = DefaultTheme.Layout
 
@@ -44,6 +45,7 @@ if (typeof window !== 'undefined') {
       <BackToTop />
       <MouseEffect />
       <ScrollFx />
+      <ResizableSidebar />
     </template>
   </Layout>
 </template>
