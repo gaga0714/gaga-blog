@@ -18,7 +18,8 @@ const slug = computed(() => {
 
 function goEdit() {
   if (!slug.value) return
-  router.go(withBase(`/diary/edit?slug=${encodeURIComponent(slug.value)}`))
+  if (typeof window === 'undefined') return
+  window.location.href = withBase(`/diary/edit.html?slug=${encodeURIComponent(slug.value)}`)
 }
 
 async function doDelete() {

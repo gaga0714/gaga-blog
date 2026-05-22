@@ -6,7 +6,7 @@ import { useDiaryAuth } from '../composables/diaryAuth.js'
 const PAGE_SIZE = 10
 
 const router = useRouter()
-const { isLoggedIn, logout, authedFetch } = useDiaryAuth()
+const { isLoggedIn, logout } = useDiaryAuth()
 
 const articles = ref([])
 const loading = ref(true)
@@ -86,6 +86,23 @@ function articleUrl(slug) {
   return withBase(`/diary/${slug}.html`)
 }
 
+function cardBg(a) {
+  if (a.cover) return `url(${withBase(a.cover)})`
+  const palettes = [
+    'linear-gradient(135deg, #fcd5ce 0%, #f8edeb 100%)',
+    'linear-gradient(135deg, #cddafd 0%, #e0c3fc 100%)',
+    'linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%)',
+    'linear-gradient(135deg, #fff1d6 0%, #ffd6a5 100%)',
+    'linear-gradient(135deg, #c1dff0 0%, #a2d2ff 100%)',
+    'linear-gradient(135deg, #f4cccc 0%, #ead1dc 100%)',
+    'linear-gradient(135deg, #d9e8d8 0%, #c8e6c9 100%)',
+    'linear-gradient(135deg, #fde2e4 0%, #fad2e1 100%)'
+  ]
+  let h = 0
+  for (let i = 0; i < a.slug.length; i++) h = (h * 31 + a.slug.charCodeAt(i)) >>> 0
+  return palettes[h % palettes.length]
+}
+
 async function loadList() {
   loading.value = true
   error.value = ''
@@ -102,27 +119,7 @@ async function loadList() {
 }
 
 function goNew() {
-  router.go(withBase('/diary/edit'))
-}
-
-function goEdit(slug, ev) {
-  if (ev) ev.stopPropagation()
-  router.go(withBase(`/diary/edit?slug=${encodeURIComponent(slug)}`))
-}
-
-async function doDelete(slug, ev) {
-  if (ev) ev.stopPropagation()
-  if (!confirm(`确认删除「${articles.value.find(a => a.slug === slug)?.title || slug}」?\n删除后会 git push,等 CI 重新部署。`)) return
-  try {
-    const r = await authedFetch(`/api/articles/${encodeURIComponent(slug)}`, { method: 'DELETE' })
-    if (!r.ok) {
-      const j = await r.json().catch(() => ({}))
-      throw new Error(j.error || `delete failed (${r.status})`)
-    }
-    alert('已提交删除,等 CI 重新部署后列表才会刷新。')
-  } catch (e) {
-    alert(`删除失败: ${e.message}`)
-  }
+  router.go(withBase('/diary/edit.html'))
 }
 
 onMounted(() => {
@@ -154,12 +151,16 @@ watch(() => totalPages.value, t => {
     <div v-else-if="!loading && total === 0" class="empty">还没有随记,点右上角写一篇吧。</div>
 
     <ul v-else class="list">
-      <li v-for="a in visible" :key="a.slug" class="card" @click="router.go(articleUrl(a.slug))">
-        <div class="cover">
-          <img v-if="a.cover" :src="withBase(a.cover)" :alt="a.title" loading="lazy" />
-          <div v-else class="cover-placeholder">📝</div>
-        </div>
-        <div class="body">
+      <li
+        v-for="a in visible"
+        :key="a.slug"
+        class="card"
+        :class="{ 'has-image': !!a.cover }"
+        :style="{ backgroundImage: cardBg(a) }"
+        @click="router.go(articleUrl(a.slug))"
+      >
+        <div class="card-overlay"></div>
+        <div class="card-inner">
           <h3 class="card-title">{{ a.title }}</h3>
           <div class="meta">
             <span :title="absTime(a.updated)">{{ relTime(a.updated) }}</span>
@@ -167,10 +168,6 @@ watch(() => totalPages.value, t => {
             <span class="abs">{{ absTime(a.updated) }}</span>
           </div>
           <p class="excerpt">{{ a.excerpt }}</p>
-        </div>
-        <div v-if="isLoggedIn()" class="card-actions" @click.stop>
-          <button class="icon-btn" title="编辑" @click="goEdit(a.slug, $event)">编辑</button>
-          <button class="icon-btn danger" title="删除" @click="doDelete(a.slug, $event)">删除</button>
         </div>
       </li>
     </ul>
@@ -263,56 +260,61 @@ watch(() => totalPages.value, t => {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 .card {
-  display: grid;
-  grid-template-columns: 120px 1fr auto;
-  gap: 16px;
-  padding: 14px;
+  position: relative;
+  min-height: 130px;
+  padding: 20px 24px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
-  background: var(--vp-c-bg-soft);
+  border-radius: 14px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  isolation: isolate;
 }
 .card:hover {
   border-color: var(--vp-c-brand-1);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-.cover {
-  width: 120px;
-  height: 120px;
-  border-radius: 8px;
-  overflow: hidden;
-  background: linear-gradient(135deg, rgba(196, 90, 90, 0.18), rgba(232, 168, 124, 0.18));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    90deg,
+    var(--vp-c-bg) 0%,
+    color-mix(in srgb, var(--vp-c-bg) 88%, transparent) 55%,
+    color-mix(in srgb, var(--vp-c-bg) 55%, transparent) 100%
+  );
+  pointer-events: none;
 }
-.cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.cover-placeholder {
-  font-size: 36px;
-  opacity: 0.5;
+.card.has-image .card-overlay {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--vp-c-bg) 92%, transparent) 0%,
+    color-mix(in srgb, var(--vp-c-bg) 75%, transparent) 55%,
+    color-mix(in srgb, var(--vp-c-bg) 40%, transparent) 100%
+  );
 }
 
-.body {
-  min-width: 0;
+.card-inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 6px;
+  max-width: 78%;
 }
+
 .card-title {
   margin: 0;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 600;
   line-height: 1.4;
   color: var(--vp-c-text-1);
@@ -334,36 +336,11 @@ watch(() => totalPages.value, t => {
   margin: 0;
   font-size: 13px;
   color: var(--vp-c-text-2);
-  line-height: 1.55;
+  line-height: 1.6;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-}
-
-.card-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  align-self: center;
-}
-.icon-btn {
-  font-size: 12px;
-  padding: 4px 10px;
-  border: 1px solid var(--vp-c-divider);
-  background: transparent;
-  border-radius: 4px;
-  cursor: pointer;
-  color: var(--vp-c-text-2);
-  transition: all 0.15s ease;
-}
-.icon-btn:hover {
-  border-color: var(--vp-c-brand-1);
-  color: var(--vp-c-brand-1);
-}
-.icon-btn.danger:hover {
-  border-color: #c45a5a;
-  color: #c45a5a;
 }
 
 .pager {
@@ -404,11 +381,8 @@ watch(() => totalPages.value, t => {
 }
 
 @media (max-width: 600px) {
-  .card {
-    grid-template-columns: 88px 1fr;
-  }
-  .cover { width: 88px; height: 88px; }
-  .card-actions { grid-column: 1 / -1; flex-direction: row; }
+  .card { padding: 16px 18px; min-height: 110px; }
+  .card-inner { max-width: 100%; }
   .actions { flex-wrap: wrap; }
 }
 </style>

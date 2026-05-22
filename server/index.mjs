@@ -34,7 +34,12 @@ function serialize(fn) {
 }
 
 function safeSlug(slug) {
-  return /^[a-z0-9][a-z0-9-]{0,80}$/i.test(slug)
+  if (typeof slug !== 'string') return false
+  if (slug.length === 0 || slug.length > 100) return false
+  if (slug.startsWith('.') || slug.startsWith('-')) return false
+  if (slug.includes('/') || slug.includes('\\') || slug.includes('..')) return false
+  if (/[\x00-\x1f\s]/.test(slug)) return false
+  return true
 }
 
 function articlePath(slug) {
