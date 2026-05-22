@@ -1,5 +1,7 @@
 <script setup>
 import DefaultTheme from 'vitepress/theme'
+import { useData } from 'vitepress'
+import { watchEffect } from 'vue'
 import DiaryPageFooter from './components/DiaryPageFooter.vue'
 import DiaryActions from './components/DiaryActions.vue'
 import BackToTop from './components/BackToTop.vue'
@@ -9,6 +11,16 @@ import ResizableSidebar from './components/ResizableSidebar.vue'
 import SidebarToggle from './components/SidebarToggle.vue'
 
 const Layout = DefaultTheme.Layout
+const { frontmatter } = useData()
+
+// 非首页给 body 加一个标记类,用于挂载背景图
+if (typeof document !== 'undefined') {
+  watchEffect(() => {
+    const isHome = frontmatter.value?.layout === 'home'
+    document.body.classList.toggle('page-non-home', !isHome)
+    document.body.classList.toggle('page-home', isHome)
+  })
+}
 
 // 检查认证状态并拦截访问
 if (typeof window !== 'undefined') {

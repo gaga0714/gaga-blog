@@ -412,6 +412,27 @@ body {
   background-attachment: fixed;
 }
 
+/* 非首页:底层加一张背景图,叠一层中等遮罩,再叠原本的暖色光斑
+   多背景顺序:第一层在最上,最后一层在最下 */
+body.page-non-home {
+  background:
+    radial-gradient(at 18% 22%, rgba(255, 211, 137, 0.22), transparent 55%),
+    radial-gradient(at 82% 28%, rgba(232, 168, 124, 0.20), transparent 55%),
+    radial-gradient(at 50% 95%, rgba(196, 90, 90, 0.12), transparent 60%),
+    linear-gradient(rgba(255, 247, 238, 0.86), rgba(255, 247, 238, 0.86)),
+    url('/bg-page.png') center center / cover no-repeat;
+  background-attachment: fixed;
+}
+.dark body.page-non-home {
+  background:
+    radial-gradient(at 18% 22%, rgba(232, 168, 124, 0.12), transparent 55%),
+    radial-gradient(at 82% 28%, rgba(196, 90, 90, 0.10), transparent 55%),
+    radial-gradient(at 50% 95%, rgba(255, 211, 137, 0.06), transparent 60%),
+    linear-gradient(rgba(20, 18, 18, 0.78), rgba(20, 18, 18, 0.78)),
+    url('/bg-page.png') center center / cover no-repeat;
+  background-attachment: fixed;
+}
+
 /* ==========================================================
    磨砂玻璃:导航、侧边栏、卡片
    ========================================================== */
