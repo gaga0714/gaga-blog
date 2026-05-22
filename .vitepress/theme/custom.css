@@ -716,3 +716,27 @@ body {
   transform: translateX(2px);
 }
 
+/* ==========================================================
+   侧边栏收起/展开
+   配合 SidebarToggle.vue,html.sidebar-collapsed 时整体侧栏滑出
+   ========================================================== */
+@media (min-width: 960px) {
+  .VPSidebar {
+    transition: transform 0.25s ease;
+  }
+  .VPContent.has-sidebar {
+    transition: padding-left 0.25s ease;
+  }
+  html.sidebar-collapsed .VPSidebar {
+    transform: translateX(-100%);
+  }
+  html.sidebar-collapsed .VPContent.has-sidebar {
+    padding-left: 0 !important;
+  }
+  /* 收起时隐藏拖拽手柄,避免和切换按钮位置冲突 */
+  html.sidebar-collapsed .sidebar-resize-handle {
+    display: none !important;
+  }
+}
+
+

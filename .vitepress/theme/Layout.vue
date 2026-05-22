@@ -5,6 +5,7 @@ import BackToTop from './components/BackToTop.vue'
 import MouseEffect from './components/MouseEffect.vue'
 import ScrollFx from './components/ScrollFx.vue'
 import ResizableSidebar from './components/ResizableSidebar.vue'
+import SidebarToggle from './components/SidebarToggle.vue'
 
 const Layout = DefaultTheme.Layout
 
@@ -46,6 +47,7 @@ if (typeof window !== 'undefined') {
       <MouseEffect />
       <ScrollFx />
       <ResizableSidebar />
+      <SidebarToggle />
     </template>
   </Layout>
 </template>
