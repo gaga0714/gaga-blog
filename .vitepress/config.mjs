@@ -87,7 +87,7 @@ export default defineConfig({
     server: {
       proxy: {
         '/api': {
-          target: process.env.API_PROXY_TARGET || 'http://121.43.140.40',
+          target: process.env.API_PROXY_TARGET || 'http://gaga0714.top',
           changeOrigin: true
         }
       }
