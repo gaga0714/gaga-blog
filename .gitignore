@@ -1,2 +1,6 @@
 node_modules/
 .vitepress/dist/
+.vitepress/cache/
+server/.env
+server/node_modules/
+public/diary-articles.json

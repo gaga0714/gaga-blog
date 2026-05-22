@@ -1,3 +1,8 @@
+---
+title: FastGPT Docker Compose 部署教程
+created: '2026-03-16T17:56:05+08:00'
+updated: '2026-03-17T10:37:35+08:00'
+---
 # FastGPT Docker Compose 部署教程
 
 基于 FastGPT 官方 [`Docker-compose 部署`][fastgpt-docker-doc] 和 [`通过 AI Proxy 接入模型`][fastgpt-ai-proxy-doc] 两篇文档整理，适合在 macOS 上从零搭建一套本地可用的 FastGPT 环境。

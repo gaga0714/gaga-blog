@@ -1,3 +1,8 @@
+---
+title: cursor背景设置
+created: '2026-02-12T12:28:29+08:00'
+updated: '2026-02-12T12:28:29+08:00'
+---
 # cursor背景设置
 
 插件background

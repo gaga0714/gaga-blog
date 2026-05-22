@@ -1,3 +1,8 @@
+---
+title: vite插件实践
+created: '2025-09-07T16:49:54+08:00'
+updated: '2025-09-07T16:49:54+08:00'
+---
 https://www.bootschool.net/ascii-art/search
 图案生成网站⬆️
 

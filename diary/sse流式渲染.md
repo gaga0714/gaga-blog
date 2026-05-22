@@ -1,3 +1,8 @@
+---
+title: sse流式渲染
+created: '2025-09-05T15:35:01+08:00'
+updated: '2025-11-11T14:21:31+08:00'
+---
 sse:
 
 https://www.ruanyifeng.com/blog/2017/05/server-sent_events.html
