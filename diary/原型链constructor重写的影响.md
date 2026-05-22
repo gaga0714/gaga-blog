@@ -1,3 +1,8 @@
+---
+title: 原型链 constructor 重写的影响
+created: '2025-07-21T10:03:39+08:00'
+updated: '2025-07-21T10:03:39+08:00'
+---
 # 原型链 constructor 重写的影响
 
 ```js

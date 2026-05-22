@@ -1,3 +1,8 @@
+---
+title: git常用命令
+created: '2025-08-15T15:42:57+08:00'
+updated: '2026-01-20T16:13:26+08:00'
+---
 # git常用命令
 - git status 查看工作区和暂存区的状态，
 - git push origin(远端仓库名，默认为origin,git自动起的别名) 本地分支名:远端分支名

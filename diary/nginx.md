@@ -1,3 +1,8 @@
+---
+title: nginx
+created: '2025-04-20T17:05:13+08:00'
+updated: '2025-10-12T14:44:04+08:00'
+---
 https://github.com/febobo/nginx-tutorial
 
 
