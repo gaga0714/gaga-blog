@@ -67,7 +67,6 @@ export default defineConfig({
       ] },
       { text: '手撕', link: '/inter_code/'},
       { text: '算法', link: '/algorithm/' },
-      { text: '面经', link: '/frontend_interview' },
       { text: '胡言乱语', link: '/diary/' },
       { text: '人生是旷野', link: '/todo/' },
     ],
