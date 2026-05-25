@@ -12,6 +12,8 @@ const articles = ref([])
 const loading = ref(true)
 const error = ref('')
 const page = ref(1)
+const showJumpDialog = ref(false)
+const jumpInput = ref('')
 
 function readPageFromUrl() {
   if (typeof window === 'undefined') return 1
@@ -56,6 +58,19 @@ function goPage(n) {
   page.value = n
   writePageToUrl(n)
   if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function openJumpDialog() {
+  jumpInput.value = ''
+  showJumpDialog.value = true
+}
+
+function confirmJump() {
+  const n = Number(jumpInput.value)
+  if (Number.isFinite(n) && n >= 1 && n <= totalPages.value) {
+    goPage(Math.floor(n))
+  }
+  showJumpDialog.value = false
 }
 
 function relTime(iso) {
@@ -124,7 +139,26 @@ function goNew() {
 
 onMounted(() => {
   page.value = readPageFromUrl()
-  loadList()
+  loadList().then(() => {
+    if (typeof window === 'undefined') return
+    const scrollTo = sessionStorage.getItem('diary_scroll_to')
+    if (!scrollTo) return
+    sessionStorage.removeItem('diary_scroll_to')
+    // 找到文章所在页码
+    const idx = articles.value.findIndex(a => a.slug === scrollTo)
+    if (idx === -1) return
+    const targetPage = Math.floor(idx / PAGE_SIZE) + 1
+    if (targetPage !== page.value) goPage(targetPage)
+    // 等待页面渲染后滚动
+    setTimeout(() => {
+      const card = document.querySelector(`[data-slug="${CSS.escape(scrollTo)}"]`)
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        card.classList.add('highlight')
+        setTimeout(() => card.classList.remove('highlight'), 2000)
+      }
+    }, 300)
+  })
 })
 
 watch(() => totalPages.value, t => {
@@ -154,6 +188,7 @@ watch(() => totalPages.value, t => {
       <li
         v-for="a in visible"
         :key="a.slug"
+        :data-slug="a.slug"
         class="card"
         :class="{ 'has-image': !!a.cover }"
         :style="{ backgroundImage: cardBg(a) }"
@@ -163,11 +198,11 @@ watch(() => totalPages.value, t => {
         <div class="card-inner">
           <h3 class="card-title">{{ a.title }}</h3>
           <div class="meta">
-            <span :title="absTime(a.updated)">{{ relTime(a.updated) }}</span>
+            <span :title="absTime(a.created)">{{ relTime(a.created) }}</span>
             <span class="dot">·</span>
-            <span class="abs">{{ absTime(a.updated) }}</span>
+            <span class="abs">{{ absTime(a.created) }}</span>
           </div>
-          <p class="excerpt">{{ a.excerpt }}</p>
+          <p class="excerpt">{{ a.encrypted ? '文章已加密' : a.excerpt }}</p>
         </div>
       </li>
     </ul>
@@ -175,7 +210,7 @@ watch(() => totalPages.value, t => {
     <nav v-if="totalPages > 1" class="pager">
       <button class="page-btn" :disabled="page === 1" @click="goPage(page - 1)">‹</button>
       <template v-for="(p, i) in pagesToShow" :key="i">
-        <span v-if="p === '…'" class="page-ellipsis">…</span>
+        <span v-if="p === '…'" class="page-ellipsis clickable" @click="openJumpDialog()">…</span>
         <button
           v-else
           class="page-btn"
@@ -185,6 +220,26 @@ watch(() => totalPages.value, t => {
       </template>
       <button class="page-btn" :disabled="page === totalPages" @click="goPage(page + 1)">›</button>
     </nav>
+
+    <!-- 页码跳转弹窗 -->
+    <div v-if="showJumpDialog" class="dialog-overlay" @click="showJumpDialog = false">
+      <div class="dialog-box" @click.stop>
+        <h3 class="dialog-title">跳转到页码</h3>
+        <input
+          v-model="jumpInput"
+          type="number"
+          :min="1"
+          :max="totalPages"
+          class="dialog-input"
+          placeholder="输入页码"
+          @keyup.enter="confirmJump"
+        />
+        <div class="dialog-actions">
+          <button class="dialog-btn dialog-btn-cancel" @click="showJumpDialog = false">取消</button>
+          <button class="dialog-btn dialog-btn-confirm" @click="confirmJump">确认</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -379,10 +434,98 @@ watch(() => totalPages.value, t => {
   color: var(--vp-c-text-3);
   padding: 0 4px;
 }
+.page-ellipsis.clickable {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 0 8px;
+  line-height: 32px;
+  transition: all 0.15s ease;
+}
+.page-ellipsis.clickable:hover {
+  color: var(--vp-c-brand-1);
+  background: color-mix(in srgb, var(--vp-c-brand-1) 10%, transparent);
+}
+
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dialog-box {
+  background: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  padding: 24px;
+  min-width: 260px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+}
+.dialog-title {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+}
+.dialog-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+.dialog-input:focus {
+  border-color: var(--vp-c-brand-1);
+}
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+.dialog-btn {
+  padding: 6px 16px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: 1px solid var(--vp-c-divider);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.dialog-btn-cancel {
+  background: transparent;
+  color: var(--vp-c-text-2);
+}
+.dialog-btn-cancel:hover {
+  border-color: var(--vp-c-text-3);
+}
+.dialog-btn-confirm {
+  background: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+  color: #fff;
+}
+.dialog-btn-confirm:hover {
+  background: var(--vp-c-brand-dark);
+  border-color: var(--vp-c-brand-dark);
+}
 
 @media (max-width: 600px) {
   .card { padding: 16px 18px; min-height: 110px; }
   .card-inner { max-width: 100%; }
   .actions { flex-wrap: wrap; }
+}
+
+.card.highlight {
+  animation: card-flash 2s ease;
+}
+@keyframes card-flash {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  20%, 60% { box-shadow: 0 0 0 3px var(--vp-c-brand-1); }
 }
 </style>

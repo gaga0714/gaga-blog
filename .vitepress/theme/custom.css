@@ -801,26 +801,32 @@ body.page-non-home {
 
 /* ==========================================================
    正文与右侧大纲宽度调整
-   VitePress 的 VPDoc.vue 用 scoped 硬编码宽度,需要用 :deep 或全局覆盖
+   VitePress VPDoc.vue 用 scoped 硬编码宽度,全局 !important 覆盖
    ========================================================== */
 
-/* 有 aside 时:内容区加宽,aside 缩窄 */
+/* 有 aside 时:内容区加宽,aside 缩窄右推 */
 @media (min-width: 1280px) {
-  .VPDoc.has-aside .content-container {
+  .VPDoc.has-aside .content .content-container {
     max-width: 860px !important;
   }
-  .VPDoc .aside {
+  .VPDoc .container .aside {
     max-width: 180px !important;
-    padding-left: 48px !important;
+    padding-left: 64px !important;
   }
 }
 
-/* 无 sidebar 页面（如 diary 文章）:内容区加宽 */
+/* 无 sidebar 页面（如 diary 文章）:内容区和容器加宽 */
 @media (min-width: 960px) {
-  .VPDoc:not(.has-sidebar) .content {
+  .VPDoc:not(.has-sidebar) .container .content {
     max-width: 900px !important;
   }
   .VPDoc:not(.has-sidebar) .container {
     max-width: 1200px !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  .VPDoc:not(.has-sidebar) .container .content {
+    max-width: 900px !important;
   }
 }

@@ -30,8 +30,9 @@ function readDiaryMeta() {
     try { raw = fs.readFileSync(abs, 'utf8') } catch { continue }
     const { data, content } = matter(raw)
     const slug = name.replace(/\.md$/, '')
+    const encrypted = content.includes('<PasswordProtect')
     const text = content.replace(/^#.*$/gm, '').replace(/!\[[^\]]*\]\([^)]+\)/g, '').replace(/\s+/g, ' ').trim()
-    const excerpt = text.slice(0, 120)
+    const excerpt = encrypted ? '' : text.slice(0, 120)
     const coverMatch = content.match(/!\[[^\]]*\]\(([^)]+)\)/)
     let created = data.created || null
     let updated = data.updated || data.created || null
@@ -48,12 +49,13 @@ function readDiaryMeta() {
       created,
       updated,
       excerpt,
-      cover: coverMatch ? coverMatch[1] : ''
+      cover: coverMatch ? coverMatch[1] : '',
+      encrypted
     })
   }
   out.sort((a, b) => {
-    const ta = a.updated ? new Date(a.updated).getTime() : 0
-    const tb = b.updated ? new Date(b.updated).getTime() : 0
+    const ta = a.created ? new Date(a.created).getTime() : 0
+    const tb = b.created ? new Date(b.created).getTime() : 0
     return tb - ta
   })
   return out
