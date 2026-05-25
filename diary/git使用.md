@@ -41,6 +41,26 @@ git push origin --delete <branch-name>
 
 删除远端分支后，其他协作者需要运行 `git fetch --prune` 来清理本地的远端分支引用
 
+## rebase
+
+1. 在自己的分支开发时，main分支已经有了新提交,用rebase将自己的提交接到最新的main后面，避免多余的merge commit
+
+```bash
+git checkout 自己分支
+git rebase main
+```
+
+多余的merge commit->
+![alt text](../assets/多余的commit.png)
+
+2. 自己的提交历史太零碎了，想合并成一个有意义的提交再推送
+
+```bash
+git rebase -i HEAD~3 # 整理最近3个提交
+```
+
+会弹出编辑器，显示最近三个提交，可以 squash（合并）、reword（改提交信息）、drop（删除）等。
+
 ## git常用命令
 
 - git status 查看工作区和暂存区的状态，
