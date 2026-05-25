@@ -33,11 +33,20 @@ function readDiaryMeta() {
     const text = content.replace(/^#.*$/gm, '').replace(/!\[[^\]]*\]\([^)]+\)/g, '').replace(/\s+/g, ' ').trim()
     const excerpt = text.slice(0, 120)
     const coverMatch = content.match(/!\[[^\]]*\]\(([^)]+)\)/)
+    let created = data.created || null
+    let updated = data.updated || data.created || null
+    if (!created || !updated) {
+      try {
+        const stat = fs.statSync(abs)
+        if (!created) created = stat.birthtime.toISOString()
+        if (!updated) updated = stat.mtime.toISOString()
+      } catch {}
+    }
     out.push({
       slug,
       title: data.title || slug,
-      created: data.created || null,
-      updated: data.updated || data.created || null,
+      created,
+      updated,
       excerpt,
       cover: coverMatch ? coverMatch[1] : ''
     })
