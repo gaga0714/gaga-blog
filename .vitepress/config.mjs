@@ -19,10 +19,14 @@ function isDiarySkipped(name) {
   return name === 'index.md' || name === 'edit.md'
 }
 
-function readDiaryMeta() {
+function readDiaryMeta(copyCoverImages = false) {
   const out = []
   let files
   try { files = fs.readdirSync(DIARY_DIR) } catch { return out }
+  const coversDir = path.join(ROOT, 'public', 'covers')
+  if (copyCoverImages) {
+    fs.mkdirSync(coversDir, { recursive: true })
+  }
   for (const name of files) {
     if (!name.endsWith('.md') || isDiarySkipped(name)) continue
     const abs = path.join(DIARY_DIR, name)
@@ -34,6 +38,36 @@ function readDiaryMeta() {
     const text = content.replace(/^#.*$/gm, '').replace(/!\[[^\]]*\]\([^)]+\)/g, '').replace(/\s+/g, ' ').trim()
     const excerpt = encrypted ? '' : text.slice(0, 120)
     const coverMatch = content.match(/!\[[^\]]*\]\(([^)]+)\)/)
+    let cover = coverMatch ? coverMatch[1] : ''
+
+    if (cover && copyCoverImages) {
+      let sourcePath = ''
+      if (cover.startsWith('../assets/')) {
+        sourcePath = path.join(ROOT, 'assets', cover.replace('../assets/', ''))
+      } else if (cover.startsWith('./assets/')) {
+        sourcePath = path.join(ROOT, 'assets', cover.replace('./assets/', ''))
+      } else if (cover.startsWith('/assets/')) {
+        sourcePath = path.join(ROOT, 'assets', cover.replace('/assets/', ''))
+      }
+
+      if (sourcePath && fs.existsSync(sourcePath)) {
+        const filename = path.basename(sourcePath)
+        const destPath = path.join(coversDir, filename)
+        try {
+          fs.copyFileSync(sourcePath, destPath)
+          cover = `/covers/${filename}`
+        } catch (e) {
+          console.warn(`[diary-list] Failed to copy cover: ${sourcePath}`)
+          cover = ''
+        }
+      } else {
+        cover = ''
+      }
+    } else if (cover) {
+      if (cover.startsWith('../assets/')) cover = cover.replace('../assets/', '/assets/')
+      else if (cover.startsWith('./assets/')) cover = cover.replace('./assets/', '/assets/')
+    }
+
     let created = data.created || null
     let updated = data.updated || data.created || null
     if (!created || !updated) {
@@ -49,7 +83,7 @@ function readDiaryMeta() {
       created,
       updated,
       excerpt,
-      cover: coverMatch ? coverMatch[1] : '',
+      cover,
       encrypted
     })
   }
@@ -65,14 +99,14 @@ function diaryListPlugin() {
   return {
     name: 'diary-list',
     buildStart() {
-      const data = readDiaryMeta()
+      const data = readDiaryMeta(true)
       const publicDir = path.join(ROOT, 'public')
       fs.mkdirSync(publicDir, { recursive: true })
       fs.writeFileSync(path.join(publicDir, 'diary-articles.json'), JSON.stringify(data), 'utf8')
     },
     configureServer(server) {
       const write = () => {
-        const data = readDiaryMeta()
+        const data = readDiaryMeta(true)
         const publicDir = path.join(ROOT, 'public')
         fs.mkdirSync(publicDir, { recursive: true })
         fs.writeFileSync(path.join(publicDir, 'diary-articles.json'), JSON.stringify(data), 'utf8')

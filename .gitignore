@@ -4,3 +4,4 @@ node_modules/
 server/.env
 server/node_modules/
 public/diary-articles.json
+public/covers/
