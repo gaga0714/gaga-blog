@@ -18,9 +18,28 @@ git push origin 0514
 
 ## 合并冲突
 
-```bash
 ![alt text](../assets/git冲突解决.png)
+
+## 删除本地及远端分支
+
+删除本地分支：
+
+```bash
+# 删除已合并的分支
+git branch -d <branch-name>
+
+# 强制删除（包括未合并的分支）
+git branch -D <branch-name>
 ```
+
+删除远端分支：
+
+```bash
+# 推荐方式
+git push origin --delete <branch-name>
+```
+
+删除远端分支后，其他协作者需要运行 `git fetch --prune` 来清理本地的远端分支引用
 
 ## git常用命令
 
