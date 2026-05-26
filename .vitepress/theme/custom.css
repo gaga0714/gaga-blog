@@ -455,18 +455,28 @@ body.page-non-home {
    磨砂玻璃:导航、侧边栏、卡片
    ========================================================== */
 
-/* 顶部导航:暖色调半透明,跟页面背景的桃/琥珀光斑融为一体 */
-.VPNav,
-.VPNavBar:not(.has-sidebar) {
+/* 顶部导航:暖色调半透明,跟页面背景的桃/琥珀光斑融为一体
+   注意:不能给 .VPNav 加 backdrop-filter/background,否则会创建新的
+   containing block,导致移动端 VPNavScreen(position:fixed) 失效 */
+.VPNavBar {
   background-color: rgba(255, 247, 238, 0.55) !important;
   -webkit-backdrop-filter: saturate(180%) blur(18px);
   backdrop-filter: saturate(180%) blur(18px);
   border-bottom: 1px solid rgba(232, 168, 124, 0.22);
 }
-.dark .VPNav,
-.dark .VPNavBar:not(.has-sidebar) {
+.dark .VPNavBar {
   background-color: rgba(28, 22, 22, 0.55) !important;
   border-bottom: 1px solid rgba(232, 168, 124, 0.12);
+}
+
+/* 移动端导航屏幕(汉堡菜单打开后的全屏面板) */
+.VPNavScreen {
+  background-color: rgba(255, 247, 238, 0.95) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+.dark .VPNavScreen {
+  background-color: rgba(28, 22, 22, 0.95) !important;
 }
 
 /* 侧边栏 */
