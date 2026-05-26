@@ -3,7 +3,6 @@ import DefaultTheme from 'vitepress/theme'
 import { useData } from 'vitepress'
 import { watchEffect } from 'vue'
 import DiaryPageFooter from './components/DiaryPageFooter.vue'
-import DiaryActions from './components/DiaryActions.vue'
 import BackToTop from './components/BackToTop.vue'
 import MouseEffect from './components/MouseEffect.vue'
 import ScrollFx from './components/ScrollFx.vue'
@@ -54,7 +53,6 @@ if (typeof window !== 'undefined') {
   <Layout>
     <template #doc-before>
       <DiaryPageFooter />
-      <DiaryActions />
     </template>
     <template #layout-bottom>
       <BackToTop />

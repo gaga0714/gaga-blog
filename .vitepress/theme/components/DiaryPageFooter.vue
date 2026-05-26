@@ -7,7 +7,7 @@ const router = useRouter()
 
 const isDiaryArticle = computed(() => {
   const r = page.value.relativePath || ''
-  return r.startsWith('diary/') && r !== 'diary/index.md' && r !== 'diary/edit.md'
+  return r.startsWith('diary/') && r !== 'diary/index.md'
 })
 
 function goBack() {

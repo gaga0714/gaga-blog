@@ -48,29 +48,3 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         script: sudo systemctl restart nginx
-
-    - name: 🔍 检测后端是否变更
-      id: backend
-      uses: dorny/paths-filter@v3
-      with:
-        filters: |
-          server:
-            - 'server/**'
-
-    - name: 🔄 同步并重启后端
-      if: steps.backend.outputs.server == 'true'
-      uses: appleboy/ssh-action@v0.1.7
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-          cd /srv/blog-repo
-          git fetch --quiet origin main
-          git reset --hard origin/main
-          cd server
-          npm ci --omit=dev
-          pm2 restart gaga-blog-server --update-env
-          pm2 save

@@ -1,12 +1,10 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter, withBase } from 'vitepress'
-import { useDiaryAuth } from '../composables/diaryAuth.js'
 
 const PAGE_SIZE = 10
 
 const router = useRouter()
-const { isLoggedIn, logout } = useDiaryAuth()
 
 const articles = ref([])
 const loading = ref(true)
@@ -133,10 +131,6 @@ async function loadList() {
   }
 }
 
-function goNew() {
-  router.go(withBase('/diary/edit.html'))
-}
-
 onMounted(() => {
   page.value = readPageFromUrl()
   loadList().then(() => {
@@ -172,11 +166,6 @@ watch(() => totalPages.value, t => {
       <div class="title-block">
         <h1>胡言乱语</h1>
         <p class="sub">{{ loading ? '加载中…' : `共 ${total} 条` }}</p>
-      </div>
-      <div class="actions">
-        <button v-if="isLoggedIn()" class="btn btn-primary" @click="goNew">+ 发布新随记</button>
-        <button v-if="isLoggedIn()" class="btn btn-ghost" @click="logout()">退出登录</button>
-        <button v-else class="btn btn-ghost" @click="goNew">写一篇</button>
       </div>
     </header>
 
