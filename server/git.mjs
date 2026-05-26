@@ -22,6 +22,7 @@ async function commitAndPush(message) {
   if (!git) throw new Error('REPO_PATH not configured')
   await git.addConfig('user.name', USER_NAME, false, 'local')
   await git.addConfig('user.email', USER_EMAIL, false, 'local')
+  await git.add('.')
   const status = await git.status()
   if (status.isClean()) {
     return { skipped: true }
