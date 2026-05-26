@@ -1,7 +1,7 @@
 ---
 title: 对象valueOf方法重写
 created: '2025-06-19T13:42:43+08:00'
-updated: '2025-06-19T13:42:43+08:00'
+updated: '2026-05-22T15:37:04+08:00'
 ---
 ```js
 let obj = {valueOf:function(){return 1}}

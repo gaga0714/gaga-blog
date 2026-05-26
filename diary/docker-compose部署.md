@@ -1,7 +1,7 @@
 ---
 title: FastGPT Docker Compose 部署教程
 created: '2026-03-16T17:56:05+08:00'
-updated: '2026-03-17T10:37:35+08:00'
+updated: '2026-05-22T15:37:04+08:00'
 ---
 # FastGPT Docker Compose 部署教程
 
