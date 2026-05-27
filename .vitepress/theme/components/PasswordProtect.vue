@@ -9,9 +9,14 @@
         @keyup.enter="checkPassword"
         class="password-input"
       />
-      <button @click="checkPassword" class="password-button">
-        确认
-      </button>
+      <div class="button-group">
+        <button @click="goBack" class="cancel-button">
+          取消
+        </button>
+        <button @click="checkPassword" class="password-button">
+          确认
+        </button>
+      </div>
       <p v-if="showError" class="error-message">密码错误，请重试</p>
     </div>
   </div>
@@ -40,6 +45,10 @@ const checkPassword = () => {
     showError.value = true
     password.value = ''
   }
+}
+
+const goBack = () => {
+  window.history.back()
 }
 
 onMounted(() => {
@@ -146,17 +155,52 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.12);
 }
 
-.password-button {
+.button-group {
+  display: flex;
+  gap: 0.75rem;
   width: 100%;
+}
+
+.cancel-button,
+.password-button {
+  flex: 1;
   padding: 0.875rem;
   font-size: 1rem;
   font-weight: 600;
-  background: linear-gradient(120deg, #c45a5a 0%, #e8a87c 100%);
-  color: white;
   border: none;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.25s ease;
+}
+
+.cancel-button {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--vp-c-text-1);
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark .cancel-button {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--vp-c-text-1);
+}
+
+.cancel-button:hover {
+  background: rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.dark .cancel-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.cancel-button:active {
+  transform: translateY(0);
+}
+
+.password-button {
+  background: linear-gradient(120deg, #c45a5a 0%, #e8a87c 100%);
+  color: white;
   box-shadow: 0 4px 12px rgba(196, 90, 90, 0.25);
 }
 

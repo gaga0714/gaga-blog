@@ -8,6 +8,8 @@ import MouseEffect from './components/MouseEffect.vue'
 import ScrollFx from './components/ScrollFx.vue'
 import ResizableSidebar from './components/ResizableSidebar.vue'
 import SidebarToggle from './components/SidebarToggle.vue'
+import HomeScrollNavigator from './components/HomeScrollNavigator.vue'
+import SiteFooter from './components/SiteFooter.vue'
 
 const Layout = DefaultTheme.Layout
 const { frontmatter } = useData()
@@ -30,20 +32,20 @@ if (typeof window !== 'undefined') {
       window.location.href = '/todo/'
     }
   }
-  
+
   const originalPushState = history.pushState
   const originalReplaceState = history.replaceState
-  
+
   history.pushState = function(...args) {
     originalPushState.apply(history, args)
     setTimeout(checkAuth, 0)
   }
-  
+
   history.replaceState = function(...args) {
     originalReplaceState.apply(history, args)
     setTimeout(checkAuth, 0)
   }
-  
+
   // 初始检查
   setTimeout(checkAuth, 0)
 }
@@ -60,6 +62,8 @@ if (typeof window !== 'undefined') {
       <ScrollFx />
       <ResizableSidebar />
       <SidebarToggle />
+      <HomeScrollNavigator />
+      <SiteFooter />
     </template>
   </Layout>
 </template>

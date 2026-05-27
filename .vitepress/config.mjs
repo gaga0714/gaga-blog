@@ -123,7 +123,20 @@ function diaryListPlugin() {
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "gaga's blog",
-  description: "A VitePress Site",
+  description: "gaga的个人技术博客，分享前端、后端、算法等技术文章，记录学习与成长",
+  head: [
+    ['meta', { name: 'keywords', content: '前端开发,Vue,React,JavaScript,算法,后端开发,技术博客,gaga' }],
+    ['meta', { name: 'author', content: 'gaga' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: "gaga's blog" }],
+    ['meta', { property: 'og:image', content: 'http://gaga0714.top/public_avatar.png' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: 'http://gaga0714.top/public_avatar.png' }]
+  ],
+  sitemap: {
+    hostname: 'http://gaga0714.top'
+  },
+  ignoreDeadLinks: true,
   markdown: {
     lineNumbers: true,
   },
@@ -141,8 +154,62 @@ export default defineConfig({
   transformPageData(pageData) {
     const r = pageData.relativePath
     if (!r) return pageData
+
+    const fm = pageData.frontmatter || {}
+    const title = fm.title || pageData.title || "gaga's blog"
+    const slug = r.replace(/\.md$/, '').replace(/index$/, '')
+    const canonicalUrl = `http://gaga0714.top/${slug}`
+
+    let description = fm.description || ''
+    if (!description && r.startsWith('diary/') && r !== 'diary/index.md') {
+      const abs = path.join(ROOT, r)
+      try {
+        const raw = fs.readFileSync(abs, 'utf8')
+        const { content } = matter(raw)
+        const text = content.replace(/^#.*$/gm, '').replace(/!\[[^\]]*\]\([^)]+\)/g, '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+        description = text.slice(0, 150)
+      } catch {}
+    }
+    if (!description) description = `${title} - gaga的技术博客`
+
+    const head = fm.head || []
+    head.push(
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: description }],
+      ['meta', { property: 'og:url', content: canonicalUrl }],
+      ['meta', { name: 'description', content: description }],
+      ['link', { rel: 'canonical', href: canonicalUrl }]
+    )
+    if (fm.created) {
+      head.push(['meta', { property: 'article:published_time', content: new Date(fm.created).toISOString() }])
+    }
+    if (fm.updated) {
+      head.push(['meta', { property: 'article:modified_time', content: new Date(fm.updated).toISOString() }])
+    }
+
+    // JSON-LD 结构化数据（仅文章页面）
+    if (r !== 'index.md' && fm.layout !== 'home') {
+      const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: title,
+        description: description,
+        url: canonicalUrl,
+        author: { '@type': 'Person', name: 'gaga', url: 'http://gaga0714.top' },
+        publisher: {
+          '@type': 'Organization',
+          name: "gaga's blog",
+          logo: { '@type': 'ImageObject', url: 'http://gaga0714.top/public_avatar.png' }
+        }
+      }
+      if (fm.created) jsonLd.datePublished = new Date(fm.created).toISOString()
+      if (fm.updated) jsonLd.dateModified = new Date(fm.updated).toISOString()
+      head.push(['script', { type: 'application/ld+json' }, JSON.stringify(jsonLd)])
+    }
+
+    pageData.frontmatter = { ...fm, head }
+
     if (r.startsWith('diary/')) {
-      const fm = pageData.frontmatter || {}
       if (fm.created) pageData.diaryFileCreated = formatDateTime(fm.created)
       if (fm.updated) pageData.diaryFileUpdated = formatDateTime(fm.updated)
       if (!fm.created || !fm.updated) {

@@ -840,3 +840,139 @@ body.page-non-home {
     max-width: 900px !important;
   }
 }
+
+/* ========== 页面进入动画：fade-in-down 交错出现 ========== */
+
+.VPContent .VPHome,
+.VPContent .VPPage {
+  animation: page-fade-in-down 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* 密码保护页面不加动画，避免 transform 破坏 fixed 定位 */
+.VPContent .VPPage:has(.password-protect) {
+  animation: none;
+}
+
+/* 算法和手撕页面不需要动画 */
+.VPContent .VPDoc {
+  animation: none;
+}
+
+.VPHome .VPHero {
+  animation: page-fade-in-down 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.05s;
+}
+
+.VPHome .VPFeatures {
+  animation: page-fade-in-down 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.2s;
+}
+
+.diary-header {
+  animation: page-fade-in-down 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.05s;
+}
+
+.diary-page .list .card {
+  animation: page-fade-in-down 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.diary-page .list .card:nth-child(1) { animation-delay: 0.1s; }
+.diary-page .list .card:nth-child(2) { animation-delay: 0.16s; }
+.diary-page .list .card:nth-child(3) { animation-delay: 0.22s; }
+.diary-page .list .card:nth-child(4) { animation-delay: 0.28s; }
+.diary-page .list .card:nth-child(5) { animation-delay: 0.34s; }
+.diary-page .list .card:nth-child(6) { animation-delay: 0.40s; }
+.diary-page .list .card:nth-child(7) { animation-delay: 0.46s; }
+.diary-page .list .card:nth-child(8) { animation-delay: 0.52s; }
+.diary-page .list .card:nth-child(9) { animation-delay: 0.58s; }
+.diary-page .list .card:nth-child(10) { animation-delay: 0.64s; }
+
+@keyframes page-fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .VPContent .VPHome,
+  .VPContent .VPDoc,
+  .VPContent .VPPage,
+  .VPHome .VPHero,
+  .VPHome .VPFeatures,
+  .diary-header,
+  .diary-page .list .card {
+    animation: none;
+  }
+}
+
+/* ========== View Transitions ========== */
+
+/* 默认页面切换：淡入效果 */
+::view-transition-old(root) {
+  animation: fade-out 300ms cubic-bezier(0.4, 0, 1, 1);
+}
+
+::view-transition-new(root) {
+  animation: fade-in 300ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 滚动触发的页面切换动画 - 两页同时可见的推移效果 */
+[data-transition="slide-up"]::view-transition-old(root),
+[data-transition="slide-up"]::view-transition-new(root),
+[data-transition="slide-down"]::view-transition-old(root),
+[data-transition="slide-down"]::view-transition-new(root) {
+  animation-duration: 620ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-transition="slide-up"]::view-transition-old(root) {
+  animation-name: page-out-up;
+}
+
+[data-transition="slide-up"]::view-transition-new(root) {
+  animation-name: page-in-up;
+}
+
+[data-transition="slide-down"]::view-transition-old(root) {
+  animation-name: page-out-down;
+}
+
+[data-transition="slide-down"]::view-transition-new(root) {
+  animation-name: page-in-down;
+}
+
+@keyframes page-out-up {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100%); }
+}
+
+@keyframes page-in-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes page-out-down {
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
+}
+
+@keyframes page-in-down {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}

@@ -1,7 +1,7 @@
 ---
 title: threejs和webGL
 created: '2025-10-02T20:45:36+08:00'
-updated: '2026-05-22T15:37:04+08:00'
+updated: '2025-10-02T20:45:36+08:00'
 ---
 openGL: https://learnopengl-cn.github.io/intro/
 

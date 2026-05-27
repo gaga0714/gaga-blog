@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# 禁止爬取密码保护的内容
+Disallow: /todo/
+
+# Sitemap
+Sitemap: http://gaga0714.top/sitemap.xml
