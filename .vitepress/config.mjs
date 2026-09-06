@@ -263,7 +263,8 @@ export default defineConfig({
         {text:'Network', link:'/damn/network/'},
         {text:'工程化',link:'/damn/engineering/'},
         {text:'TypeScript',link:'/damn/ts/'},
-        {text:'后端',link:'/damn/backend/'}
+        {text:'后端',link:'/damn/backend/'},
+        {text:'Agent',link:'/damn/agent/'}
       ] },
       { text: '手撕', link: '/inter_code/'},
       { text: '算法', link: '/algorithm/' },
@@ -280,6 +281,7 @@ export default defineConfig({
       "/damn/network/": set_sidebar("/damn/network"),
       "/damn/engineering/": set_sidebar("/damn/engineering"),
       "/damn/ts": set_sidebar("/damn/ts"),
+      "/damn/agent/": set_sidebar("/damn/agent"),
       "/inter_code/": set_sidebar("/inter_code"),
       "/todo/": set_sidebar("/todo"),
       "/algorithm/":set_sidebar("/algorithm"),
