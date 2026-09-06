@@ -7,3 +7,9 @@
 ## 目录
 
 <!-- 新增文章后可在此维护索引 -->
+
+先看小林coding：
+
+https://xiaolinnote.com/ai/agent/1_whatisagent.html
+
+睡觉睡觉~
