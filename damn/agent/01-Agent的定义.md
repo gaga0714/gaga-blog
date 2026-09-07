@@ -20,9 +20,13 @@
 
 **1. MCP （Model Context Protocol，模型上下文协议）**
 定义了一套标准的 JSON-RPC 协议，工具提供方按这个协议暴露能力（变成一个MCP Server），支持MCP的Agent通过内置的MCP Client可以发现、调用这些工具，不需要额外写适配代码。
+
 三层：
+
 ![alt text](img/image.png)
+
 **2. A2A （Agent2Agent，Agent间通信协议）**
+
 核心设计是Agent Card概念，每个 Agent 都有一张「名片」，上面写着它能做什么、正在做什么、需要什么输入，其他 Agent 读了这张名片就知道该怎么跟它协作。
 
 ## ps
