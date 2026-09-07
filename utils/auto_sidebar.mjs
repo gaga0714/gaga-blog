@@ -10,6 +10,7 @@ const WHILE_LIST = [
     "node_modules",
     ".idea",
     "assets",
+    "img",
 ]
 
 // 判断是否是文件夹
@@ -43,6 +44,10 @@ function getList(params,path1,pathname){
     const res = [];
     // 开始遍历 list
     for(let file in list){
+        // 过滤掉白名单里的文件/文件夹（如 img、assets 等非文章目录）
+        if(WHILE_LIST.includes(list[file])){
+            continue;
+        }
         // 拼接目录
         const dir = path.join(path1,list[file]);
         // 判断是否是文件夹
