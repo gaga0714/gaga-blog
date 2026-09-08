@@ -23,7 +23,7 @@
 
 三层：
 
-![alt text](img/image.png)
+![alt text](img/image-01.png)
 
 **2. A2A （Agent2Agent，Agent间通信协议）**
 
