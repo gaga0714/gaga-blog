@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitepress'
 import matter from 'gray-matter'
 import { set_sidebar } from '../utils/auto_sidebar.mjs'
+import cjkFriendly from 'markdown-it-cjk-friendly'
 
 console.log('[VitePress] 正在加载配置…')
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -139,6 +140,9 @@ export default defineConfig({
   ignoreDeadLinks: true,
   markdown: {
     lineNumbers: true,
+    config: (md) => {
+      md.use(cjkFriendly)
+    },
   },
   vite: {
     plugins: [diaryListPlugin()],

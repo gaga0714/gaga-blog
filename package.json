@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
-    "markdown-it": "^14.1.1"
+    "markdown-it": "^14.1.1",
+    "markdown-it-cjk-friendly": "^3.0.0"
   }
 }
