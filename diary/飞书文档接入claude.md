@@ -1,3 +1,6 @@
+---
+summary: "记录用 lark-channel-bridge 连接飞书与编码助手的安装、扫码和权限入口。"
+---
 ## 文档
 
 https://github.com/zarazhangrui/lark-coding-agent-bridge/blob/main/README.zh.md

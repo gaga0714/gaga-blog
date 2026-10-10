@@ -2,6 +2,7 @@
 title: vite插件实践
 created: '2025-09-07T16:49:54+08:00'
 updated: '2025-09-07T16:49:54+08:00'
+summary: "收藏图案生成工具和自定义 Vite 插件的参考文章，留作实践时查阅。"
 ---
 https://www.bootschool.net/ascii-art/search
 图案生成网站⬆️

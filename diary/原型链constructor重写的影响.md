@@ -2,6 +2,7 @@
 title: 原型链 constructor 重写的影响
 created: '2025-07-21T10:03:39+08:00'
 updated: '2025-07-21T10:03:39+08:00'
+summary: "说明替换原型对象后 constructor 指向为何变化，并记录将其恢复到子构造函数的方法。"
 ---
 # 原型链 constructor 重写的影响
 

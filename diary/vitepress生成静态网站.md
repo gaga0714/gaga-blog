@@ -2,6 +2,7 @@
 title: vitepress生成静态网站
 created: '2025-04-19T23:39:23+08:00'
 updated: '2025-04-20T01:31:34+08:00'
+summary: "从搭建个人知识库出发，记录 VitePress 的安装、项目初始化与本地运行步骤。"
 ---
 # vitepress生成静态网站
 

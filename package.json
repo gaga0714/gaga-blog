@@ -2,7 +2,9 @@
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "node scripts/fix-timestamps.mjs && vitepress build",
-    "docs:preview": "vitepress preview"
+    "docs:preview": "vitepress preview",
+    "articles:watch": "node scripts/article-template.mjs",
+    "test:articles": "node --test .vitepress/lib/diary-meta.test.mjs scripts/article-template.test.mjs"
   },
   "devDependencies": {
     "vitepress": "^1.6.3"

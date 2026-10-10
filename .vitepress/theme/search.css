@@ -1,0 +1,87 @@
+/* The search dialog uses the same raised material as the navigation and cards. */
+.VPLocalSearchBox {
+  perspective:1400px;
+  --vp-local-search-bg:var(--gm-panel);
+  --vp-local-search-result-bg:var(--gm-panel);
+  --vp-local-search-result-selected-bg:var(--gm-bevel);
+  --vp-local-search-result-selected-border:var(--gm-text);
+}
+.VPLocalSearchBox[aria-expanded] > .backdrop {
+  background:rgb(15 18 22 / 48%);
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
+}
+.VPLocalSearchBox[aria-expanded] > .shell {
+  box-sizing:border-box;
+  width:min(900px,calc(100% - 64px));
+  height:auto;
+  min-height:164px;
+  max-height:calc(100dvh - 160px);
+  margin:76px auto auto;
+  padding:24px;
+  gap:22px;
+  border:1px solid var(--gm-line);
+  border-radius:20px;
+  background:radial-gradient(ellipse at 12% 0%,var(--gm-highlight),transparent 65%),linear-gradient(155deg,var(--gm-face-top),var(--gm-face-bottom));
+  box-shadow:inset 0 2px 0 var(--gm-highlight),0 3px 0 var(--gm-bevel),1px 7px 0 var(--gm-side),2px 11px 0 var(--gm-side),3px 15px 0 var(--gm-side-line),5px 28px 28px -15px rgb(0 0 0 / 36%),10px 55px 75px -22px rgb(0 0 0 / 45%);
+  transform-origin:50% 0;
+  animation:gm-search-arrive 230ms cubic-bezier(.2,.8,.2,1) both;
+}
+.VPLocalSearchBox .shell .search-bar {
+  flex-shrink:0;
+  min-height:62px;
+  padding:5px 10px;
+  border:1px solid var(--gm-line);
+  border-radius:12px;
+  background:var(--gm-bg);
+  box-shadow:inset 0 2px 4px rgb(0 0 0 / 9%),0 1px 0 var(--gm-highlight);
+}
+.VPLocalSearchBox .shell .search-bar:focus-within { border-color:var(--gm-muted); }
+.VPLocalSearchBox .shell .search-input { min-width:0; padding:10px 12px; font-size:17px; color:var(--gm-text); }
+.VPLocalSearchBox .shell .search-actions { gap:5px; }
+.VPLocalSearchBox .shell .search-actions button {
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  width:38px;
+  height:38px;
+  padding:0;
+  border:1px solid var(--gm-line);
+  border-radius:9px;
+  background:linear-gradient(145deg,var(--gm-face-top),var(--gm-face-bottom));
+  box-shadow:0 2px 0 var(--gm-side-line),0 5px 7px -4px var(--gm-shadow);
+}
+.VPLocalSearchBox .shell .search-actions button:not(:disabled):active { box-shadow:inset 0 2px 3px var(--gm-shadow); }
+.VPLocalSearchBox .shell .results { min-height:0; padding:2px; gap:9px; }
+.VPLocalSearchBox .shell .results:empty { display:none; }
+.VPLocalSearchBox .shell .result { border:1px solid var(--gm-soft-line); border-radius:10px; background:var(--gm-panel); }
+.VPLocalSearchBox .shell .result.selected { border-color:var(--gm-text); background:var(--gm-bevel); box-shadow:inset 3px 0 0 var(--gm-text); }
+.VPLocalSearchBox .shell .result > div { margin:14px; }
+.VPLocalSearchBox .shell .search-keyboard-shortcuts { flex-shrink:0; align-items:center; gap:20px; padding:2px 0 0; color:var(--gm-muted); opacity:1; }
+.VPLocalSearchBox .shell .search-keyboard-shortcuts kbd {
+  display:grid;
+  place-items:center;
+  min-width:28px;
+  min-height:27px;
+  padding:4px 7px;
+  border:1px solid var(--gm-line);
+  border-radius:6px;
+  background:linear-gradient(145deg,var(--gm-face-top),var(--gm-bevel));
+  box-shadow:0 2px 0 var(--gm-side),0 4px 0 var(--gm-side-line);
+}
+.VPLocalSearchBox .shell :is(button,a):focus-visible { outline:2px solid var(--gm-text); outline-offset:3px; }
+@keyframes gm-search-arrive {
+  from { opacity:0; transform:translateY(-10px) rotateX(7deg) scale(.98); }
+  to { opacity:1; transform:none; }
+}
+@media (max-width:767px) {
+  .VPLocalSearchBox[aria-expanded] > .shell { width:calc(100% - 28px); min-height:0; max-height:calc(100dvh - 72px); margin:20px auto auto; padding:12px; gap:14px; border-radius:16px; }
+  .VPLocalSearchBox .shell .search-bar { min-height:58px; padding:4px; gap:3px; }
+  .VPLocalSearchBox .shell .search-input { padding:10px 3px; font-size:16px; }
+  .VPLocalSearchBox .shell .search-actions { gap:4px; }
+  .VPLocalSearchBox .shell .search-actions button { width:40px; height:44px; border-radius:8px; }
+  .VPLocalSearchBox .shell .result > div { margin:12px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .VPLocalSearchBox[aria-expanded] > .shell { animation:none; }
+}

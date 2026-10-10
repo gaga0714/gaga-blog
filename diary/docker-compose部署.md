@@ -1,4 +1,5 @@
 ---
+summary: "记录在 macOS 上准备容器环境、启动 FastGPT、接入模型和安装插件的步骤。"
 title: FastGPT Docker Compose 部署教程
 created: '2026-03-16T17:56:05+08:00'
 updated: '2026-03-17T10:37:35+08:00'

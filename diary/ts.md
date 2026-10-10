@@ -2,6 +2,7 @@
 title: 教程
 created: '2025-04-19T23:39:23+08:00'
 updated: '2025-04-20T01:31:34+08:00'
+summary: "记录 tsc 的安装、版本查询与帮助命令，了解如何将 TypeScript 脚本编译为 JS。"
 ---
 # 教程
 https://wangdoc.com/typescript/any

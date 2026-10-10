@@ -1,4 +1,5 @@
 ---
+summary: "记录 Express 后端的基础配置，以及用 nodemon 自动重启服务的开发方式。"
 title: ajax后端
 created: '2025-05-05T21:04:03+08:00'
 updated: '2025-05-05T21:04:03+08:00'

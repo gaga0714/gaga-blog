@@ -1,70 +1,39 @@
 <script setup>
+import { computed } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import { useData } from 'vitepress'
-import { watchEffect } from 'vue'
-import DiaryPageFooter from './components/DiaryPageFooter.vue'
-import BackToTop from './components/BackToTop.vue'
-import MouseEffect from './components/MouseEffect.vue'
-import ScrollFx from './components/ScrollFx.vue'
-import ResizableSidebar from './components/ResizableSidebar.vue'
-import SidebarToggle from './components/SidebarToggle.vue'
-import HomeScrollNavigator from './components/HomeScrollNavigator.vue'
+import SiteHeader from './components/SiteHeader.vue'
 import SiteFooter from './components/SiteFooter.vue'
+import HomePage from './components/HomePage.vue'
+import KnowledgeHome from './components/KnowledgeHome.vue'
+import DiaryList from './components/DiaryList.vue'
+import DiaryArticle from './components/DiaryArticle.vue'
+import PasswordProtect from './components/PasswordProtect.vue'
 
-const Layout = DefaultTheme.Layout
-const { frontmatter } = useData()
-
-// 非首页给 body 加一个标记类,用于挂载背景图
-if (typeof document !== 'undefined') {
-  watchEffect(() => {
-    const isHome = frontmatter.value?.layout === 'home'
-    document.body.classList.toggle('page-non-home', !isHome)
-    document.body.classList.toggle('page-home', isHome)
-  })
-}
-
-// 检查认证状态并拦截访问
-if (typeof window !== 'undefined') {
-  const checkAuth = () => {
-    const path = window.location.pathname
-    // 如果访问 todo 子页面但未认证，重定向到 todo 首页
-    if (path.includes('/todo/') && path !== '/todo/' && !sessionStorage.getItem('todo_authenticated')) {
-      window.location.href = '/todo/'
-    }
-  }
-
-  const originalPushState = history.pushState
-  const originalReplaceState = history.replaceState
-
-  history.pushState = function(...args) {
-    originalPushState.apply(history, args)
-    setTimeout(checkAuth, 0)
-  }
-
-  history.replaceState = function(...args) {
-    originalReplaceState.apply(history, args)
-    setTimeout(checkAuth, 0)
-  }
-
-  // 初始检查
-  setTimeout(checkAuth, 0)
-}
+const { page, frontmatter } = useData()
+const DefaultLayout = DefaultTheme.Layout
+const relativePath = computed(() => page.value.relativePath || '')
+const isHome = computed(() => relativePath.value === 'index.md')
+const isKnowledgeHome = computed(() => relativePath.value === 'damn/index.md')
+const isDiaryList = computed(() => relativePath.value === 'diary/index.md')
+const isDiaryArticle = computed(() => relativePath.value.startsWith('diary/') && !isDiaryList.value)
+const isProtectedPage = computed(() => relativePath.value.startsWith('todo/') && relativePath.value !== 'todo/index.md')
 </script>
 
 <template>
-  <Layout>
-    <template #doc-before>
-      <DiaryPageFooter />
-    </template>
-    <template #layout-bottom>
-      <BackToTop />
-      <MouseEffect />
-      <ScrollFx />
-      <ResizableSidebar />
-      <SidebarToggle />
-      <HomeScrollNavigator />
-      <SiteFooter />
-    </template>
-  </Layout>
+  <div class="gaga-site">
+    <a class="gm-skip" href="#main-content">跳转到正文</a>
+    <SiteHeader />
+    <HomePage v-if="isHome" id="main-content" />
+    <KnowledgeHome v-else-if="isKnowledgeHome" id="main-content" />
+    <DiaryList v-else-if="isDiaryList" id="main-content" />
+    <DiaryArticle v-else-if="isDiaryArticle" id="main-content" :key="relativePath" />
+    <div v-else id="main-content" class="gm-knowledge" :class="frontmatter.pageClass">
+      <PasswordProtect v-if="isProtectedPage" :key="relativePath">
+        <DefaultLayout />
+      </PasswordProtect>
+      <DefaultLayout v-else />
+    </div>
+    <SiteFooter />
+  </div>
 </template>
-
