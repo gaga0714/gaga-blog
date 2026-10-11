@@ -26,7 +26,7 @@ function rememberArticle(event) {
 
 <template>
   <main class="gm-detail" aria-labelledby="gm-article-title">
-    <a :href="listHref" class="gm-back" @click="rememberArticle"><SiteIcon name="arrow-left" /><span>胡言乱语</span></a>
+    <a :href="listHref" class="gm-back" @click="rememberArticle"><SiteIcon name="arrow-left" /><span>返回列表</span></a>
     <article class="gm-article">
       <header class="gm-article-heading">
         <ArticleMeta :article="article" />
@@ -35,9 +35,6 @@ function rememberArticle(event) {
       </header>
       <Content class="vp-doc gm-prose" :class="{ 'gm-has-leading-title': article.hasLeadingTitle }" />
     </article>
-    <div class="gm-detail-bottom">
-      <a :href="listHref" class="gm-back" @click="rememberArticle"><SiteIcon name="arrow-left" />返回列表</a>
-    </div>
   </main>
 </template>
 

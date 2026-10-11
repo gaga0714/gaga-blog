@@ -3,7 +3,7 @@ summary: "整理移除中转配置、清理环境变量和重新登录的步骤�
 ---
 # codex中转站切换至官方
 
-![alt text](image.png)
+![alt text](/assets/diary_image-40.png)
 
 1. 删除config.toml内中转站配置路由和模型信息
 

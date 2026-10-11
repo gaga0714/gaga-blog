@@ -47,6 +47,7 @@ export default defineConfig({
   title: "gaga's blog",
   description: "gaga的个人技术博客，分享前端、后端、算法等技术文章，记录学习与成长",
   head: [
+    ['link', { rel: 'icon', type: 'image/png', href: '/public_avatar.png' }],
     ['meta', { name: 'keywords', content: '前端开发,Vue,React,JavaScript,算法,后端开发,技术博客,gaga' }],
     ['meta', { name: 'author', content: 'gaga' }],
     ['meta', { property: 'og:type', content: 'website' }],

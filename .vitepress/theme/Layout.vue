@@ -9,6 +9,7 @@ import KnowledgeHome from './components/KnowledgeHome.vue'
 import DiaryList from './components/DiaryList.vue'
 import DiaryArticle from './components/DiaryArticle.vue'
 import PasswordProtect from './components/PasswordProtect.vue'
+import AmbientBackground from './components/AmbientBackground.vue'
 
 const { page, frontmatter } = useData()
 const DefaultLayout = DefaultTheme.Layout
@@ -22,6 +23,7 @@ const isProtectedPage = computed(() => relativePath.value.startsWith('todo/') &&
 
 <template>
   <div class="gaga-site">
+    <AmbientBackground />
     <a class="gm-skip" href="#main-content">跳转到正文</a>
     <SiteHeader />
     <HomePage v-if="isHome" id="main-content" />
