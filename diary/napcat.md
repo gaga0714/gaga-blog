@@ -1,6 +1,8 @@
 ---
-summary: "留存 AstrBot 与 NapCatQQ 的参考入口，作为后续查阅聊天机器人相关资料的备忘。"
+summary: "依旧掉落链接"
+tags: [tech]
 ---
+
 ## astrbot
 
 https://docs.astrbot.app/deploy/astrbot/docker.html
