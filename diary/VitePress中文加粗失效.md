@@ -1,8 +1,9 @@
 ---
-summary: "通过中文标点相邻的加粗失效案例，说明解析规则与 CJK 插件的修复方式。"
+summary: "CJK"
+tags: [never]
 title: VitePress 中文加粗（**）失效问题排查
-created: '2026-09-09T10:53:06+08:00'
-updated: '2026-09-09T10:53:06+08:00'
+created: "2026-09-09T10:53:06+08:00"
+updated: "2026-09-09T10:53:06+08:00"
 ---
 
 # VitePress 中文加粗（`**`）失效问题排查
@@ -38,16 +39,16 @@ npm install markdown-it-cjk-friendly@3
 `.vitepress/config.mjs`：
 
 ```js
-import cjkFriendly from 'markdown-it-cjk-friendly'
+import cjkFriendly from "markdown-it-cjk-friendly";
 
 export default defineConfig({
   markdown: {
     lineNumbers: true,
     config: (md) => {
-      md.use(cjkFriendly)
+      md.use(cjkFriendly);
     },
   },
-})
+});
 ```
 
 > 注意：VitePress 的 markdown 配置在启动时读取，改完需要重启 dev server 才生效。

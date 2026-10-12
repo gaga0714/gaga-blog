@@ -1,6 +1,8 @@
 ---
-summary: "整理移除中转配置、清理环境变量和重新登录的步骤，恢复官方账号的连接方式。"
+summary: "纯血 codex"
+tags: [tech, note]
 ---
+
 # codex中转站切换至官方
 
 ![alt text](/assets/diary_image-40.png)

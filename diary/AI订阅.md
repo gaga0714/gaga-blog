@@ -1,7 +1,9 @@
 ---
-summary: "汇集 AI 编程工具的订阅入口、长上下文配置与代码评审参考链接。"
+summary: "AI 进化史"
+tags: [note]
 ---
-# codex 订阅
+
+# AI 订阅
 
 1. yescode
    https://co.yes.vg
