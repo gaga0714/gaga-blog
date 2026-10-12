@@ -29,7 +29,8 @@ function sameFile(a, b) {
 }
 
 function unchangedEmptyFile(a, b) {
-  return sameFile(a, b) && a.size === 0 && b.size === 0 && a.mtimeMs === b.mtimeMs && a.ctimeMs === b.ctimeMs
+  // macOS 可能在打开文件时更新扩展属性和 ctime；正文是否变化由大小与 mtime 判断。
+  return sameFile(a, b) && a.size === 0 && b.size === 0 && a.mtimeMs === b.mtimeMs
 }
 
 function fileIdentity(stat) {
@@ -40,7 +41,7 @@ function missingFile(error) {
   return error?.code === 'ENOENT' || error?.code === 'ENOTDIR'
 }
 
-export function createArticleTemplateController({ root = process.cwd(), settleMs = 600, scanIntervalMs = 1000, logger = console, now = () => new Date() } = {}) {
+export function createArticleTemplateController({ root = process.cwd(), settleMs = 600, scanIntervalMs = 1000, keepAlive = false, logger = console, now = () => new Date() } = {}) {
   const rootDirectory = fs.realpathSync(root)
   const seen = new Set()
   const knownFiles = new Set()
@@ -203,7 +204,7 @@ export function createArticleTemplateController({ root = process.cwd(), settleMs
   // 文件系统可能合并或遗漏事件，补扫覆盖初次监听尚未就绪的窗口。
   if (scanIntervalMs > 0) {
     scanTimer = setInterval(() => notice(rootDirectory), scanIntervalMs)
-    scanTimer.unref?.()
+    if (!keepAlive) scanTimer.unref?.()
   }
   return { root: rootDirectory, notice, remove, close }
 }
@@ -240,7 +241,10 @@ export function articleTemplatePlugin(options = {}) {
 
 export function startArticleTemplateWatcher(options = {}) {
   const logger = options.logger || console
-  const controller = createArticleTemplateController(options)
+  const scanIntervalMs = options.scanIntervalMs ?? 1000
+  if (options.poll && !(scanIntervalMs > 0)) throw new TypeError('定时扫描的间隔必须大于 0')
+  // 独立运行时由扫描定时器维持进程，原生监听失效后仍能继续生成模板。
+  const controller = createArticleTemplateController({ ...options, scanIntervalMs, keepAlive: true })
   let watcher
   let closed = false
   const close = () => {
@@ -249,11 +253,24 @@ export function startArticleTemplateWatcher(options = {}) {
     controller.close()
     watcher?.close()
   }
+  const fallbackToPolling = error => {
+    const recoverable = ['EMFILE', 'ENFILE', 'ENOSPC', 'ERR_FEATURE_UNAVAILABLE_ON_PLATFORM']
+    if (closed || !(scanIntervalMs > 0) || !recoverable.includes(error.code)) return false
+    watcher?.close()
+    watcher = undefined
+    logger.warn?.(`[article-template] 原生监听不可用（${error.code}），继续每 ${scanIntervalMs} 毫秒扫描新文件。`)
+    return true
+  }
+  if (options.poll) {
+    logger.info?.(`[article-template] 已启用定时扫描（每 ${scanIntervalMs} 毫秒）。`)
+    return { root: controller.root, close }
+  }
   try {
     watcher = fs.watch(controller.root, { recursive: true }, (_event, filename) => {
       controller.notice(filename ? path.join(controller.root, filename.toString()) : controller.root)
     })
     watcher.on('error', error => {
+      if (closed || fallbackToPolling(error)) return
       logger.error?.(`[article-template] 监听已停止：${error.code || error.message}`)
       close()
       options.onError?.(error)
@@ -261,6 +278,7 @@ export function startArticleTemplateWatcher(options = {}) {
     // 补上目录快照与监听器注册之间出现的文件。
     controller.notice(controller.root)
   } catch (error) {
+    if (fallbackToPolling(error)) return { root: controller.root, close }
     close()
     if (error.code === 'ERR_FEATURE_UNAVAILABLE_ON_PLATFORM') {
       throw new Error('当前 Node.js 不支持递归文件监听，请使用 Node.js 22 或更新版本。', { cause: error })
@@ -278,7 +296,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     process.removeListener('SIGTERM', stop)
   }
   try {
-    watcher = startArticleTemplateWatcher({ onError: () => { process.exitCode = 1; stop() } })
+    watcher = startArticleTemplateWatcher({ poll: process.argv.slice(2).includes('--poll'), onError: () => { process.exitCode = 1; stop() } })
     console.info(`[article-template] 正在监听 ${watcher.root}，按 Ctrl+C 停止。`)
     process.once('SIGINT', stop)
     process.once('SIGTERM', stop)

@@ -4,6 +4,8 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { EventEmitter } from 'node:events'
+import { spawn } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 import matter from 'gray-matter'
 import {
   articleTemplatePlugin,
@@ -114,6 +116,46 @@ test('检查后的并发输入不会被模板覆盖', async t => {
   c.notice(file)
   await wait()
   assert.ok(f.read('race.md').startsWith('# 刚刚输入的正文\n'))
+})
+
+test('新空文件仅更新权限等属性时，仍生成模板', async t => {
+  const f = fixture(t)
+  const c = f.controller()
+  const file = f.file('metadata.md')
+  c.notice(file)
+  await wait(5)
+  fs.chmodSync(file, 0o600)
+  c.notice(file)
+  await wait()
+  assert.equal(matter(f.read('metadata.md')).data.title, 'metadata')
+})
+
+test('打开文件写入时系统更新属性，不影响空文件模板生成', async t => {
+  const f = fixture(t)
+  const c = f.controller()
+  const file = f.file('open-metadata.md')
+  const originalOpen = fs.openSync.bind(fs)
+  t.mock.method(fs, 'openSync', (target, ...args) => {
+    const handle = originalOpen(target, ...args)
+    if (target === file) fs.chmodSync(file, 0o600)
+    return handle
+  })
+  c.notice(file)
+  await wait()
+  assert.equal(matter(f.read('open-metadata.md')).data.title, 'open-metadata')
+})
+
+test('等待期间写入后又清空的文件，即使漏掉变更事件也不补模板', async t => {
+  const f = fixture(t)
+  const c = f.controller()
+  const file = f.file('write-then-clear.md')
+  c.notice(file)
+  await wait(5)
+  fs.writeFileSync(file, '# 输入过正文\n')
+  fs.writeFileSync(file, '')
+  await wait()
+  assert.equal(f.read('write-then-clear.md'), '')
+  assert.equal(f.messages.length, 0)
 })
 
 test('新文件快速写入正文或仅包含空白时，不填充模板', async t => {
@@ -277,4 +319,100 @@ test('独立监听发生错误时关闭资源并通知调用方', async t => {
   assert.equal(closed, true)
   assert.equal(reported, error)
   assert.equal(f.messages.filter(([type]) => type === 'error').length, 1)
+})
+
+test('定时扫描模式不创建原生监听，只填充启动后的空文件并支持停止', async t => {
+  const f = fixture(t)
+  f.file('existing.md')
+  t.mock.method(fs, 'watch', () => assert.fail('定时扫描模式不应调用 fs.watch'))
+  const watcher = startArticleTemplateWatcher({ root: f.root, logger: f.logger, now, poll: true, scanIntervalMs: 10, settleMs: 25 })
+  f.cleanups.push(watcher.close)
+  f.file('diary/go概括.md')
+  f.file('diary/written.md', '# 已有正文\n')
+  await wait()
+  assert.equal(matter(f.read('diary/go概括.md')).data.title, 'go概括')
+  assert.equal(f.read('existing.md'), '')
+  assert.equal(f.read('diary/written.md'), '# 已有正文\n')
+  watcher.close()
+  f.file('after-close.md')
+  await wait()
+  assert.equal(f.read('after-close.md'), '')
+})
+
+for (const code of ['EMFILE', 'ERR_FEATURE_UNAVAILABLE_ON_PLATFORM']) {
+  test(`原生监听启动抛出 ${code} 时，退回扫描并继续填充新文件`, async t => {
+    const f = fixture(t)
+    t.mock.method(fs, 'watch', () => { throw Object.assign(new Error('watch unavailable'), { code }) })
+    const watcher = startArticleTemplateWatcher({ root: f.root, logger: f.logger, now, scanIntervalMs: 10, settleMs: 25, onError: () => assert.fail('可恢复错误不应终止任务') })
+    f.cleanups.push(watcher.close)
+    f.file('fallback.md')
+    await wait()
+    assert.equal(matter(f.read('fallback.md')).data.title, 'fallback')
+    assert.equal(f.messages.filter(([type]) => type === 'warn').length, 1)
+  })
+}
+
+test('原生监听异步报 EMFILE 时，关闭原生监听但保留扫描', async t => {
+  const f = fixture(t)
+  const nativeWatcher = new EventEmitter()
+  let closeCount = 0
+  nativeWatcher.close = () => { closeCount++ }
+  t.mock.method(fs, 'watch', () => nativeWatcher)
+  const watcher = startArticleTemplateWatcher({ root: f.root, logger: f.logger, now, scanIntervalMs: 10, settleMs: 25, onError: () => assert.fail('可恢复错误不应终止任务') })
+  f.cleanups.push(watcher.close)
+  nativeWatcher.emit('error', Object.assign(new Error('too many open files'), { code: 'EMFILE' }))
+  f.file('after-error.md')
+  await wait()
+  assert.equal(closeCount, 1)
+  assert.equal(matter(f.read('after-error.md')).data.title, 'after-error')
+  watcher.close()
+  f.file('after-close.md')
+  await wait()
+  assert.equal(f.read('after-close.md'), '')
+  assert.equal(closeCount, 1)
+})
+
+test('关闭补扫后遇到 EMFILE 会报告错误，不伪装成仍在运行', t => {
+  const f = fixture(t)
+  const nativeWatcher = new EventEmitter()
+  nativeWatcher.close = () => {}
+  let reported
+  t.mock.method(fs, 'watch', () => nativeWatcher)
+  const watcher = startArticleTemplateWatcher({ root: f.root, logger: f.logger, scanIntervalMs: 0, onError: error => { reported = error } })
+  f.cleanups.push(watcher.close)
+  const error = Object.assign(new Error('too many open files'), { code: 'EMFILE' })
+  nativeWatcher.emit('error', error)
+  assert.equal(reported, error)
+  assert.throws(() => startArticleTemplateWatcher({ root: f.root, poll: true, scanIntervalMs: 0 }), /间隔必须大于 0/)
+})
+
+test('后台 CLI 的 --poll 模式持续运行、生成模板，并在 SIGTERM 后退出', async t => {
+  const f = fixture(t)
+  f.file('before.md')
+  const script = fileURLToPath(new URL('./article-template.mjs', import.meta.url))
+  const child = spawn(process.execPath, [script, '--poll'], { cwd: f.root, stdio: ['ignore', 'pipe', 'pipe'] })
+  let output = ''
+  let errorOutput = ''
+  const exited = new Promise(resolve => child.once('exit', (code, signal) => resolve({ code, signal })))
+  t.after(async () => {
+    if (child.exitCode === null && child.signalCode === null) child.kill('SIGTERM')
+    await exited
+  })
+  child.stdout.on('data', chunk => { output += chunk })
+  child.stderr.on('data', chunk => { errorOutput += chunk })
+  const readyDeadline = Date.now() + 3000
+  while (!output.includes('正在监听') && child.exitCode === null && Date.now() < readyDeadline) await wait(20)
+  assert.match(output, /已启用定时扫描/)
+  assert.match(output, /正在监听/)
+  // 进程在没有文件事件时也必须保持运行，不能因定时器 unref 而提前退出。
+  await wait(150)
+  assert.equal(child.exitCode, null, errorOutput)
+  f.file('diary/go概括.md')
+  const fillDeadline = Date.now() + 4000
+  while (!f.read('diary/go概括.md') && Date.now() < fillDeadline) await wait(20)
+  assert.equal(matter(f.read('diary/go概括.md')).data.title, 'go概括')
+  assert.equal(f.read('before.md'), '')
+  child.kill('SIGTERM')
+  assert.deepEqual(await exited, { code: 0, signal: null })
+  assert.equal(errorOutput, '')
 })
