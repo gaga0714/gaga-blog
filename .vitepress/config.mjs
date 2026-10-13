@@ -45,6 +45,7 @@ function diaryListPlugin() {
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "gaga's blog",
+  appearance: 'dark',
   description: "gaga的个人技术博客，分享前端、后端、算法等技术文章，记录学习与成长",
   head: [
     ['link', { rel: 'icon', type: 'image/png', href: '/public_avatar.png' }],
