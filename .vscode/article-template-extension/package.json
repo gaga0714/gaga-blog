@@ -1,0 +1,33 @@
+{
+  "name": "article-template",
+  "displayName": "博客文章模板",
+  "description": "在 VS Code 内为博客的新建空 Markdown 文件生成文章模板，无须终端任务。",
+  "version": "0.1.0",
+  "publisher": "gaga-blog",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other"],
+  "activationEvents": ["workspaceContains:scripts/article-template.mjs"],
+  "main": "./extension.cjs",
+  "extensionKind": ["workspace"],
+  "capabilities": {
+    "untrustedWorkspaces": { "supported": false },
+    "virtualWorkspaces": false
+  },
+  "contributes": {
+    "configuration": {
+      "title": "博客文章模板",
+      "properties": {
+        "gagaBlog.articleTemplates.enabled": {
+          "type": "boolean",
+          "default": false,
+          "scope": "resource",
+          "description": "为此博客项目中的新建空 Markdown 文件自动生成模板。"
+        }
+      }
+    },
+    "commands": [
+      { "command": "gagaBlog.articleTemplates.showOutput", "title": "博客：查看文章模板日志" },
+      { "command": "gagaBlog.articleTemplates.fillCurrent", "title": "博客：为当前空文章补模板" }
+    ]
+  }
+}

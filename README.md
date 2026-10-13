@@ -72,11 +72,19 @@ updated: '2026-10-10T16:00:00+08:00'
 
 ## 自动填入新文章模板
 
-用 VS Code 打开整个博客项目后，编辑器会通过 `.vscode/tasks.json` 自动启动“自动生成新文章模板”后台任务，无须手动运行 `npm run docs:dev` 或 `npm run articles:watch`。该任务直接使用 Node.js，不依赖网页预览或额外安装的编辑器扩展。
+本项目使用本地 VS Code 扩展“博客文章模板”，在编辑器内部为新建空 Markdown 文件生成模板。可以关闭终端里的“自动生成新文章模板”任务，也无须运行 `npm run docs:dev` 或 `npm run articles:watch`。扩展需要保持 VS Code 项目窗口打开。
 
-首次使用时，在命令面板运行 `Tasks: Manage Automatic Tasks`，选择允许后重新打开项目。VS Code 的 `task.allowAutomaticTasks` 是全局开关，开启后，所有受信任项目中配置的自动任务都可执行。自动任务需要受信任的工作区；只打开单个文件不会启动它。如果在已打开的窗口中新加了任务配置，可通过 `Tasks: Run Task` 启动“自动生成新文章模板”，立即在当前窗口生效。相关行为见 [VS Code 自动任务说明](https://code.visualstudio.com/docs/debugtest/tasks#_control-automatic-task-execution)。
+首次安装扩展时，在项目根目录打包：
 
-任务启动后，在项目中创建一个空的 `.md` 文件即可自动填入模板，也支持新建子目录。后台任务每秒扫描一次，发现新文件后等待约 600 毫秒，确认文件仍为空，再写入标题、概括和标签占位字段、时间以及正文标题，一般会在 2 秒内完成。`title` 取自文件名；文件名为 `index.md` 时取父目录名。任务会随项目窗口关闭而结束；再次打开项目后重新启动。
+```bash
+python3 .vscode/article-template-extension/package.py /tmp/gaga-blog-article-template.vsix
+```
+
+然后在 VS Code 扩展面板的“…”菜单中选择“从 VSIX 安装”，选中这个文件，重新加载博客窗口。也可以使用 `code --install-extension /tmp/gaga-blog-article-template.vsix` 安装。
+
+`.vscode/settings.json` 中的 `gagaBlog.articleTemplates.enabled` 已为本项目开启。扩展只处理已启用的受信任本地项目，状态栏显示“文章模板”时表示已就绪。点击状态栏可以查看生成日志。实现使用 [VS Code 文件创建事件和文件监听接口](https://code.visualstudio.com/api/references/vscode-api#workspace)。
+
+扩展发现新文件后等待约 600 毫秒，确认磁盘文件为空、编辑器没有未保存内容，再写入模板。`title` 取自文件名；文件名为 `index.md` 时取父目录名。`summary` 和 `tags` 是留空待填写的字段。扩展会在再次打开项目时自动启用，终端任务已改为仅手动启动。
 
 例如，新建 `diary/阅读笔记.md` 后会得到以下内容，时间以实际创建时的北京时间为准：
 
@@ -101,17 +109,19 @@ npm run articles:watch
 
 需要网页预览时，`npm run docs:dev` 仍会启用模板生成。手动启动的命令需要保持运行，按 **Ctrl+C** 可停止。建议使用 Node.js 22 或更新版本，并确保编辑器终端能找到 `node` 命令。
 
-编辑器的自动任务使用 `--poll` 定时扫描，不依赖原生文件监听。独立监听遇到 `EMFILE` 等资源错误或平台不支持递归监听时，也会自动退回定时扫描。可以在“终端”面板查看任务日志；需要暂停时，通过 `Tasks: Terminate Task` 停止“自动生成新文章模板”任务。
+扩展使用 VS Code 文件事件，不创建终端任务或独立扫描进程。开始写作后有未保存正文、甚至未保存空白时，也不会插入模板。其他编辑器中仍可使用 `npm run articles:watch`；其原生监听遇到 `EMFILE` 等错误时会退回定时扫描。
+
+删除文章后用同名新建空文件，也会生成模板。监听器按文件身份区分新旧文件；只清空原文件、移动后恢复原文件或重命名旧文件，不会重新生成。
 
 监听器只处理本次启动后出现的空文件，以下情况会保持原样：
 
 - 启动前已存在的文件，包括空文件。
 - 已有正文或空白字符的文件，以及等待期间已开始写入的文件。
-- 已处理、删除后恢复、原子替换保存或从旧文件重命名的文件。
+- 已处理的同一个文件，以及移动后恢复或从旧文件重命名的文件。
 - 隐藏目录、依赖目录、资源目录及生成目录中的文件，例如 `.git`、`.vitepress`、`node_modules`、`public`、`assets`、`dist` 和 `build`。
 - 软链接、项目外的文件，以及既有文件的硬链接。
 
-因此，打开项目之前已经创建的空文件不会在启动时补写模板，需要单独补充元数据。
+因此，扩展启动前已经存在的空文件不会自动补写。可以打开这个空文件，在命令面板执行“博客：为当前空文章补模板”。
 
 该功能不会批量补齐旧文章，也不会在后续保存时修改文章时间。需要验证模板与文章元数据处理时，运行 `npm run test:articles`。
 

@@ -182,7 +182,7 @@ test('正文先出现再被清空也不补模板', async t => {
   assert.equal(f.read('edited.md'), '')
 })
 
-test('删除再恢复的新文件不会被当作第二个空文件填充', async t => {
+test('等待期间删除并同名新建文件，为新文件生成模板', async t => {
   const f = fixture(t)
   const c = f.controller()
   const file = f.file('restored.md')
@@ -192,7 +192,56 @@ test('删除再恢复的新文件不会被当作第二个空文件填充', async
   f.file('restored.md')
   c.notice(file)
   await wait()
-  assert.equal(f.read('restored.md'), '')
+  assert.equal(matter(f.read('restored.md')).data.title, 'restored')
+})
+
+test('生成后删除并同名新建，轮询无需捕获删除事件也能再次生成', async t => {
+  const f = fixture(t)
+  f.controller({ scanIntervalMs: 10 })
+  const file = f.file('go所有.md')
+  await wait()
+  assert.equal(matter(f.read('go所有.md')).data.title, 'go所有')
+  fs.unlinkSync(file)
+  f.file('go所有.md')
+  await wait()
+  assert.equal(matter(f.read('go所有.md')).data.title, 'go所有')
+  assert.equal(f.messages.filter(([type]) => type === 'info').length, 2)
+})
+
+test('启动前的旧文件删除后同名新建，按新文件生成模板', async t => {
+  const f = fixture(t)
+  const file = f.file('old-empty.md')
+  f.controller({ scanIntervalMs: 10 })
+  fs.unlinkSync(file)
+  f.file('old-empty.md')
+  await wait()
+  assert.equal(matter(f.read('old-empty.md')).data.title, 'old-empty')
+})
+
+test('等待期间同名新建且漏掉删除事件时，取消旧计时并处理新文件', async t => {
+  const f = fixture(t)
+  const c = f.controller()
+  const file = f.file('pending-recreated.md')
+  c.notice(file)
+  fs.unlinkSync(file)
+  f.file('pending-recreated.md')
+  c.notice(file)
+  await wait()
+  assert.equal(matter(f.read('pending-recreated.md')).data.title, 'pending-recreated')
+  assert.equal(f.messages.filter(([type]) => type === 'info').length, 1)
+})
+
+test('旧文件移走后恢复同一文件，不生成模板', async t => {
+  const f = fixture(t)
+  const file = f.file('restored-old.md')
+  const c = f.controller({ scanIntervalMs: 10 })
+  const temporary = path.join(f.root, 'moved-aside')
+  fs.renameSync(file, temporary)
+  c.remove(file)
+  fs.renameSync(temporary, file)
+  c.notice(file)
+  await wait()
+  assert.equal(f.read('restored-old.md'), '')
 })
 
 test('编辑器原子替换文件时，放弃此前等待中的模板', async t => {

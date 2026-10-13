@@ -41,9 +41,9 @@ function missingFile(error) {
   return error?.code === 'ENOENT' || error?.code === 'ENOTDIR'
 }
 
-export function createArticleTemplateController({ root = process.cwd(), settleMs = 600, scanIntervalMs = 1000, keepAlive = false, logger = console, now = () => new Date() } = {}) {
+export function createArticleTemplateController({ root = process.cwd(), settleMs = 600, scanIntervalMs = 1000, keepAlive = false, canFill = () => true, logger = console, now = () => new Date() } = {}) {
   const rootDirectory = fs.realpathSync(root)
-  const seen = new Set()
+  // 记录文件身份，而非路径；删除后同名新建的文件需要重新处理。
   const knownFiles = new Set()
   const pending = new Map()
   let closed = false
@@ -75,7 +75,6 @@ export function createArticleTemplateController({ root = process.cwd(), settleMs
       knownFiles.add(fileIdentity(item.stat))
     }
     pending.delete(relative)
-    seen.add(relative)
   }
 
   function remove(filePath) {
@@ -90,7 +89,6 @@ export function createArticleTemplateController({ root = process.cwd(), settleMs
 
   function fill(relative, expected) {
     pending.delete(relative)
-    seen.add(relative)
     knownFiles.add(fileIdentity(expected))
     if (closed) return
     const filePath = path.join(rootDirectory, relative)
@@ -99,6 +97,7 @@ export function createArticleTemplateController({ root = process.cwd(), settleMs
     let lock
     let handle
     try {
+      if (!canFill(filePath)) return
       const current = fs.lstatSync(filePath)
       if (!current.isFile() || !unchangedEmptyFile(current, expected)) return
       if (fs.realpathSync(filePath) !== filePath) return
@@ -114,6 +113,7 @@ export function createArticleTemplateController({ root = process.cwd(), settleMs
       const template = createArticleTemplate(filePath, { now: now() })
       // 复核空文件后追加写入，避免其他进程在检查与写入之间输入的内容被覆盖。
       if (!unchangedEmptyFile(fs.fstatSync(handle), expected)) return
+      if (!canFill(filePath)) return
       fs.writeFileSync(handle, template, 'utf8')
       logger.info?.(`[article-template] 已填入模板：${relative}`)
     } catch (error) {
@@ -129,8 +129,12 @@ export function createArticleTemplateController({ root = process.cwd(), settleMs
 
   function inspect(filePath, stat) {
     const relative = articleName(filePath)
-    if (!relative || seen.has(relative)) return
-    const item = pending.get(relative)
+    if (!relative) return
+    let item = pending.get(relative)
+    if (item && !sameFile(stat, item.stat)) {
+      cancel(relative)
+      item = undefined
+    }
     if (!stat.isFile() || stat.size !== 0 || knownFiles.has(fileIdentity(stat)) || (item && !unchangedEmptyFile(stat, item.stat))) {
       cancel(relative)
       knownFiles.add(fileIdentity(stat))
@@ -164,8 +168,7 @@ export function createArticleTemplateController({ root = process.cwd(), settleMs
       }
       const relative = articleName(filePath)
       if (!relative) continue
-      if (initial || !entry.isFile()) { seen.add(relative); continue }
-      if (seen.has(relative)) continue
+      if (initial || !entry.isFile()) continue
       try { inspect(filePath, fs.lstatSync(filePath)) } catch (error) {
         if (missingFile(error)) cancel(relative)
         else { cancel(relative); warn(relative, error) }
